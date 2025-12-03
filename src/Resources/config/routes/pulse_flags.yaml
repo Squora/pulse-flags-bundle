@@ -1,0 +1,5 @@
+# config/routes/pulse_flags.yaml
+
+pulse_flags_admin:
+  resource: '@PulseFlagsBundle/src/Controller/'
+  type: attribute

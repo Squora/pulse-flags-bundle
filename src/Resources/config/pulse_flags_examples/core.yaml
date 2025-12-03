@@ -1,0 +1,18 @@
+# Core feature flags - permanent (read-only)
+# All flags defined in YAML config files are automatically permanent and cannot be modified via admin panel or CLI
+# Use persistent storage (database) for flags that need runtime modification
+
+new_ui:
+    enabled: true
+    strategy: simple
+    description: 'New user interface redesign'
+
+api_v2:
+    enabled: true
+    strategy: simple
+    description: 'API version 2 endpoints'
+
+maintenance_mode:
+    enabled: false
+    strategy: simple
+    description: 'Global maintenance mode'

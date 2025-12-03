@@ -1,0 +1,6 @@
+# config/routes.yaml
+pulse_flags_admin:
+  resource: '../../src/Controller/'
+  type: attribute
+  # Optional: add a prefix to all routes from this bundle
+  # prefix: '/my-bundle'

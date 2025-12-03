@@ -1,0 +1,32 @@
+<div class="search-box" style="margin-bottom: 20px;">
+    <input type="text" id="searchInput" placeholder="Search flags..." onkeyup="filterFlags()">
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 30px;">
+    <div class="tabs" style="flex: 1; margin-bottom: 0;">
+        <button class="tab active" onclick="switchTab('all', this)">All Flags</button>
+        <button class="tab" onclick="switchTab('persistent', this)">Persistent (Writable)</button>
+        <button class="tab" onclick="switchTab('permanent', this)">Permanent (Read-only)</button>
+    </div>
+    <button class="btn btn-primary" onclick="openCreateModal()" style="margin-left: 20px;">
+        Create New Flag
+    </button>
+</div>
+
+<div id="tab-all" class="tab-content active">
+    <div id="all-flags">
+        <!-- Rendered by JavaScript immediately on page load -->
+    </div>
+</div>
+
+<div id="tab-persistent" class="tab-content">
+    <div id="persistent-flags">
+        <!-- Rendered by JavaScript immediately on page load -->
+    </div>
+</div>
+
+<div id="tab-permanent" class="tab-content">
+    <div id="permanent-flags">
+        <!-- Rendered by JavaScript immediately on page load -->
+    </div>
+</div>

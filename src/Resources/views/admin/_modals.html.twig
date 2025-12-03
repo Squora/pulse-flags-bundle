@@ -1,0 +1,94 @@
+<!-- Create/Edit Modal -->
+<div id="flagModal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle">Create New Flag</h2>
+        <form id="flagForm" onsubmit="return false;">
+            <div class="form-group">
+                <label for="flagSection">Section</label>
+                <select id="flagSection" onchange="updateFlagName()">
+                    <option value="core">Core</option>
+                    <option value="ui">UI</option>
+                    <option value="api">API</option>
+                    <option value="payment">Payment</option>
+                    <option value="experimental">Experimental</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="customSectionField" style="display:none;">
+                <label for="customSection">Custom Section Name</label>
+                <input type="text" id="customSection" placeholder="e.g., analytics" oninput="updateFlagName()">
+            </div>
+
+            <div class="form-group">
+                <label for="flagName">Flag Name</label>
+                <input type="text" id="flagName" required placeholder="e.g., my_feature">
+            </div>
+
+            <div class="form-group">
+                <label for="flagDescription">Description (Optional)</label>
+                <textarea id="flagDescription" placeholder="Describe what this flag controls..." rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="flagEnabled">Enabled</label>
+                <select id="flagEnabled">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="flagStrategy">Strategy</label>
+                <select id="flagStrategy" onchange="updateStrategyFields()">
+                    <option value="simple">Simple</option>
+                    <option value="percentage">Percentage</option>
+                    <option value="user_id">User ID</option>
+                    <option value="date_range">Date Range</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="percentageField" style="display:none;">
+                <label for="flagPercentage">Percentage (0-100)</label>
+                <input type="number" id="flagPercentage" min="0" max="100" placeholder="50">
+            </div>
+
+            <div class="form-group" id="whitelistField" style="display:none;">
+                <label for="flagWhitelist">Whitelist (comma-separated user IDs)</label>
+                <input type="text" id="flagWhitelist" placeholder="1,2,3">
+            </div>
+
+            <div class="form-group" id="blacklistField" style="display:none;">
+                <label for="flagBlacklist">Blacklist (comma-separated user IDs)</label>
+                <input type="text" id="flagBlacklist" placeholder="100,200,300">
+            </div>
+
+            <div class="form-group" id="startDateField" style="display:none;">
+                <label for="flagStartDate">Start Date</label>
+                <input type="date" id="flagStartDate">
+            </div>
+
+            <div class="form-group" id="endDateField" style="display:none;">
+                <label for="flagEndDate">End Date</label>
+                <input type="date" id="flagEndDate">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="button" class="btn btn-primary" onclick="saveFlag()">Save</button>
+                <button type="button" class="btn" style="background: var(--border-color); color: var(--text-primary);" onclick="closeModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="modal">
+    <div class="modal-content" style="max-width: 450px;">
+        <h2 id="confirmTitle">Confirm Action</h2>
+        <p id="confirmMessage" style="margin: 20px 0; color: var(--text-secondary); line-height: 1.6;"></p>
+        <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;">
+            <button type="button" class="btn" style="background: var(--border-color); color: var(--text-primary);" id="confirmNo">Cancel</button>
+            <button type="button" class="btn btn-primary" id="confirmYes">Confirm</button>
+        </div>
+    </div>
+</div>

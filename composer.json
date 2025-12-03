@@ -1,0 +1,47 @@
+{
+    "name": "pulse/flags-bundle",
+    "type": "symfony-bundle",
+    "keywords" : [
+        "feature flag bundle symfony web"
+    ],
+    "license" : [
+        "MIT"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pulse\\FlagsBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "squora",
+            "email": "squortzov.nik@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "symfony/framework-bundle": "^7.3",
+        "symfony/config": "^7.3",
+        "symfony/console": "^7.3",
+        "symfony/dependency-injection": "^7.3",
+        "ext-yaml": "*",
+        "ext-pdo": "*",
+        "symfony/yaml": "^7.3"
+    },
+    "require-dev": {
+        "doctrine/orm": "^3.5",
+        "phpunit/phpunit": "^12.4",
+        "symfony/phpunit-bridge": "^7.3",
+        "twig/twig": "^3.21",
+        "phpstan/phpstan": "*",
+        "phpstan/phpstan-symfony": "*",
+        "phpstan/extension-installer": "*",
+        "friendsofphp/php-cs-fixer": "^3.91",
+        "symfony/security-csrf": "^8.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    }
+}

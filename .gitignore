@@ -1,0 +1,6 @@
+vendor/
+.idea/
+.claude
+.github
+.phpunit.cache
+docs

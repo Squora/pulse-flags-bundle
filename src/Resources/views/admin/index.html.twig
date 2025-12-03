@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseFlags Admin Panel</title>
+    <link rel="stylesheet" href="{{ asset('bundles/pulseflags/css/admin.css') }}">
+</head>
+<body>
+    {% include '@PulseFlags/admin/_header.html.twig' %}
+
+    <div class="container">
+        {% include '@PulseFlags/admin/_stats.html.twig' %}
+        {% include '@PulseFlags/admin/_search_tabs.html.twig' %}
+    </div>
+
+    {% include '@PulseFlags/admin/_modals.html.twig' %}
+
+    <script>
+        // Server-provided initial data (injected at page load)
+        let allFlagsData = {{ flags_data|json_encode|raw }};
+        let editingFlag = null;
+        let isRendering = false;
+
+        // Admin configuration
+        const adminConfig = {
+            assetsUrl: '{{ asset('bundles/pulseflags') }}',
+            requireConfirmation: {{ require_confirmation|json_encode|raw }},
+            csrfToken: {{ csrf_token|json_encode|raw }}
+        };
+
+        // API endpoints configuration
+        const API_ENDPOINTS = {
+            list: '{{ path('pulse_flags_admin_list') }}',
+            toggle: '{{ path('pulse_flags_admin_toggle', {name: '__NAME__'}) }}'.replace('__NAME__', '{name}'),
+            create: '{{ path('pulse_flags_admin_create') }}',
+            update: '{{ path('pulse_flags_admin_update', {name: '__NAME__'}) }}'.replace('__NAME__', '{name}'),
+            delete: '{{ path('pulse_flags_admin_delete', {name: '__NAME__'}) }}'.replace('__NAME__', '{name}')
+        };
+    </script>
+    <script src="{{ asset('bundles/pulseflags/js/admin.js') }}"></script>
+</body>
+</html>

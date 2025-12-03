@@ -1,0 +1,17 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    excludePaths:
+        - tests
+        - src/Resources/migrations
+    ignoreErrors:
+        # DbStorage - parseDoctrineDsn return type needs doctrine/dbal types
+        - '#Method.*DbStorage::parseDoctrineDsn\(\) return type has no value type#'
+        # PhpStorage - false check for empty array
+        - '#Negated boolean expression is always false#'
+        # DbStorage - offset always exists check
+        - '#Offset 0 on non-empty-list.*always exists#'
+        # Symfony parameter bag returns mixed, but we know it's string
+        - '#Cannot cast .* to string#'
+    tmpDir: var/cache/phpstan
