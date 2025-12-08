@@ -43,6 +43,26 @@ php bin/console assets:install --symlink --relative
 
 This copies/links bundle assets from `vendor/pulse/flags-bundle/public/` to your `public/bundles/pulseflags/` directory.
 
+### Manual Configuration (if Symfony Flex doesn't auto-configure)
+
+If the bundle isn't automatically registered, add it manually:
+
+**1. Register the bundle** in `config/bundles.php`:
+```php
+return [
+    // ...
+    Pulse\FlagsBundle\PulseFlagsBundle::class => ['all' => true],
+];
+```
+
+**2. Create routes** in `config/routes/pulse_flags.yaml`:
+```yaml
+pulse_flags_admin:
+    resource: '@PulseFlagsBundle/src/Resources/config/routes.yaml'
+```
+
+> **Note:** A Symfony Flex recipe will be submitted to automate this setup in the future.
+
 ## 🗑️ Uninstallation
 
 Due to Symfony Flex behavior (known issue in Symfony 6.1+), you must manually remove bundle registration before uninstalling:

@@ -54,9 +54,10 @@ async function toggleFlag(name) {
         return;
     }
 
-    if (!flag.enabled && adminConfig.requireConfirmation) {
+    if (adminConfig.requireConfirmation) {
+        const action = flag.enabled ? 'disable' : 'enable';
         showConfirmDialog(
-            `Are you sure you want to enable flag "${name}"?`,
+            `Are you sure you want to ${action} flag "${name}"?`,
             async () => await performToggle(name, !flag.enabled)
         );
     } else {
