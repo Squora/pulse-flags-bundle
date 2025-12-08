@@ -1,0 +1,4 @@
+# config/routes/pulse_flags.yaml
+
+pulse_flags_admin:
+  resource: '@PulseFlagsBundle/config/routes.yaml'

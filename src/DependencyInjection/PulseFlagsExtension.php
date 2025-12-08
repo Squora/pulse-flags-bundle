@@ -43,7 +43,7 @@ class PulseFlagsExtension extends Extension implements PrependExtensionInterface
         // Register Twig namespace paths for admin templates
         $container->prependExtensionConfig('twig', [
             'paths' => [
-                __DIR__ . '/../Admin/Resources/views' => 'PulseFlagsAdmin',
+                __DIR__ . '/../../templates/admin' => 'PulseFlagsAdmin',
             ],
         ]);
     }
@@ -65,7 +65,7 @@ class PulseFlagsExtension extends Extension implements PrependExtensionInterface
 
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
+            new FileLocator(__DIR__ . '/../../config')
         );
         $loader->load('services.yaml');
 

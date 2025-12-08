@@ -277,6 +277,10 @@ class AdminController extends AbstractController
             return $this->json([
                 'success' => true,
                 'name' => $name,
+                'description' => $config['description'] ?? null,
+                'enabled' => $config['enabled'] ?? false,
+                'strategy' => $config['strategy'] ?? 'simple',
+                'readonly' => false,
                 'config' => $config,
             ]);
         } catch (Exception $e) {
@@ -317,6 +321,10 @@ class AdminController extends AbstractController
             return $this->json([
                 'success' => true,
                 'name' => $name,
+                'description' => $config['description'] ?? null,
+                'enabled' => $config['enabled'] ?? false,
+                'strategy' => $config['strategy'] ?? 'simple',
+                'readonly' => false,
                 'config' => $config,
             ], Response::HTTP_CREATED);
         } catch (Exception $e) {
