@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Tests\Unit\Command;
+namespace Pulse\FlagsBundle\Tests\Unit\Command\Setup;
 
 use PHPUnit\Framework\TestCase;
-use Pulse\FlagsBundle\Command\InitStorageCommand;
+use Pulse\FlagsBundle\Command\Setup\InitStorageCommand;
 use Pulse\FlagsBundle\Storage\DbStorage;
 use Pulse\FlagsBundle\Storage\YamlStorage;
 use Symfony\Component\Console\Command\Command;

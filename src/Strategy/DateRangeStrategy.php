@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pulse\FlagsBundle\Strategy;
 
+use Pulse\FlagsBundle\Enum\FlagStrategy;
+
 /**
  * Date range activation strategy for feature flags.
  *
@@ -107,6 +109,6 @@ class DateRangeStrategy implements StrategyInterface
      */
     public function getName(): string
     {
-        return 'date_range';
+        return FlagStrategy::DATE_RANGE->value;
     }
 }

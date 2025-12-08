@@ -6,6 +6,7 @@ namespace Pulse\FlagsBundle\Tests\Unit\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Pulse\FlagsBundle\DependencyInjection\FlagsConfigurationLoader;
+use Pulse\FlagsBundle\Enum\StorageFormat;
 
 /**
  * Unit tests for FlagsConfigurationLoader class.
@@ -61,7 +62,7 @@ YAML;
         file_put_contents($this->flagsDir . '/core.yaml', $yamlContent);
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
 
         // Assert: Flag loaded with namespace prefix
         $this->assertArrayHasKey('core.new_feature', $flags);
@@ -77,7 +78,7 @@ YAML;
         file_put_contents($this->flagsDir . '/beta.yaml', "flag2:\n    enabled: false\n");
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
 
         // Assert: Both files loaded
         $this->assertArrayHasKey('core.flag1', $flags);
@@ -104,7 +105,7 @@ YAML;
         file_put_contents($this->flagsDir . '/features.local.yaml', $localYaml);
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
 
         // Assert: Local overrides base
         $this->assertTrue($flags['features.test_flag']['enabled']); // Overridden to true
@@ -118,7 +119,7 @@ YAML;
         file_put_contents($this->flagsDir . '/standalone.local.yaml', "flag:\n    enabled: true\n");
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
 
         // Assert: Local file not processed standalone
         $this->assertEmpty($flags);
@@ -141,7 +142,7 @@ PHP;
         file_put_contents($this->flagsDir . '/core.php', $phpContent);
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'php');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::PHP);
 
         // Assert: Flag loaded with namespace
         $this->assertArrayHasKey('core.new_feature', $flags);
@@ -158,7 +159,7 @@ PHP;
         file_put_contents($this->flagsDir . '/features.local.php', $localPhp);
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'php');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::PHP);
 
         // Assert: Local overrides base
         $this->assertTrue($flags['features.flag']['enabled']); // Overridden
@@ -173,7 +174,7 @@ PHP;
         // Act & Assert: Exception thrown
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Flag "core.bad_flag" must have an "enabled" field');
-        FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+        FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
     }
 
     public function testItRemovesDeprecatedStorageFieldAndTriggersWarning(): void
@@ -199,7 +200,7 @@ YAML;
         set_error_handler($errorHandler);
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
 
         // Restore error handler
         restore_error_handler();
@@ -217,7 +218,7 @@ YAML;
         $nonExistentDir = '/nonexistent/path/that/does/not/exist';
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($nonExistentDir, 'yaml');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($nonExistentDir, StorageFormat::YAML);
 
         // Assert: Empty array returned
         $this->assertIsArray($flags);
@@ -229,7 +230,7 @@ YAML;
         // Arrange: Empty directory (already created in setUp, no files added)
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
 
         // Assert: Empty array
         $this->assertIsArray($flags);
@@ -243,7 +244,7 @@ YAML;
 
         // Act: Load flags (should not throw, just skip invalid file)
         try {
-            $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+            $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
             // If parsing fails, Symfony Yaml throws exception which is not caught
             // This test verifies the loader doesn't crash the application
             $this->assertTrue(true); // If we reach here, test passes
@@ -253,17 +254,18 @@ YAML;
         }
     }
 
-    public function testItReturnsEmptyArrayForUnknownFormat(): void
+    public function testItUsesYamlFormatByDefault(): void
     {
-        // Arrange: Create some file
+        // Arrange: Create YAML file
         file_put_contents($this->flagsDir . '/test.yaml', "flag:\n    enabled: true\n");
 
-        // Act: Load with unknown format
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'unknown');
+        // Act: Load without specifying format (should default to YAML)
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir);
 
-        // Assert: Empty array for unknown format
+        // Assert: YAML file loaded by default
         $this->assertIsArray($flags);
-        $this->assertEmpty($flags);
+        $this->assertArrayHasKey('test.flag', $flags);
+        $this->assertTrue($flags['test.flag']['enabled']);
     }
 
     public function testItValidatesStrategyCorrectly(): void
@@ -367,7 +369,7 @@ YAML;
         file_put_contents($this->flagsDir . '/core.yaml', $yamlContent);
 
         // Act: Load flags
-        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, 'yaml');
+        $flags = FlagsConfigurationLoader::loadFlagsFromDirectory($this->testDir, StorageFormat::YAML);
 
         // Assert: Nested structure preserved
         $config = $flags['core.complex_flag'];

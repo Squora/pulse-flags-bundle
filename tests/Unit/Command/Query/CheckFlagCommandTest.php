@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Tests\Unit\Command;
+namespace Pulse\FlagsBundle\Tests\Unit\Command\Query;
 
 use PHPUnit\Framework\TestCase;
-use Pulse\FlagsBundle\Command\CheckFlagCommand;
+use Pulse\FlagsBundle\Command\Query\CheckFlagCommand;
 use Pulse\FlagsBundle\Service\PermanentFeatureFlagService;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Component\Console\Command\Command;

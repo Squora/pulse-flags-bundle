@@ -27,6 +27,22 @@ composer require pulse/flags-bundle
 
 **Requirements:** PHP 8.1+, Symfony 7.3+
 
+### Install Public Assets
+
+The bundle includes a web admin panel with CSS/JS assets. Install them to your public directory:
+
+```bash
+php bin/console assets:install
+```
+
+Or with symlinks (faster, recommended for development):
+
+```bash
+php bin/console assets:install --symlink --relative
+```
+
+This copies/links bundle assets from `vendor/pulse/flags-bundle/public/` to your `public/bundles/pulseflags/` directory.
+
 ## 🗑️ Uninstallation
 
 Due to Symfony Flex behavior (known issue in Symfony 6.1+), you must manually remove bundle registration before uninstalling:
@@ -143,7 +159,7 @@ Or use the admin panel at `/admin/pulse-flags`
 ### 5. Use in Your Code
 
 ```php
-use Pulse\FlagsBundle\Service\FeatureFlagInterface;
+use Pulse\FlagsBundle\Service\FeatureFlagServiceInterface;
 // Or use specific services:
 // use Pulse\FlagsBundle\Service\PermanentFeatureFlagService;
 // use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
@@ -151,7 +167,7 @@ use Pulse\FlagsBundle\Service\FeatureFlagInterface;
 class ProductController
 {
     public function __construct(
-        private FeatureFlagInterface $flags  // Will use PersistentFeatureFlagService by default
+        private FeatureFlagServiceInterface $flags  // Will use PersistentFeatureFlagService by default
     ) {}
 
     public function checkout(): Response
@@ -187,6 +203,57 @@ class ProductController
     {# Beta checkout flow #}
 {% endif %}
 ```
+
+## 🏗️ Architecture
+
+The bundle uses a feature-based directory structure for better organization and maintainability:
+
+### Commands
+
+Commands are organized by purpose for easy navigation:
+
+- **`Command/Flag/`** - CRUD operations for managing flags
+  - `CreateFlagCommand` - Create new persistent flags
+  - `EnableFlagCommand` - Enable flags with strategy configuration
+  - `DisableFlagCommand` - Disable flags
+  - `RemoveFlagCommand` - Delete flags
+
+- **`Command/Query/`** - Information and inspection commands
+  - `CheckFlagCommand` - Test flag evaluation with context
+  - `ListFlagsCommand` - Display all flags with pagination
+
+- **`Command/Setup/`** - Maintenance and setup commands
+  - `InitStorageCommand` - Initialize database storage
+
+### Services
+
+The bundle uses inheritance to eliminate code duplication:
+
+- **`AbstractFeatureFlagService`** - Base service with shared logic for strategy management and flag evaluation
+- **`PermanentFeatureFlagService`** - Read-only flags loaded from configuration files
+- **`PersistentFeatureFlagService`** - Runtime-mutable flags stored in database
+
+Both services extend the abstract base and implement the `FeatureFlagInterface`, providing consistent behavior across different storage backends.
+
+### Admin Panel
+
+Admin resources are consolidated in a single location:
+
+- **`Admin/Controller/`** - Admin panel controller with both UI and API endpoints
+- **`Admin/Resources/views/`** - Twig templates for the admin interface
+- **`Resources/public/admin/`** - CSS and JavaScript assets
+
+This structure makes the admin panel self-contained and easy to maintain.
+
+### Strategies
+
+Five activation strategies are available:
+
+- **`SimpleStrategy`** - Basic on/off toggle
+- **`PercentageStrategy`** - Gradual rollout with consistent bucketing
+- **`UserIdStrategy`** - Whitelist/blacklist specific users
+- **`DateRangeStrategy`** - Time-bounded features
+- **`CompositeStrategy`** - Combine multiple strategies with AND/OR logic
 
 ## 📖 Core Concepts
 

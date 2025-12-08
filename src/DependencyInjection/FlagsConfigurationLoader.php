@@ -7,23 +7,28 @@ namespace Pulse\FlagsBundle\DependencyInjection;
 use DateTime;
 use Exception;
 use InvalidArgumentException;
+use Pulse\FlagsBundle\Constants\PercentageStrategy as PercentageConstants;
+use Pulse\FlagsBundle\Enum\StorageFormat;
+use Pulse\FlagsBundle\Enum\FlagStrategy;
 use Symfony\Component\Yaml\Yaml;
 
 class FlagsConfigurationLoader
 {
     /**
-     * Load all feature flag configurations from config/pulse_flags directory
+     * Load all feature flag configurations from the config/pulse_flags directory
      *
      * All flags loaded from config files are considered permanent (read-only).
      * Files are namespaced by filename (without extension)
      * Example: config/pulse_flags/core.yaml -> flags prefixed with "core."
      *
      * @param string $configDir Config directory path
-     * @param string $format Storage format (yaml, php)
+     * @param StorageFormat $format Storage format (YAML or PHP)
      * @return array<string, array<string, mixed>> Permanent flags configuration
      */
-    public static function loadFlagsFromDirectory(string $configDir, string $format = 'yaml'): array
-    {
+    public static function loadFlagsFromDirectory(
+        string $configDir,
+        StorageFormat $format = StorageFormat::YAML,
+    ): array {
         $flagsDir = $configDir . '/packages/pulse_flags';
 
         if (!is_dir($flagsDir)) {
@@ -31,9 +36,8 @@ class FlagsConfigurationLoader
         }
 
         return match ($format) {
-            'yaml' => self::loadYamlFlags($flagsDir),
-            'php' => self::loadPhpFlags($flagsDir),
-            default => [],
+            StorageFormat::YAML => self::loadYamlFlags($flagsDir),
+            StorageFormat::PHP => self::loadPhpFlags($flagsDir),
         };
     }
 
@@ -51,13 +55,11 @@ class FlagsConfigurationLoader
 
         foreach ($files as $file) {
             $namespace = basename($file, '.yaml');
-
             if (str_ends_with($namespace, '.local')) {
                 continue;
             }
 
             $flags = Yaml::parseFile($file);
-
             if (!is_array($flags)) {
                 continue;
             }
@@ -183,8 +185,8 @@ class FlagsConfigurationLoader
     {
         $errors = [];
 
-        $validStrategies = ['simple', 'percentage', 'user_id', 'date_range', 'composite'];
-        $strategy = $config['strategy'] ?? 'simple';
+        $strategy = $config['strategy'] ?? FlagStrategy::SIMPLE->value;
+        $validStrategies = array_map(fn(FlagStrategy $s) => $s->value, FlagStrategy::cases());
 
         if (!in_array($strategy, $validStrategies, true)) {
             $errors[] = sprintf(
@@ -197,10 +199,12 @@ class FlagsConfigurationLoader
 
         if (isset($config['percentage'])) {
             $percentage = $config['percentage'];
-            if (!is_int($percentage) || $percentage < 0 || $percentage > 100) {
+            if (!is_int($percentage) || $percentage < PercentageConstants::MIN_PERCENTAGE || $percentage > PercentageConstants::MAX_PERCENTAGE) {
                 $errors[] = sprintf(
-                    'Percentage for flag "%s" must be an integer between 0 and 100',
-                    $name
+                    'Percentage for flag "%s" must be an integer between %d and %d',
+                    $name,
+                    PercentageConstants::MIN_PERCENTAGE,
+                    PercentageConstants::MAX_PERCENTAGE
                 );
             }
         }

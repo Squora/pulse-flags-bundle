@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Tests\Unit\Command;
+namespace Pulse\FlagsBundle\Tests\Unit\Command\Flag;
 
 use PHPUnit\Framework\TestCase;
-use Pulse\FlagsBundle\Command\RemoveFlagCommand;
+use Pulse\FlagsBundle\Command\Flag\RemoveFlagCommand;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;

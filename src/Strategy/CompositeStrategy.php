@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pulse\FlagsBundle\Strategy;
 
+use Pulse\FlagsBundle\Enum\FlagStrategy;
+
 /**
  * Composite activation strategy for feature flags.
  *
@@ -114,6 +116,6 @@ class CompositeStrategy implements StrategyInterface
      */
     public function getName(): string
     {
-        return 'composite';
+        return FlagStrategy::COMPOSITE->value;
     }
 }

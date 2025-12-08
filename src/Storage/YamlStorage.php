@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pulse\FlagsBundle\Storage;
 
 use LogicException;
+use Pulse\FlagsBundle\Constants\Pagination;
 
 /**
  * Read-only YAML file storage for feature flags.
@@ -109,11 +110,11 @@ class YamlStorage implements StorageInterface
      * Returns paginated flags from YAML storage.
      * Note: Pagination is performed in-memory as YAML is read-only.
      */
-    public function paginate(int $page = 1, int $limit = 50): array
+    public function paginate(int $page = Pagination::DEFAULT_PAGE, int $limit = Pagination::DEFAULT_LIMIT): array
     {
-        $limit = min($limit, 100);
-        $page = max($page, 1);
-        $offset = ($page - 1) * $limit;
+        $limit = min($limit, Pagination::MAX_LIMIT);
+        $page = max($page, Pagination::MIN_PAGE);
+        $offset = ($page - Pagination::MIN_PAGE) * $limit;
 
         $total = count($this->flags);
         $flagsSlice = array_slice($this->flags, $offset, $limit, true);

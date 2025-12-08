@@ -1,12 +1,17 @@
 {
     "name": "pulse/flags-bundle",
+    "description": "Production-ready Symfony Bundle for feature flag management with percentage-based rollout, multiple activation strategies, and dual storage architecture",
     "type": "symfony-bundle",
     "keywords" : [
-        "feature flag bundle symfony web"
+        "feature flag",
+        "feature toggle",
+        "symfony",
+        "bundle",
+        "ab testing",
+        "percentage rollout",
+        "feature management"
     ],
-    "license" : [
-        "MIT"
-    ],
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Pulse\\FlagsBundle\\": "src/"
@@ -24,6 +29,9 @@
         "symfony/config": "^7.3",
         "symfony/console": "^7.3",
         "symfony/dependency-injection": "^7.3",
+        "symfony/security-csrf": "^7.3|^8.0",
+        "symfony/asset": "^7.3",
+        "twig/twig": "^3.21",
         "ext-yaml": "*",
         "ext-pdo": "*",
         "symfony/yaml": "^7.3"
@@ -32,16 +40,15 @@
         "doctrine/orm": "^3.5",
         "phpunit/phpunit": "^12.4",
         "symfony/phpunit-bridge": "^7.3",
-        "twig/twig": "^3.21",
         "phpstan/phpstan": "*",
         "phpstan/phpstan-symfony": "*",
         "phpstan/extension-installer": "*",
-        "friendsofphp/php-cs-fixer": "^3.91",
-        "symfony/security-csrf": "^8.0"
+        "friendsofphp/php-cs-fixer": "^3.91"
     },
     "config": {
         "allow-plugins": {
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "symfony/flex": true
         }
     }
 }

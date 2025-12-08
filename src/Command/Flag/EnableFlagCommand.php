@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Command;
+namespace Pulse\FlagsBundle\Command\Flag;
 
+use Pulse\FlagsBundle\Constants\PercentageStrategy as PercentageConstants;
+use Pulse\FlagsBundle\Enum\FlagStatus;
+use Pulse\FlagsBundle\Enum\FlagStrategy;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -39,29 +42,45 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class EnableFlagCommand extends Command
 {
-    /**
-     * @param PersistentFeatureFlagService $flagService Service for managing persistent flags
-     */
     public function __construct(
-        private PersistentFeatureFlagService $flagService
+        private readonly PersistentFeatureFlagService $flagService
     ) {
         parent::__construct();
     }
 
-    /**
-     * Configures command arguments and options.
-     *
-     * @return void
-     */
     protected function configure(): void
     {
-        $this
-            ->addArgument('name', InputArgument::REQUIRED, 'Feature flag name')
-            ->addOption('strategy', 's', InputOption::VALUE_REQUIRED, 'Strategy to use', 'simple')
-            ->addOption('percentage', 'p', InputOption::VALUE_REQUIRED, 'Percentage for rollout (0-100)')
-            ->addOption('start-date', null, InputOption::VALUE_REQUIRED, 'Start date (Y-m-d)')
-            ->addOption('end-date', null, InputOption::VALUE_REQUIRED, 'End date (Y-m-d)')
-            ->addOption('whitelist', 'w', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'User IDs to whitelist');
+        $this->addArgument(
+            'name',
+            InputArgument::REQUIRED,
+            'Feature flag name',
+        )->addOption(
+            'strategy',
+            's',
+            InputOption::VALUE_REQUIRED,
+            'Strategy to use',
+            FlagStrategy::SIMPLE->value,
+        )->addOption(
+            'percentage',
+            'p',
+            InputOption::VALUE_REQUIRED,
+            'Percentage for rollout (0-100)',
+        )->addOption(
+            'start-date',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Start date (Y-m-d)',
+        )->addOption(
+            'end-date',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'End date (Y-m-d)',
+        )->addOption(
+            'whitelist',
+            'w',
+            InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+            'User IDs to whitelist',
+        );
     }
 
     /**
@@ -70,8 +89,6 @@ class EnableFlagCommand extends Command
      * Configures the flag with enabled=true and applies any provided strategy settings.
      * Strategy is automatically determined based on provided options.
      *
-     * @param InputInterface $input Command input with flag name and strategy options
-     * @param OutputInterface $output Command output
      * @return int Command::SUCCESS on success, Command::FAILURE on validation errors
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -81,44 +98,40 @@ class EnableFlagCommand extends Command
         $strategy = $input->getOption('strategy');
 
         $config = [
-            'enabled' => true,
+            'enabled' => FlagStatus::ENABLED->toBool(),
             'strategy' => $strategy,
         ];
 
-        // Add percentage if provided
         if ($percentage = $input->getOption('percentage')) {
             $percentage = (int) $percentage;
-            if ($percentage < 0 || $percentage > 100) {
-                $io->error('Percentage must be between 0 and 100');
+            if ($percentage < PercentageConstants::MIN_PERCENTAGE || $percentage > PercentageConstants::MAX_PERCENTAGE) {
+                $io->error(sprintf('Percentage must be between %d and %d', PercentageConstants::MIN_PERCENTAGE, PercentageConstants::MAX_PERCENTAGE));
 
                 return Command::FAILURE;
             }
+
             $config['percentage'] = $percentage;
-            $config['strategy'] = 'percentage';
+            $config['strategy'] = FlagStrategy::PERCENTAGE->value;
         }
 
-        // Add date range if provided
         if ($startDate = $input->getOption('start-date')) {
             $config['start_date'] = $startDate;
-            $config['strategy'] = 'date_range';
+            $config['strategy'] = FlagStrategy::DATE_RANGE->value;
         }
 
         if ($endDate = $input->getOption('end-date')) {
             $config['end_date'] = $endDate;
-            $config['strategy'] = 'date_range';
+            $config['strategy'] = FlagStrategy::DATE_RANGE->value;
         }
 
-        // Add whitelist if provided
         if ($whitelist = $input->getOption('whitelist')) {
             $config['whitelist'] = $whitelist;
-            $config['strategy'] = 'user_id';
+            $config['strategy'] = FlagStrategy::USER_ID->value;
         }
 
-        // Enable the flag
         $this->flagService->configure($name, $config);
         $io->success("Feature flag '$name' enabled");
 
-        // Show configuration
         $io->section('Configuration:');
         $io->table(
             ['Option', 'Value'],

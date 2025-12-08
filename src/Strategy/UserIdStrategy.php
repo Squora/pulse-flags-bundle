@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pulse\FlagsBundle\Strategy;
 
+use Pulse\FlagsBundle\Enum\FlagStrategy;
+
 /**
  * User ID-based activation strategy for feature flags.
  *
@@ -79,6 +81,6 @@ class UserIdStrategy implements StrategyInterface
      */
     public function getName(): string
     {
-        return 'user_id';
+        return FlagStrategy::USER_ID->value;
     }
 }

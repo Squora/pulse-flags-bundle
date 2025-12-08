@@ -6,8 +6,10 @@ namespace Pulse\FlagsBundle\DependencyInjection;
 
 use Exception;
 use InvalidArgumentException;
+use Pulse\FlagsBundle\Enum\StorageFormat;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -28,8 +30,23 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  * Storage configuration:
  * - DB: Creates PDO-based storage with database-specific SQL
  */
-class PulseFlagsExtension extends Extension
+class PulseFlagsExtension extends Extension implements PrependExtensionInterface
 {
+    /**
+     * Prepend configuration to register Twig paths.
+     *
+     * @param ContainerBuilder $container The dependency injection container
+     * @return void
+     */
+    public function prepend(ContainerBuilder $container): void
+    {
+        // Register Twig namespace paths for admin templates
+        $container->prependExtensionConfig('twig', [
+            'paths' => [
+                __DIR__ . '/../Admin/Resources/views' => 'PulseFlagsAdmin',
+            ],
+        ]);
+    }
     /**
      * Loads bundle configuration and registers services.
      *
@@ -54,7 +71,8 @@ class PulseFlagsExtension extends Extension
 
         $projectDir = $container->getParameter('kernel.project_dir');
         $configDir = (string) $projectDir . '/config';
-        $permanentFormat = $config['permanent_storage'] ?? 'yaml';
+        $permanentFormatValue = $config['permanent_storage'] ?? 'yaml';
+        $permanentFormat = StorageFormat::tryFrom($permanentFormatValue) ?? StorageFormat::YAML;
         $permanentFlags = FlagsConfigurationLoader::loadFlagsFromDirectory($configDir, $permanentFormat);
 
         foreach ($permanentFlags as $name => $flagConfig) {

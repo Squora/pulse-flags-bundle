@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Command;
+namespace Pulse\FlagsBundle\Command\Setup;
 
 use Pulse\FlagsBundle\Storage\DbStorage;
 use Pulse\FlagsBundle\Storage\StorageInterface;
@@ -39,27 +39,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class InitStorageCommand extends Command
 {
-    /**
-     * @param StorageInterface $persistentStorage The configured persistent storage backend
-     */
     public function __construct(
         private readonly StorageInterface $persistentStorage
     ) {
         parent::__construct();
     }
 
-    /**
-     * Configures command options.
-     *
-     * @return void
-     */
     protected function configure(): void
     {
         $this->addOption(
             'force',
             'f',
             InputOption::VALUE_NONE,
-            'Force initialization without confirmation'
+            'Force initialization without confirmation',
         );
     }
 
@@ -69,8 +61,6 @@ class InitStorageCommand extends Command
      * Only performs initialization for DbStorage backend. Other storage
      * types (YAML) are skipped with a warning message.
      *
-     * @param InputInterface $input Command input with optional --force flag
-     * @param OutputInterface $output Command output
      * @return int Command::SUCCESS on success or skip, Command::FAILURE on error
      */
     protected function execute(InputInterface $input, OutputInterface $output): int

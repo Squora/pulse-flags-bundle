@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Pulse\FlagsBundle\Tests\Functional\Command;
 
 use PHPUnit\Framework\TestCase;
-use Pulse\FlagsBundle\Command\ListFlagsCommand;
+use Pulse\FlagsBundle\Command\Query\ListFlagsCommand;
 use Pulse\FlagsBundle\Service\PermanentFeatureFlagService;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Pulse\FlagsBundle\Storage\PhpStorage;

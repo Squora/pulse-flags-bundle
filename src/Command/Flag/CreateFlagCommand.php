@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Command;
+namespace Pulse\FlagsBundle\Command\Flag;
 
+use Pulse\FlagsBundle\Enum\FlagStatus;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -20,9 +21,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * (strategies, etc.) can be added later via the enable command or
  * through the admin panel.
  *
- * @example php bin/console pulse:flags:create my_new_feature
- * @example php bin/console pulse:flags:create my_new_feature 1
- * @example php bin/console pulse:flags:create my_new_feature true
+ * @example Create a disabled flag:
+ * php bin/console pulse:flags:create my_new_feature
+ *
+ * @example Create an enabled flag (numeric format):
+ * php bin/console pulse:flags:create my_new_feature 1
+ *
+ * @example Create an enabled flag (boolean format):
+ * php bin/console pulse:flags:create my_new_feature true
  *
  * Note: This command creates only persistent flags. To define permanent
  * (static) flags, add them to the YAML configuration files.
@@ -57,10 +63,7 @@ class CreateFlagCommand extends Command
      * Executes the command to create a new feature flag.
      *
      * Creates a flag with minimal configuration (name and enabled status).
-     * Fails if flag already exists.
      *
-     * @param InputInterface $input Command input with flag name and optional enabled status
-     * @param OutputInterface $output Command output
      * @return int Command::SUCCESS on success, Command::FAILURE if flag exists
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -71,18 +74,15 @@ class CreateFlagCommand extends Command
         $enabled = (bool) filter_var($enabledArg, FILTER_VALIDATE_BOOLEAN);
 
         if ($this->flagService->exists($name)) {
-            $io->error(sprintf('Feature flag "%s" already exists', $name));
+            $io->error("Feature flag $name already exists");
 
             return Command::FAILURE;
         }
 
-        $this->flagService->configure($name, ['enabled' => $enabled]);
+        $status = FlagStatus::fromBool($enabled);
+        $this->flagService->configure($name, ['enabled' => $status->toBool()]);
 
-        $io->success(sprintf(
-            'Feature flag "%s" created with status: %s',
-            $name,
-            $enabled ? 'Enabled' : 'Disabled',
-        ));
+        $io->success("Feature flag $name created with status: {$status->label()}");
 
         return Command::SUCCESS;
     }

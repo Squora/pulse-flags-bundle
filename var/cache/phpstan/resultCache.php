@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 return [
-	'lastFullAnalysisTime' => 1764666950,
+	'lastFullAnalysisTime' => 1764854962,
 	'meta' => array (
   'cacheVersion' => 'v12-linesToIgnore',
   'phpstanVersion' => '2.1.32',
@@ -14,13 +14,14 @@ return [
   'analysedPaths' => 
   array (
     0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src',
+    1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/tests',
   ),
   'scannedFiles' => 
   array (
   ),
   'composerLocks' => 
   array (
-    '/Users/nskvorcov/Projects/pulse-flags-bundle/composer.lock' => '67d76592512092cc7db25a4252207e5ac7a71719',
+    '/Users/nskvorcov/Projects/pulse-flags-bundle/composer.lock' => '68e953504a5955b113e2bf5f255e931b04bc2737',
   ),
   'composerInstalled' => 
   array (
@@ -922,7 +923,7 @@ return [
           'aliases' => 
           array (
           ),
-          'dev_requirement' => true,
+          'dev_requirement' => false,
         ),
         'symfony/phpunit-bridge' => 
         array (
@@ -1066,7 +1067,7 @@ return [
           'aliases' => 
           array (
           ),
-          'dev_requirement' => true,
+          'dev_requirement' => false,
         ),
         'symfony/security-csrf' => 
         array (
@@ -1078,7 +1079,7 @@ return [
           'aliases' => 
           array (
           ),
-          'dev_requirement' => true,
+          'dev_requirement' => false,
         ),
         'symfony/service-contracts' => 
         array (
@@ -1278,12 +1279,12 @@ return [
     \PHPStan\Analyser\Error::__set_state(array(
        'message' => 'Cannot cast array|bool|float|int|string|null to string.',
        'file' => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/PulseFlagsExtension.php',
-       'line' => 56,
+       'line' => 57,
        'canBeIgnored' => true,
        'filePath' => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/PulseFlagsExtension.php',
        'traitFilePath' => NULL,
        'tip' => NULL,
-       'nodeLine' => 56,
+       'nodeLine' => 57,
        'nodeType' => 'PhpParser\\Node\\Expr\\Cast\\String_',
        'identifier' => 'cast.string',
        'metadata' => 
@@ -1298,12 +1299,12 @@ return [
     \PHPStan\Analyser\Error::__set_state(array(
        'message' => 'Offset 0 on non-empty-list<string> on left side of ?? always exists and is not nullable.',
        'file' => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/DbStorage.php',
-       'line' => 36,
+       'line' => 37,
        'canBeIgnored' => true,
        'filePath' => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/DbStorage.php',
        'traitFilePath' => NULL,
        'tip' => NULL,
-       'nodeLine' => 36,
+       'nodeLine' => 37,
        'nodeType' => 'PhpParser\\Node\\Expr\\BinaryOp\\Coalesce',
        'identifier' => 'nullCoalesce.offset',
        'metadata' => 
@@ -1315,12 +1316,12 @@ return [
     \PHPStan\Analyser\Error::__set_state(array(
        'message' => 'Method Pulse\\FlagsBundle\\Storage\\DbStorage::parseDoctrineDsn() return type has no value type specified in iterable type array.',
        'file' => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/DbStorage.php',
-       'line' => 54,
+       'line' => 55,
        'canBeIgnored' => true,
        'filePath' => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/DbStorage.php',
        'traitFilePath' => NULL,
        'tip' => 'See: https://phpstan.org/blog/solving-phpstan-no-value-type-specified-in-iterable-type',
-       'nodeLine' => 54,
+       'nodeLine' => 55,
        'nodeType' => 'PHPStan\\Node\\InClassMethodNode',
        'identifier' => 'missingType.iterableValue',
        'metadata' => 
@@ -1335,12 +1336,12 @@ return [
     \PHPStan\Analyser\Error::__set_state(array(
        'message' => 'Negated boolean expression is always false.',
        'file' => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/PhpStorage.php',
-       'line' => 28,
+       'line' => 30,
        'canBeIgnored' => true,
        'filePath' => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/PhpStorage.php',
        'traitFilePath' => NULL,
        'tip' => 'Because the type is coming from a PHPDoc, you can turn off this check by setting <fg=cyan>treatPhpDocTypesAsCertain: false</> in your <fg=cyan>%configurationFile%</>.',
-       'nodeLine' => 28,
+       'nodeLine' => 30,
        'nodeType' => 'PhpParser\\Node\\Expr\\BooleanNot',
        'identifier' => 'booleanNot.alwaysFalse',
        'metadata' => 
@@ -1357,95 +1358,109 @@ return [
 	'unmatchedLineIgnores' => array (
 ),
 	'collectedDataCallback' => static function (): array { return array (
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CheckFlagCommand.php' => 
-  array (
-    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
-    array (
-      0 => 
-      array (
-        0 => 'Symfony\\Component\\Console\\Command\\Command',
-        1 => '__construct',
-        2 => 43,
-      ),
-    ),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CreateFlagCommand.php' => 
-  array (
-    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
-    array (
-      0 => 
-      array (
-        0 => 'Symfony\\Component\\Console\\Command\\Command',
-        1 => '__construct',
-        2 => 39,
-      ),
-    ),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/DisableFlagCommand.php' => 
-  array (
-    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
-    array (
-      0 => 
-      array (
-        0 => 'Symfony\\Component\\Console\\Command\\Command',
-        1 => '__construct',
-        2 => 40,
-      ),
-    ),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/EnableFlagCommand.php' => 
-  array (
-    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
-    array (
-      0 => 
-      array (
-        0 => 'Symfony\\Component\\Console\\Command\\Command',
-        1 => '__construct',
-        2 => 48,
-      ),
-    ),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/InitStorageCommand.php' => 
-  array (
-    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
-    array (
-      0 => 
-      array (
-        0 => 'Symfony\\Component\\Console\\Command\\Command',
-        1 => '__construct',
-        2 => 48,
-      ),
-    ),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/ListFlagsCommand.php' => 
-  array (
-    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
-    array (
-      0 => 
-      array (
-        0 => 'Symfony\\Component\\Console\\Command\\Command',
-        1 => '__construct',
-        2 => 46,
-      ),
-    ),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/RemoveFlagCommand.php' => 
-  array (
-    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
-    array (
-      0 => 
-      array (
-        0 => 'Symfony\\Component\\Console\\Command\\Command',
-        1 => '__construct',
-        2 => 40,
-      ),
-    ),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Controller/AdminController.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php' => 
   array (
     'PHPStan\\Rules\\DeadCode\\ConstructorWithoutImpurePointsCollector' => 
     array (
-      0 => 'Pulse\\FlagsBundle\\Controller\\AdminController',
+      0 => 'Pulse\\FlagsBundle\\Admin\\Controller\\AdminController',
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/CreateFlagCommand.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Symfony\\Component\\Console\\Command\\Command',
+        1 => '__construct',
+        2 => 45,
+      ),
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/DisableFlagCommand.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Symfony\\Component\\Console\\Command\\Command',
+        1 => '__construct',
+        2 => 36,
+      ),
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Symfony\\Component\\Console\\Command\\Command',
+        1 => '__construct',
+        2 => 48,
+      ),
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/RemoveFlagCommand.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Symfony\\Component\\Console\\Command\\Command',
+        1 => '__construct',
+        2 => 36,
+      ),
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/CheckFlagCommand.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Symfony\\Component\\Console\\Command\\Command',
+        1 => '__construct',
+        2 => 48,
+      ),
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/ListFlagsCommand.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Symfony\\Component\\Console\\Command\\Command',
+        1 => '__construct',
+        2 => 44,
+      ),
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Setup/InitStorageCommand.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Symfony\\Component\\Console\\Command\\Command',
+        1 => '__construct',
+        2 => 45,
+      ),
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Constants/Pagination.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\ConstructorWithoutImpurePointsCollector' => 
+    array (
+      0 => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Constants/PercentageStrategy.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\ConstructorWithoutImpurePointsCollector' => 
+    array (
+      0 => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/FlagsConfigurationLoader.php' => 
@@ -1455,7 +1470,7 @@ return [
       0 => 
       array (
         0 => 'trigger_error',
-        1 => 165,
+        1 => 167,
       ),
     ),
     'PHPStan\\Rules\\DeadCode\\PossiblyPureNewCollector' => 
@@ -1463,12 +1478,12 @@ return [
       0 => 
       array (
         0 => 'DateTime',
-        1 => 210,
+        1 => 214,
       ),
       1 => 
       array (
         0 => 'DateTime',
-        1 => 222,
+        1 => 226,
       ),
     ),
   ),
@@ -1492,16 +1507,36 @@ return [
           0 => 'Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader',
         ),
         1 => 'load',
-        2 => 53,
+        2 => 54,
+      ),
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Enum/FlagStatus.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\MethodWithoutImpurePointsCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+        1 => 'fromBool',
+        2 => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+      ),
+      1 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+        1 => 'toBool',
+        2 => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+      ),
+      2 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+        1 => 'label',
+        2 => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
       ),
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PermanentFeatureFlagService.php' => 
   array (
-    'PHPStan\\Rules\\DeadCode\\ConstructorWithoutImpurePointsCollector' => 
-    array (
-      0 => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
-    ),
     'PHPStan\\Rules\\DeadCode\\MethodWithoutImpurePointsCollector' => 
     array (
       0 => 
@@ -1516,13 +1551,42 @@ return [
         1 => 'exists',
         2 => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
       ),
+      2 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
+        1 => 'getLogPrefix',
+        2 => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
+      ),
+    ),
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Service\\AbstractFeatureFlagServiceService',
+        1 => '__construct',
+        2 => 26,
+      ),
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PersistentFeatureFlagService.php' => 
   array (
-    'PHPStan\\Rules\\DeadCode\\ConstructorWithoutImpurePointsCollector' => 
+    'PHPStan\\Rules\\DeadCode\\MethodWithoutImpurePointsCollector' => 
     array (
-      0 => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+      0 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+        1 => 'getLogPrefix',
+        2 => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+      ),
+    ),
+    'PHPStan\\Rules\\DeadCode\\PossiblyPureStaticCallCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Service\\AbstractFeatureFlagServiceService',
+        1 => '__construct',
+        2 => 24,
+      ),
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/DbStorage.php' => 
@@ -1627,6 +1691,24 @@ return [
       ),
     ),
   ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/SimpleStrategy.php' => 
+  array (
+    'PHPStan\\Rules\\DeadCode\\MethodWithoutImpurePointsCollector' => 
+    array (
+      0 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Strategy\\SimpleStrategy',
+        1 => 'isEnabled',
+        2 => 'Pulse\\FlagsBundle\\Strategy\\SimpleStrategy',
+      ),
+      1 => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Strategy\\SimpleStrategy',
+        1 => 'getName',
+        2 => 'Pulse\\FlagsBundle\\Strategy\\SimpleStrategy',
+      ),
+    ),
+  ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/UserIdStrategy.php' => 
   array (
     'PHPStan\\Rules\\DeadCode\\MethodWithoutImpurePointsCollector' => 
@@ -1648,65 +1730,92 @@ return [
   ),
 ); },
 	'dependencies' => array (
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CheckFlagCommand.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php' => 
   array (
-    'fileHash' => '0434670bc4f61bf85060796b5649f61614beefc7',
+    'fileHash' => 'ef725a258e78e907d5fafea587e7143df5ee535d',
     'dependentFiles' => 
     array (
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CreateFlagCommand.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/CreateFlagCommand.php' => 
   array (
-    'fileHash' => '367c2c45e27d2b7b551c532ccac53fb0705b3624',
+    'fileHash' => '95bfb564667836a743a4c9e8ca5ad41417463d27',
     'dependentFiles' => 
     array (
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/DisableFlagCommand.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/DisableFlagCommand.php' => 
   array (
-    'fileHash' => '62db74e2e279a48a6e493b1d758af72ea272e125',
+    'fileHash' => '435b0d332a7bb5c254d46c343d25f1c513ba9b07',
     'dependentFiles' => 
     array (
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/EnableFlagCommand.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php' => 
   array (
-    'fileHash' => '83a0666c3539cd5ad7049e44a61182e5ae34afdd',
+    'fileHash' => '2f11a5a6df9f01be13fb800c68447d2d3f72947b',
     'dependentFiles' => 
     array (
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/InitStorageCommand.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/RemoveFlagCommand.php' => 
   array (
-    'fileHash' => 'a11b8e0d13fcac48041b8e4f5eb37053e35782f2',
+    'fileHash' => 'f03133fba4c0eec1c1de250b6245f581f2cfdcf5',
     'dependentFiles' => 
     array (
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/ListFlagsCommand.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/CheckFlagCommand.php' => 
   array (
-    'fileHash' => '2f99a9f53d0ec4d54a7fd4bf94a9f17deeae9432',
+    'fileHash' => 'a980044706053ec98b7f4ec59918e993e30c3bf3',
     'dependentFiles' => 
     array (
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/RemoveFlagCommand.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/ListFlagsCommand.php' => 
   array (
-    'fileHash' => 'e47d67e375792ef2eb949c46fcc8cd6fc9a18730',
+    'fileHash' => 'ca9bd052b4529422d3b4be3292d0345b999232fd',
     'dependentFiles' => 
     array (
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Controller/AdminController.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Setup/InitStorageCommand.php' => 
   array (
-    'fileHash' => 'f65b37d7f54f702e464b5268f14257799b8475a0',
+    'fileHash' => '8ee012c2f43c5f2801bae1445d2fa7f535b01c5a',
     'dependentFiles' => 
     array (
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Constants/Pagination.php' => 
+  array (
+    'fileHash' => '00f726a99c980945ff5bb5cdedcd4ea8ee9906d3',
+    'dependentFiles' => 
+    array (
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/ListFlagsCommand.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/AbstractFeatureFlagServiceService.php',
+      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/FeatureFlagServiceInterface.php',
+      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PermanentFeatureFlagService.php',
+      5 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PersistentFeatureFlagService.php',
+      6 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/DbStorage.php',
+      7 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/PhpStorage.php',
+      8 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/StorageInterface.php',
+      9 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/YamlStorage.php',
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Constants/PercentageStrategy.php' => 
+  array (
+    'fileHash' => '54e2b24a4c60d8e35e0128ff42a1446625931b0b',
+    'dependentFiles' => 
+    array (
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/FlagsConfigurationLoader.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/PercentageStrategy.php',
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/Configuration.php' => 
   array (
-    'fileHash' => '56174b0ecefa0febc819054dbbde5b15bf255fb7',
+    'fileHash' => '22a88f61cf215a49e3a25e3689b61962973caea5',
     'dependentFiles' => 
     array (
       0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/PulseFlagsExtension.php',
@@ -1714,7 +1823,7 @@ return [
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/FlagsConfigurationLoader.php' => 
   array (
-    'fileHash' => '923e80316df97de6b84d23402c8f5f546075ad47',
+    'fileHash' => 'a608af3830ac763de07881ae69697f29d29ef5f6',
     'dependentFiles' => 
     array (
       0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/PulseFlagsExtension.php',
@@ -1722,9 +1831,45 @@ return [
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/PulseFlagsExtension.php' => 
   array (
-    'fileHash' => 'c698bf6e0c17f783561ed12e6c4a7e3d70709e46',
+    'fileHash' => 'f514699d400daa02fa85757ae14b0150aa10cd6c',
     'dependentFiles' => 
     array (
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Enum/FlagStatus.php' => 
+  array (
+    'fileHash' => 'e847558c1ca3ec88b3f5f9d260883d152204efe5',
+    'dependentFiles' => 
+    array (
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/CreateFlagCommand.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php',
+      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PersistentFeatureFlagService.php',
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Enum/StorageFormat.php' => 
+  array (
+    'fileHash' => '8abd1064b107330b1468215c7ce9f170046dbb3b',
+    'dependentFiles' => 
+    array (
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/FlagsConfigurationLoader.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/PulseFlagsExtension.php',
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Enum/Strategy.php' => 
+  array (
+    'fileHash' => 'bb4a4710596650435df64c85a3e2405d09b265e3',
+    'dependentFiles' => 
+    array (
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/FlagsConfigurationLoader.php',
+      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/AbstractFeatureFlagServiceService.php',
+      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/CompositeStrategy.php',
+      5 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/DateRangeStrategy.php',
+      6 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/PercentageStrategy.php',
+      7 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/SimpleStrategy.php',
+      8 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/UserIdStrategy.php',
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/PulseFlagsBundle.php' => 
@@ -1734,70 +1879,88 @@ return [
     array (
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/FeatureFlagInterface.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/AbstractFeatureFlagServiceService.php' => 
   array (
-    'fileHash' => '77ca3ef6712145216466bdbe4d6df784321ab244',
+    'fileHash' => '225266a2b9227526eadc3f5034ecd8dc44a5dd85',
     'dependentFiles' => 
     array (
-      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CheckFlagCommand.php',
-      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CreateFlagCommand.php',
-      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/DisableFlagCommand.php',
-      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/EnableFlagCommand.php',
-      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/ListFlagsCommand.php',
-      5 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/RemoveFlagCommand.php',
-      6 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Controller/AdminController.php',
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/CreateFlagCommand.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/DisableFlagCommand.php',
+      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php',
+      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/RemoveFlagCommand.php',
+      5 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/CheckFlagCommand.php',
+      6 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/ListFlagsCommand.php',
       7 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PermanentFeatureFlagService.php',
       8 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PersistentFeatureFlagService.php',
       9 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Twig/FeatureFlagExtension.php',
     ),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PermanentFeatureFlagService.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/FeatureFlagServiceInterface.php' => 
   array (
-    'fileHash' => 'c23a25d773628406e3fdca3070450233b581691e',
+    'fileHash' => 'dc0e86399556e222e2a4c1f744b00ee16f2dafa0',
     'dependentFiles' => 
     array (
-      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CheckFlagCommand.php',
-      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/ListFlagsCommand.php',
-      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Controller/AdminController.php',
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/CreateFlagCommand.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/DisableFlagCommand.php',
+      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php',
+      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/RemoveFlagCommand.php',
+      5 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/CheckFlagCommand.php',
+      6 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/ListFlagsCommand.php',
+      7 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/AbstractFeatureFlagServiceService.php',
+      8 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PermanentFeatureFlagService.php',
+      9 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PersistentFeatureFlagService.php',
+      10 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Twig/FeatureFlagExtension.php',
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PermanentFeatureFlagService.php' => 
+  array (
+    'fileHash' => '20e09e91a6aa439820644b70f7391e8827a765d8',
+    'dependentFiles' => 
+    array (
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/CheckFlagCommand.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/ListFlagsCommand.php',
       3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Twig/FeatureFlagExtension.php',
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PersistentFeatureFlagService.php' => 
   array (
-    'fileHash' => 'd8e1de2d715d500ed08d8832071041b3b9fbf370',
+    'fileHash' => '9a957fe79e47b15cd95e9b2487d640ca159deaab',
     'dependentFiles' => 
     array (
-      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CheckFlagCommand.php',
-      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CreateFlagCommand.php',
-      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/DisableFlagCommand.php',
-      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/EnableFlagCommand.php',
-      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/ListFlagsCommand.php',
-      5 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/RemoveFlagCommand.php',
-      6 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Controller/AdminController.php',
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/CreateFlagCommand.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/DisableFlagCommand.php',
+      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php',
+      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/RemoveFlagCommand.php',
+      5 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/CheckFlagCommand.php',
+      6 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/ListFlagsCommand.php',
       7 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Twig/FeatureFlagExtension.php',
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/DbStorage.php' => 
   array (
-    'fileHash' => 'c5721a219d6f7ede4e6b5e75d565afc7e5797f19',
+    'fileHash' => '963df13314b4df9a7260bad2d7dec79eb9cce84a',
     'dependentFiles' => 
     array (
-      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/InitStorageCommand.php',
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Setup/InitStorageCommand.php',
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/PhpStorage.php' => 
   array (
-    'fileHash' => 'ebbe6463cc33b039d529a7dfbdaa0eff6dbf1516',
+    'fileHash' => '753911581712912823c1c7625c3479a64824b3d7',
     'dependentFiles' => 
     array (
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/StorageInterface.php' => 
   array (
-    'fileHash' => 'e9d48ef0c303bc8e3914aab6e3bedc77a21d8939',
+    'fileHash' => '43b4bc5e33017dd2fda717ffba42e90bf8242392',
     'dependentFiles' => 
     array (
-      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/InitStorageCommand.php',
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Setup/InitStorageCommand.php',
       1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PersistentFeatureFlagService.php',
       2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/DbStorage.php',
       3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/PhpStorage.php',
@@ -1806,28 +1969,35 @@ return [
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Storage/YamlStorage.php' => 
   array (
-    'fileHash' => '32117dad193e3cb2ec8fc0da9c702f0dede3ca82',
+    'fileHash' => 'c998fd164ec9cca7cc32b726ff282fa8cf7181a8',
     'dependentFiles' => 
     array (
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/CompositeStrategy.php' => 
   array (
-    'fileHash' => '150f17277768242508b5e0e9493ed0b677c1357b',
+    'fileHash' => '6629414f4ed32f17515352ace97d7fc34e82cd26',
     'dependentFiles' => 
     array (
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/DateRangeStrategy.php' => 
   array (
-    'fileHash' => 'a21ce64a0944692dc38048fd454b22a7b9995e7e',
+    'fileHash' => '4c504d6cc55a19ad3decc050fe535b4621da7c4c',
     'dependentFiles' => 
     array (
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/PercentageStrategy.php' => 
   array (
-    'fileHash' => 'c54669c4493243847b73b791e2f78bf5a741f95a',
+    'fileHash' => 'cb1aeb4db0fce3c8f1369c36d3a67d9d3505f95d',
+    'dependentFiles' => 
+    array (
+    ),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/SimpleStrategy.php' => 
+  array (
+    'fileHash' => '4714cbbe47508ffb3b9c4ab91d2e4c5e7dcbbd63',
     'dependentFiles' => 
     array (
     ),
@@ -1837,17 +2007,17 @@ return [
     'fileHash' => '4e1d712ca06a1b5731f19318efc5c44600fb321a',
     'dependentFiles' => 
     array (
-      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PermanentFeatureFlagService.php',
-      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/PersistentFeatureFlagService.php',
-      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/CompositeStrategy.php',
-      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/DateRangeStrategy.php',
-      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/PercentageStrategy.php',
+      0 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/AbstractFeatureFlagServiceService.php',
+      1 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/CompositeStrategy.php',
+      2 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/DateRangeStrategy.php',
+      3 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/PercentageStrategy.php',
+      4 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/SimpleStrategy.php',
       5 => '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/UserIdStrategy.php',
     ),
   ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/UserIdStrategy.php' => 
   array (
-    'fileHash' => 'c86e5677ae2320b2045759c2694eb65f28e2a7c2',
+    'fileHash' => '13d0a9f96c2f778aacd195d32a530a8a7b798127',
     'dependentFiles' => 
     array (
     ),
@@ -1861,1464 +2031,11 @@ return [
   ),
 ),
 	'exportedNodesCallback' => static function (): array { return array (
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CheckFlagCommand.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Admin/Controller/AdminController.php' => 
   array (
     0 => 
     \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Command\\CheckFlagCommand',
-       'phpDoc' => 
-      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-         'phpDocString' => '/**
- * Console command to check if a feature flag is enabled for a given context.
- *
- * Tests feature flag activation with optional context (user_id, session_id)
- * and displays detailed configuration information.
- *
- * @example php bin/console pulse:flags:check my_feature
- * @example php bin/console pulse:flags:check my_feature --user-id=123
- * @example php bin/console pulse:flags:check my_feature --session-id=abc123
- *
- * The command shows:
- * - Current enabled/disabled status with context
- * - Flag type (Permanent or Persistent)
- * - Active strategy and all configuration parameters
- * - Applied context values
- */',
-         'namespace' => 'Pulse\\FlagsBundle\\Command',
-         'uses' => 
-        array (
-          'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
-          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-          'command' => 'Symfony\\Component\\Console\\Command\\Command',
-          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-          'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-        ),
-         'constUses' => 
-        array (
-        ),
-      )),
-       'abstract' => false,
-       'final' => false,
-       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
-       'implements' => 
-      array (
-      ),
-       'usedTraits' => 
-      array (
-      ),
-       'traitUseAdaptations' => 
-      array (
-      ),
-       'statements' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => '__construct',
-           'phpDoc' => NULL,
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => NULL,
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'permanentFlagService',
-               'type' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'persistentFlagService',
-               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        1 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'configure',
-           'phpDoc' => NULL,
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'void',
-           'parameters' => 
-          array (
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        2 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'execute',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Executes the command to check feature flag status.
-     *
-     * Evaluates the flag against provided context and displays detailed
-     * configuration and evaluation result.
-     *
-     * @param InputInterface $input Command input with flag name and context options
-     * @param OutputInterface $output Command output
-     * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'int',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'input',
-               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'output',
-               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-      ),
-       'attributes' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
-           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-           'args' => 
-          array (
-            'name' => '\'pulse:flags:check\'',
-            'description' => '\'Check if a feature flag is enabled\'',
-          ),
-        )),
-      ),
-    )),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/CreateFlagCommand.php' => 
-  array (
-    0 => 
-    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Command\\CreateFlagCommand',
-       'phpDoc' => 
-      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-         'phpDocString' => '/**
- * Console command to create a new persistent feature flag.
- *
- * Creates a new feature flag in persistent storage with minimal configuration.
- * The flag can be enabled or disabled on creation. Additional configuration
- * (strategies, etc.) can be added later via the enable command or
- * through the admin panel.
- *
- * @example php bin/console pulse:flags:create my_new_feature
- * @example php bin/console pulse:flags:create my_new_feature 1
- * @example php bin/console pulse:flags:create my_new_feature true
- *
- * Note: This command creates only persistent flags. To define permanent
- * (static) flags, add them to the YAML configuration files.
- */',
-         'namespace' => 'Pulse\\FlagsBundle\\Command',
-         'uses' => 
-        array (
-          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-          'command' => 'Symfony\\Component\\Console\\Command\\Command',
-          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-        ),
-         'constUses' => 
-        array (
-        ),
-      )),
-       'abstract' => false,
-       'final' => false,
-       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
-       'implements' => 
-      array (
-      ),
-       'usedTraits' => 
-      array (
-      ),
-       'traitUseAdaptations' => 
-      array (
-      ),
-       'statements' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => '__construct',
-           'phpDoc' => NULL,
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => NULL,
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'flagService',
-               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        1 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'configure',
-           'phpDoc' => NULL,
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'void',
-           'parameters' => 
-          array (
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        2 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'execute',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Executes the command to create a new feature flag.
-     *
-     * Creates a flag with minimal configuration (name and enabled status).
-     * Fails if flag already exists.
-     *
-     * @param InputInterface $input Command input with flag name and optional enabled status
-     * @param OutputInterface $output Command output
-     * @return int Command::SUCCESS on success, Command::FAILURE if flag exists
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'int',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'input',
-               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'output',
-               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-      ),
-       'attributes' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
-           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-           'args' => 
-          array (
-            'name' => '\'pulse:flags:create\'',
-            'description' => '\'Create a new feature flag\'',
-          ),
-        )),
-      ),
-    )),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/DisableFlagCommand.php' => 
-  array (
-    0 => 
-    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Command\\DisableFlagCommand',
-       'phpDoc' => 
-      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-         'phpDocString' => '/**
- * Console command to disable a feature flag.
- *
- * Disables persistent (writable) feature flags by setting enabled=false
- * while keeping the configuration in storage.
- *
- * @example
- * # Disable a flag (keeps configuration, sets enabled=false)
- * php bin/console pulse:flags:disable my_feature
- *
- * Note: Only works with persistent flags. Permanent flags are read-only.
- * To remove a flag completely, use pulse:flags:remove command.
- */',
-         'namespace' => 'Pulse\\FlagsBundle\\Command',
-         'uses' => 
-        array (
-          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-          'command' => 'Symfony\\Component\\Console\\Command\\Command',
-          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-        ),
-         'constUses' => 
-        array (
-        ),
-      )),
-       'abstract' => false,
-       'final' => false,
-       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
-       'implements' => 
-      array (
-      ),
-       'usedTraits' => 
-      array (
-      ),
-       'traitUseAdaptations' => 
-      array (
-      ),
-       'statements' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => '__construct',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * @param PersistentFeatureFlagService $flagService Service for managing persistent flags
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => NULL,
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'flagService',
-               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        1 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'configure',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Configures command arguments and options.
-     *
-     * @return void
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'void',
-           'parameters' => 
-          array (
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        2 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'execute',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Executes the command to disable a feature flag.
-     *
-     * Sets the flag\'s enabled status to false while keeping the configuration.
-     *
-     * @param InputInterface $input Command input with flag name
-     * @param OutputInterface $output Command output
-     * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'int',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'input',
-               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'output',
-               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-      ),
-       'attributes' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
-           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-           'args' => 
-          array (
-            'name' => '\'pulse:flags:disable\'',
-            'description' => '\'Disable a feature flag\'',
-          ),
-        )),
-      ),
-    )),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/EnableFlagCommand.php' => 
-  array (
-    0 => 
-    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Command\\EnableFlagCommand',
-       'phpDoc' => 
-      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-         'phpDocString' => '/**
- * Console command to enable a feature flag with optional strategy configuration.
- *
- * Enables persistent (writable) feature flags and allows configuring activation
- * strategies directly from the command line.
- *
- * @example Simple enable
- * php bin/console pulse:flags:enable my_feature
- *
- * @example Enable with percentage rollout
- * php bin/console pulse:flags:enable my_feature --percentage=25
- *
- * @example Enable with date range
- * php bin/console pulse:flags:enable my_feature --start-date=2025-01-01 --end-date=2025-12-31
- *
- * @example Enable with user whitelist
- * php bin/console pulse:flags:enable my_feature --whitelist=123 --whitelist=456
- *
- * Note: Only works with persistent flags. Permanent flags are read-only.
- */',
-         'namespace' => 'Pulse\\FlagsBundle\\Command',
-         'uses' => 
-        array (
-          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-          'command' => 'Symfony\\Component\\Console\\Command\\Command',
-          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-          'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-        ),
-         'constUses' => 
-        array (
-        ),
-      )),
-       'abstract' => false,
-       'final' => false,
-       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
-       'implements' => 
-      array (
-      ),
-       'usedTraits' => 
-      array (
-      ),
-       'traitUseAdaptations' => 
-      array (
-      ),
-       'statements' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => '__construct',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * @param PersistentFeatureFlagService $flagService Service for managing persistent flags
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => NULL,
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'flagService',
-               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        1 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'configure',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Configures command arguments and options.
-     *
-     * @return void
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'void',
-           'parameters' => 
-          array (
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        2 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'execute',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Executes the command to enable a feature flag.
-     *
-     * Configures the flag with enabled=true and applies any provided strategy settings.
-     * Strategy is automatically determined based on provided options.
-     *
-     * @param InputInterface $input Command input with flag name and strategy options
-     * @param OutputInterface $output Command output
-     * @return int Command::SUCCESS on success, Command::FAILURE on validation errors
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'int',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'input',
-               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'output',
-               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-      ),
-       'attributes' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
-           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-           'args' => 
-          array (
-            'name' => '\'pulse:flags:enable\'',
-            'description' => '\'Enable a feature flag\'',
-          ),
-        )),
-      ),
-    )),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/InitStorageCommand.php' => 
-  array (
-    0 => 
-    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Command\\InitStorageCommand',
-       'phpDoc' => 
-      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-         'phpDocString' => '/**
- * Console command to initialize persistent storage backend.
- *
- * Creates necessary database tables, indexes, and other storage structures
- * required for persistent feature flags. Only required for DbStorage backend;
- * other storage types (YAML) don\'t need initialization.
- *
- * @example Interactive initialization (asks for confirmation)
- * php bin/console pulse:flags:init-storage
- *
- * @example Force initialization without confirmation
- * php bin/console pulse:flags:init-storage --force
- *
- * For DbStorage, this command:
- * - Creates the feature flags table (default: pulse_feature_flags)
- * - Creates appropriate indexes
- * - Uses database-specific SQL (MySQL/PostgreSQL/SQLite)
- *
- * Note: Alternatively, you can use Doctrine migrations for database setup.
- */',
-         'namespace' => 'Pulse\\FlagsBundle\\Command',
-         'uses' => 
-        array (
-          'dbstorage' => 'Pulse\\FlagsBundle\\Storage\\DbStorage',
-          'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-          'command' => 'Symfony\\Component\\Console\\Command\\Command',
-          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-          'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-        ),
-         'constUses' => 
-        array (
-        ),
-      )),
-       'abstract' => false,
-       'final' => false,
-       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
-       'implements' => 
-      array (
-      ),
-       'usedTraits' => 
-      array (
-      ),
-       'traitUseAdaptations' => 
-      array (
-      ),
-       'statements' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => '__construct',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * @param StorageInterface $persistentStorage The configured persistent storage backend
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'dbstorage' => 'Pulse\\FlagsBundle\\Storage\\DbStorage',
-              'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => NULL,
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'persistentStorage',
-               'type' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        1 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'configure',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Configures command options.
-     *
-     * @return void
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'dbstorage' => 'Pulse\\FlagsBundle\\Storage\\DbStorage',
-              'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'void',
-           'parameters' => 
-          array (
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        2 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'execute',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Executes the command to initialize persistent storage.
-     *
-     * Only performs initialization for DbStorage backend. Other storage
-     * types (YAML) are skipped with a warning message.
-     *
-     * @param InputInterface $input Command input with optional --force flag
-     * @param OutputInterface $output Command output
-     * @return int Command::SUCCESS on success or skip, Command::FAILURE on error
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'dbstorage' => 'Pulse\\FlagsBundle\\Storage\\DbStorage',
-              'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'int',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'input',
-               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'output',
-               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-      ),
-       'attributes' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
-           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-           'args' => 
-          array (
-            'name' => '\'pulse:flags:init-storage\'',
-            'description' => '\'Initialize persistent storage (create tables, indexes, etc.)\'',
-          ),
-        )),
-      ),
-    )),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/ListFlagsCommand.php' => 
-  array (
-    0 => 
-    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Command\\ListFlagsCommand',
-       'phpDoc' => 
-      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-         'phpDocString' => '/**
- * Console command to list all feature flags in the system.
- *
- * Displays both permanent (configuration-based) and persistent (database/cache)
- * flags in a formatted table with their current status, strategy, and details.
- *
- * @example List all flags
- * php bin/console pulse:flags:list
- *
- * Output includes:
- * - Flag name
- * - Description
- * - Enabled/Disabled status
- * - Type (Permanent/Persistent)
- * - Active strategy
- * - Strategy-specific details (percentage, dates, etc.)
- */',
-         'namespace' => 'Pulse\\FlagsBundle\\Command',
-         'uses' => 
-        array (
-          'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
-          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-          'command' => 'Symfony\\Component\\Console\\Command\\Command',
-          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-        ),
-         'constUses' => 
-        array (
-        ),
-      )),
-       'abstract' => false,
-       'final' => false,
-       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
-       'implements' => 
-      array (
-      ),
-       'usedTraits' => 
-      array (
-      ),
-       'traitUseAdaptations' => 
-      array (
-      ),
-       'statements' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => '__construct',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * @param PermanentFeatureFlagService $permanentFlagService Service for permanent flags
-     * @param PersistentFeatureFlagService $persistentFlagService Service for persistent flags
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => NULL,
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'permanentFlagService',
-               'type' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'persistentFlagService',
-               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        1 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'execute',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Executes the command to display all feature flags.
-     *
-     * @param InputInterface $input Command input
-     * @param OutputInterface $output Command output
-     * @return int Command::SUCCESS on success
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'int',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'input',
-               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'output',
-               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-      ),
-       'attributes' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
-           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-           'args' => 
-          array (
-            'name' => '\'pulse:flags:list\'',
-            'description' => '\'List all feature flags (permanent and persistent)\'',
-          ),
-        )),
-      ),
-    )),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/RemoveFlagCommand.php' => 
-  array (
-    0 => 
-    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Command\\RemoveFlagCommand',
-       'phpDoc' => 
-      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-         'phpDocString' => '/**
- * Console command to remove a feature flag completely from storage.
- *
- * Permanently deletes persistent (writable) feature flags from the database.
- * This operation cannot be undone.
- *
- * @example
- * # Remove a flag completely
- * php bin/console pulse:flags:remove my_feature
- *
- * Note: Only works with persistent flags. Permanent flags are read-only
- * and defined in configuration files.
- */',
-         'namespace' => 'Pulse\\FlagsBundle\\Command',
-         'uses' => 
-        array (
-          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-          'command' => 'Symfony\\Component\\Console\\Command\\Command',
-          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-        ),
-         'constUses' => 
-        array (
-        ),
-      )),
-       'abstract' => false,
-       'final' => false,
-       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
-       'implements' => 
-      array (
-      ),
-       'usedTraits' => 
-      array (
-      ),
-       'traitUseAdaptations' => 
-      array (
-      ),
-       'statements' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => '__construct',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * @param PersistentFeatureFlagService $flagService Service for managing persistent flags
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => NULL,
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'flagService',
-               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        1 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'configure',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Configures command arguments.
-     *
-     * @return void
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'void',
-           'parameters' => 
-          array (
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        2 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'execute',
-           'phpDoc' => 
-          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
-             'phpDocString' => '/**
-     * Executes the command to remove a feature flag.
-     *
-     * Permanently deletes the flag from persistent storage.
-     *
-     * @param InputInterface $input Command input with flag name
-     * @param OutputInterface $output Command output
-     * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
-     */',
-             'namespace' => 'Pulse\\FlagsBundle\\Command',
-             'uses' => 
-            array (
-              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
-              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-              'command' => 'Symfony\\Component\\Console\\Command\\Command',
-              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
-              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
-            ),
-             'constUses' => 
-            array (
-            ),
-          )),
-           'byRef' => false,
-           'public' => false,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'int',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'input',
-               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'output',
-               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-      ),
-       'attributes' => 
-      array (
-        0 => 
-        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
-           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
-           'args' => 
-          array (
-            'name' => '\'pulse:flags:remove\'',
-            'description' => '\'Remove a feature flag completely from storage\'',
-          ),
-        )),
-      ),
-    )),
-  ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Controller/AdminController.php' => 
-  array (
-    0 => 
-    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Controller\\AdminController',
+       'name' => 'Pulse\\FlagsBundle\\Admin\\Controller\\AdminController',
        'phpDoc' => 
       \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
          'phpDocString' => '/**
@@ -3336,23 +2053,15 @@ return [
  * - PUT/PATCH /admin/pulse-flags/flags/{name} - Update flag configuration
  * - POST /admin/pulse-flags/flags - Create new flag
  * - DELETE /admin/pulse-flags/flags/{name} - Delete flag
- *
- * Security:
- * - All modification endpoints return 403 for permanent flags
- * - Only persistent flags can be created, updated, or deleted
- * - Optional confirmation dialogs configurable via pulse_flags.admin.require_confirmation
- *
- * UI Features:
- * - Real-time flag management with JavaScript
- * - Color-coded status indicators
- * - Strategy-specific configuration forms
- * - Readonly indicators for permanent flags
  */',
-         'namespace' => 'Pulse\\FlagsBundle\\Controller',
+         'namespace' => 'Pulse\\FlagsBundle\\Admin\\Controller',
          'uses' => 
         array (
           'exception' => 'Exception',
           'jsonexception' => 'JsonException',
+          'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+          'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+          'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
           'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
           'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
           'abstractcontroller' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController',
@@ -3607,11 +2316,14 @@ return [
              'phpDocString' => '/**
      * @throws JsonException
      */',
-             'namespace' => 'Pulse\\FlagsBundle\\Controller',
+             'namespace' => 'Pulse\\FlagsBundle\\Admin\\Controller',
              'uses' => 
             array (
               'exception' => 'Exception',
               'jsonexception' => 'JsonException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
               'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
               'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
               'abstractcontroller' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController',
@@ -3776,6 +2488,1634 @@ return [
       ),
     )),
   ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/CreateFlagCommand.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Command\\Flag\\CreateFlagCommand',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Console command to create a new persistent feature flag.
+ *
+ * Creates a new feature flag in persistent storage with minimal configuration.
+ * The flag can be enabled or disabled on creation. Additional configuration
+ * (strategies, etc.) can be added later via the enable command or
+ * through the admin panel.
+ *
+ * @example Create a disabled flag:
+ * php bin/console pulse:flags:create my_new_feature
+ *
+ * @example Create an enabled flag (numeric format):
+ * php bin/console pulse:flags:create my_new_feature 1
+ *
+ * @example Create an enabled flag (boolean format):
+ * php bin/console pulse:flags:create my_new_feature true
+ *
+ * Note: This command creates only persistent flags. To define permanent
+ * (static) flags, add them to the YAML configuration files.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Command\\Flag',
+         'uses' => 
+        array (
+          'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+          'command' => 'Symfony\\Component\\Console\\Command\\Command',
+          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => false,
+       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => '__construct',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => NULL,
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'flagService',
+               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'configure',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'void',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'execute',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Executes the command to create a new feature flag.
+     *
+     * Creates a flag with minimal configuration (name and enabled status).
+     *
+     * @return int Command::SUCCESS on success, Command::FAILURE if flag exists
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Command\\Flag',
+             'uses' => 
+            array (
+              'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+              'command' => 'Symfony\\Component\\Console\\Command\\Command',
+              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'int',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'input',
+               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'output',
+               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
+           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+           'args' => 
+          array (
+            'name' => '\'pulse:flags:create\'',
+            'description' => '\'Create a new feature flag\'',
+          ),
+        )),
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/DisableFlagCommand.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Command\\Flag\\DisableFlagCommand',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Console command to disable a feature flag.
+ *
+ * Disables persistent (writable) feature flags by setting enabled=false
+ * while keeping the configuration in storage.
+ *
+ * @example Disable an existing feature flag:
+ * php bin/console pulse:flags:disable my_feature
+ *
+ * Note: Only works with persistent flags. Permanent flags are read-only.
+ * To remove a flag completely, use pulse:flags:remove command.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Command\\Flag',
+         'uses' => 
+        array (
+          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+          'command' => 'Symfony\\Component\\Console\\Command\\Command',
+          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => false,
+       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => '__construct',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => NULL,
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'flagService',
+               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'configure',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'void',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'execute',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Executes the command to disable a feature flag.
+     *
+     * Sets the flag\'s enabled status to false while keeping the configuration.
+     *
+     * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Command\\Flag',
+             'uses' => 
+            array (
+              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+              'command' => 'Symfony\\Component\\Console\\Command\\Command',
+              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'int',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'input',
+               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'output',
+               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
+           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+           'args' => 
+          array (
+            'name' => '\'pulse:flags:disable\'',
+            'description' => '\'Disable a feature flag\'',
+          ),
+        )),
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/EnableFlagCommand.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Command\\Flag\\EnableFlagCommand',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Console command to enable a feature flag with optional strategy configuration.
+ *
+ * Enables persistent (writable) feature flags and allows configuring activation
+ * strategies directly from the command line.
+ *
+ * @example Simple enable
+ * php bin/console pulse:flags:enable my_feature
+ *
+ * @example Enable with percentage rollout
+ * php bin/console pulse:flags:enable my_feature --percentage=25
+ *
+ * @example Enable with date range
+ * php bin/console pulse:flags:enable my_feature --start-date=2025-01-01 --end-date=2025-12-31
+ *
+ * @example Enable with user whitelist
+ * php bin/console pulse:flags:enable my_feature --whitelist=123 --whitelist=456
+ *
+ * Note: Only works with persistent flags. Permanent flags are read-only.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Command\\Flag',
+         'uses' => 
+        array (
+          'percentageconstants' => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
+          'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+          'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+          'command' => 'Symfony\\Component\\Console\\Command\\Command',
+          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+          'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
+          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => false,
+       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => '__construct',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => NULL,
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'flagService',
+               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'configure',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'void',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'execute',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Executes the command to enable a feature flag.
+     *
+     * Configures the flag with enabled=true and applies any provided strategy settings.
+     * Strategy is automatically determined based on provided options.
+     *
+     * @return int Command::SUCCESS on success, Command::FAILURE on validation errors
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Command\\Flag',
+             'uses' => 
+            array (
+              'percentageconstants' => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
+              'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+              'command' => 'Symfony\\Component\\Console\\Command\\Command',
+              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
+              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'int',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'input',
+               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'output',
+               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
+           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+           'args' => 
+          array (
+            'name' => '\'pulse:flags:enable\'',
+            'description' => '\'Enable a feature flag\'',
+          ),
+        )),
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Flag/RemoveFlagCommand.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Command\\Flag\\RemoveFlagCommand',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Console command to remove a feature flag completely from storage.
+ *
+ * Permanently deletes persistent (writable) feature flags from the database.
+ * This operation cannot be undone.
+ *
+ * @example Remove a flag completely
+ * php bin/console pulse:flags:remove my_feature
+ *
+ * Note: Only works with persistent flags. Permanent flags are read-only
+ * and defined in configuration files.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Command\\Flag',
+         'uses' => 
+        array (
+          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+          'command' => 'Symfony\\Component\\Console\\Command\\Command',
+          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => false,
+       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => '__construct',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => NULL,
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'flagService',
+               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'configure',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'void',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'execute',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Executes the command to remove a feature flag.
+     *
+     * Permanently deletes the flag from persistent storage.
+     *
+     * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Command\\Flag',
+             'uses' => 
+            array (
+              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+              'command' => 'Symfony\\Component\\Console\\Command\\Command',
+              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'int',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'input',
+               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'output',
+               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
+           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+           'args' => 
+          array (
+            'name' => '\'pulse:flags:remove\'',
+            'description' => '\'Remove a feature flag completely from storage\'',
+          ),
+        )),
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/CheckFlagCommand.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Command\\Query\\CheckFlagCommand',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Console command to check if a feature flag is enabled for a given context.
+ *
+ * Tests feature flag activation with optional context (user_id, session_id)
+ * and display detailed configuration information.
+ *
+ * @example Check flag status without context:
+ * php bin/console pulse:flags:check my_feature
+ *
+ * @example Check flag status with user context:
+ * php bin/console pulse:flags:check my_feature --user-id=123
+ *
+ * @example Check flag status with session context:
+ * php bin/console pulse:flags:check my_feature --session-id=abc123
+ *
+ * The command shows:
+ * - Current enabled/disabled status with context
+ * - Flag type (Permanent or Persistent)
+ * - Active strategy and all configuration parameters
+ * - Applied context values
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Command\\Query',
+         'uses' => 
+        array (
+          'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
+          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+          'command' => 'Symfony\\Component\\Console\\Command\\Command',
+          'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+          'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
+          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => false,
+       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => '__construct',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => NULL,
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'permanentFlagService',
+               'type' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'persistentFlagService',
+               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'configure',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'void',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'execute',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Executes the command to check feature flag status.
+     *
+     * Evaluates the flag against provided context and displays detailed
+     * configuration and evaluation result.
+     *
+     * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Command\\Query',
+             'uses' => 
+            array (
+              'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
+              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+              'command' => 'Symfony\\Component\\Console\\Command\\Command',
+              'inputargument' => 'Symfony\\Component\\Console\\Input\\InputArgument',
+              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
+              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'int',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'input',
+               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'output',
+               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
+           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+           'args' => 
+          array (
+            'name' => '\'pulse:flags:check\'',
+            'description' => '\'Check if a feature flag is enabled\'',
+          ),
+        )),
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Query/ListFlagsCommand.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Command\\Query\\ListFlagsCommand',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Console command to list all feature flags in the system.
+ *
+ * Displays both permanent (configuration-based) and persistent (database/cache)
+ * flags in a formatted table with their current status, strategy, and details.
+ *
+ * @example List all flags
+ * php bin/console pulse:flags:list
+ *
+ * Output includes:
+ * - Flag name
+ * - Description
+ * - Enabled/Disabled status
+ * - Type (Permanent/Persistent)
+ * - Active strategy
+ * - Strategy-specific details (percentage, dates, etc.)
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Command\\Query',
+         'uses' => 
+        array (
+          'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+          'featureflagserviceinterface' => 'Pulse\\FlagsBundle\\Service\\FeatureFlagServiceInterface',
+          'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
+          'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+          'command' => 'Symfony\\Component\\Console\\Command\\Command',
+          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => false,
+       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => '__construct',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => NULL,
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'permanentFlagService',
+               'type' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'persistentFlagService',
+               'type' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'execute',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Executes the command to display all feature flags.
+     *
+     * @return int Command::SUCCESS on success
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Command\\Query',
+             'uses' => 
+            array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'featureflagserviceinterface' => 'Pulse\\FlagsBundle\\Service\\FeatureFlagServiceInterface',
+              'permanentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PermanentFeatureFlagService',
+              'persistentfeatureflagservice' => 'Pulse\\FlagsBundle\\Service\\PersistentFeatureFlagService',
+              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+              'command' => 'Symfony\\Component\\Console\\Command\\Command',
+              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'int',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'input',
+               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'output',
+               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
+           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+           'args' => 
+          array (
+            'name' => '\'pulse:flags:list\'',
+            'description' => '\'List all feature flags (permanent and persistent)\'',
+          ),
+        )),
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Command/Setup/InitStorageCommand.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Command\\Setup\\InitStorageCommand',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Console command to initialize persistent storage backend.
+ *
+ * Creates necessary database tables, indexes, and other storage structures
+ * required for persistent feature flags. Only required for DbStorage backend;
+ * other storage types (YAML) don\'t need initialization.
+ *
+ * @example Interactive initialization (asks for confirmation)
+ * php bin/console pulse:flags:init-storage
+ *
+ * @example Force initialization without confirmation
+ * php bin/console pulse:flags:init-storage --force
+ *
+ * For DbStorage, this command:
+ * - Creates the feature flags table (default: pulse_feature_flags)
+ * - Creates appropriate indexes
+ * - Uses database-specific SQL (MySQL/PostgreSQL/SQLite)
+ *
+ * Note: Alternatively, you can use Doctrine migrations for database setup.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Command\\Setup',
+         'uses' => 
+        array (
+          'dbstorage' => 'Pulse\\FlagsBundle\\Storage\\DbStorage',
+          'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
+          'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+          'command' => 'Symfony\\Component\\Console\\Command\\Command',
+          'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+          'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
+          'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+          'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => false,
+       'extends' => 'Symfony\\Component\\Console\\Command\\Command',
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => '__construct',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => NULL,
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'persistentStorage',
+               'type' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'configure',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'void',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'execute',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Executes the command to initialize persistent storage.
+     *
+     * Only performs initialization for DbStorage backend. Other storage
+     * types (YAML) are skipped with a warning message.
+     *
+     * @return int Command::SUCCESS on success or skip, Command::FAILURE on error
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Command\\Setup',
+             'uses' => 
+            array (
+              'dbstorage' => 'Pulse\\FlagsBundle\\Storage\\DbStorage',
+              'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
+              'ascommand' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+              'command' => 'Symfony\\Component\\Console\\Command\\Command',
+              'inputinterface' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+              'inputoption' => 'Symfony\\Component\\Console\\Input\\InputOption',
+              'outputinterface' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+              'symfonystyle' => 'Symfony\\Component\\Console\\Style\\SymfonyStyle',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'int',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'input',
+               'type' => 'Symfony\\Component\\Console\\Input\\InputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'output',
+               'type' => 'Symfony\\Component\\Console\\Output\\OutputInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedAttributeNode::__set_state(array(
+           'name' => 'Symfony\\Component\\Console\\Attribute\\AsCommand',
+           'args' => 
+          array (
+            'name' => '\'pulse:flags:init-storage\'',
+            'description' => '\'Initialize persistent storage (create tables, indexes, etc.)\'',
+          ),
+        )),
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Constants/Pagination.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Pagination configuration constants.
+ *
+ * Centralizes pagination limits to ensure consistent behavior
+ * across the application.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Constants',
+         'uses' => 
+        array (
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => true,
+       'extends' => NULL,
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'DEFAULT_LIMIT',
+               'value' => '50',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Default number of items per page.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'MAX_LIMIT',
+               'value' => '100',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Maximum number of items per page.
+     * Used to prevent excessive memory usage and improve performance.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'DEFAULT_PAGE',
+               'value' => '1',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Default page number (first page).
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        3 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'MIN_PAGE',
+               'value' => '1',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Minimum page number.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        4 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'MIN_LIMIT',
+               'value' => '1',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Minimum items per page.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+      ),
+       'attributes' => 
+      array (
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Constants/PercentageStrategy.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Percentage strategy configuration constants.
+ *
+ * Defines boundaries and behavior for percentage-based feature flag rollouts.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Constants',
+         'uses' => 
+        array (
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => true,
+       'extends' => NULL,
+       'implements' => 
+      array (
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'MIN_PERCENTAGE',
+               'value' => '0',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Minimum percentage value (fully disabled).
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'MAX_PERCENTAGE',
+               'value' => '100',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Maximum percentage value (fully enabled).
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'DEFAULT_PERCENTAGE',
+               'value' => '100',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Default percentage when not specified.
+     * 100 means the feature is fully enabled.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        3 => 
+        \PHPStan\Dependency\ExportedNode\ExportedClassConstantsNode::__set_state(array(
+           'constants' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedClassConstantNode::__set_state(array(
+               'name' => 'HASH_BUCKETS',
+               'value' => '100',
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'public' => true,
+           'private' => false,
+           'final' => false,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Number of buckets for consistent hashing.
+     * Users are distributed into 100 buckets (0-99) using CRC32.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Constants',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+      ),
+       'attributes' => 
+      array (
+      ),
+    )),
+  ),
   '/Users/nskvorcov/Projects/pulse-flags-bundle/src/DependencyInjection/Configuration.php' => 
   array (
     0 => 
@@ -3790,17 +4130,6 @@ return [
  * Manages settings for permanent storage format, persistent storage backend,
  * database connections, and admin panel behavior.
  *
- * Configuration structure:
- * ```yaml
- * pulse_flags:
- *     permanent_storage: yaml|php
- *     persistent_storage: db
- *     db:
- *         dsn: DATABASE_URL
- *         table: pulse_feature_flags
- *     admin:
- *         require_confirmation: true
- * ```
  */',
          'namespace' => 'Pulse\\FlagsBundle\\DependencyInjection',
          'uses' => 
@@ -3877,14 +4206,14 @@ return [
            'phpDoc' => 
           \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
              'phpDocString' => '/**
-     * Load all feature flag configurations from config/pulse_flags directory
+     * Load all feature flag configurations from the config/pulse_flags directory
      *
      * All flags loaded from config files are considered permanent (read-only).
      * Files are namespaced by filename (without extension)
      * Example: config/pulse_flags/core.yaml -> flags prefixed with "core."
      *
      * @param string $configDir Config directory path
-     * @param string $format Storage format (yaml, php)
+     * @param StorageFormat $format Storage format (YAML or PHP)
      * @return array<string, array<string, mixed>> Permanent flags configuration
      */',
              'namespace' => 'Pulse\\FlagsBundle\\DependencyInjection',
@@ -3893,6 +4222,9 @@ return [
               'datetime' => 'DateTime',
               'exception' => 'Exception',
               'invalidargumentexception' => 'InvalidArgumentException',
+              'percentageconstants' => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
+              'storageformat' => 'Pulse\\FlagsBundle\\Enum\\StorageFormat',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
               'yaml' => 'Symfony\\Component\\Yaml\\Yaml',
             ),
              'constUses' => 
@@ -3922,7 +4254,7 @@ return [
             1 => 
             \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
                'name' => 'format',
-               'type' => 'string',
+               'type' => 'Pulse\\FlagsBundle\\Enum\\StorageFormat',
                'byRef' => false,
                'variadic' => false,
                'hasDefault' => true,
@@ -3950,6 +4282,9 @@ return [
               'datetime' => 'DateTime',
               'exception' => 'Exception',
               'invalidargumentexception' => 'InvalidArgumentException',
+              'percentageconstants' => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
+              'storageformat' => 'Pulse\\FlagsBundle\\Enum\\StorageFormat',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
               'yaml' => 'Symfony\\Component\\Yaml\\Yaml',
             ),
              'constUses' => 
@@ -4027,6 +4362,7 @@ return [
         array (
           'exception' => 'Exception',
           'invalidargumentexception' => 'InvalidArgumentException',
+          'storageformat' => 'Pulse\\FlagsBundle\\Enum\\StorageFormat',
           'filelocator' => 'Symfony\\Component\\Config\\FileLocator',
           'containerbuilder' => 'Symfony\\Component\\DependencyInjection\\ContainerBuilder',
           'yamlfileloader' => 'Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader',
@@ -4071,6 +4407,7 @@ return [
             array (
               'exception' => 'Exception',
               'invalidargumentexception' => 'InvalidArgumentException',
+              'storageformat' => 'Pulse\\FlagsBundle\\Enum\\StorageFormat',
               'filelocator' => 'Symfony\\Component\\Config\\FileLocator',
               'containerbuilder' => 'Symfony\\Component\\DependencyInjection\\ContainerBuilder',
               'yamlfileloader' => 'Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader',
@@ -4133,6 +4470,7 @@ return [
             array (
               'exception' => 'Exception',
               'invalidargumentexception' => 'InvalidArgumentException',
+              'storageformat' => 'Pulse\\FlagsBundle\\Enum\\StorageFormat',
               'filelocator' => 'Symfony\\Component\\Config\\FileLocator',
               'containerbuilder' => 'Symfony\\Component\\DependencyInjection\\ContainerBuilder',
               'yamlfileloader' => 'Symfony\\Component\\DependencyInjection\\Loader\\YamlFileLoader',
@@ -4155,6 +4493,372 @@ return [
            'attributes' => 
           array (
           ),
+        )),
+      ),
+       'attributes' => 
+      array (
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Enum/FlagStatus.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedEnumNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
+       'scalarType' => NULL,
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Feature flag status.
+ *
+ * Represents the enabled/disabled state of a feature flag.
+ *
+ * Example usage:
+ * ```php
+ * // Create status from boolean
+ * $status = FlagStatus::fromBool(true);
+ *
+ * // Convert status to boolean
+ * $enabled = $status->toBool(); // true
+ *
+ * // Get human-readable label
+ * $label = $status->label(); // "Enabled"
+ *
+ * // Use in configuration
+ * $config = [\'enabled\' => FlagStatus::ENABLED->toBool()];
+ * ```
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Enum',
+         'uses' => 
+        array (
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'implements' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'ENABLED',
+           'value' => NULL,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Flag is enabled - feature is active.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'DISABLED',
+           'value' => NULL,
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Flag is disabled - feature is inactive.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'toBool',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Converts enum value to boolean.
+     *
+     * @return bool True if enabled, false if disabled
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'bool',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        3 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'fromBool',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Creates enum from boolean value.
+     *
+     * @param bool $enabled True for enabled, false for disabled
+     * @return self FlagStatus enum value
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => true,
+           'returnType' => 'self',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'enabled',
+               'type' => 'bool',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        4 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'label',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Returns human-readable label for the status.
+     *
+     * @return string Status label
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'string',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Enum/StorageFormat.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedEnumNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Enum\\StorageFormat',
+       'scalarType' => 'string',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Storage format types for feature flags configuration.
+ *
+ * Defines the supported file formats for storing permanent (read-only)
+ * feature flags configuration.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Enum',
+         'uses' => 
+        array (
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'implements' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'YAML',
+           'value' => '\'yaml\'',
+           'phpDoc' => NULL,
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'PHP',
+           'value' => '\'php\'',
+           'phpDoc' => NULL,
+        )),
+      ),
+       'attributes' => 
+      array (
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Enum/Strategy.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedEnumNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+       'scalarType' => 'string',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Feature flag activation strategies.
+ *
+ * Defines available strategies for controlling when and how
+ * feature flags are enabled for users.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Enum',
+         'uses' => 
+        array (
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'implements' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'SIMPLE',
+           'value' => '\'simple\'',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Simple on/off toggle strategy.
+     * Always returns true when flag is enabled, no additional conditions.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'PERCENTAGE',
+           'value' => '\'percentage\'',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Percentage-based rollout strategy.
+     * Enables features for a specified percentage of users (0-100)
+     * using consistent hash-based bucketing.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'USER_ID',
+           'value' => '\'user_id\'',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * User ID whitelist/blacklist strategy.
+     * Controls access based on specific user IDs.
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        3 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'DATE_RANGE',
+           'value' => '\'date_range\'',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Date range strategy.
+     * Enables features only within a specified time period
+     * (between start_date and end_date).
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+        )),
+        4 => 
+        \PHPStan\Dependency\ExportedNode\ExportedEnumCaseNode::__set_state(array(
+           'name' => 'COMPOSITE',
+           'value' => '\'composite\'',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Composite strategy.
+     * Combines multiple strategies with logical operators (AND/OR).
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Enum',
+             'uses' => 
+            array (
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
         )),
       ),
        'attributes' => 
@@ -4251,11 +4955,417 @@ return [
       ),
     )),
   ),
-  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/FeatureFlagInterface.php' => 
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/AbstractFeatureFlagServiceService.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Service\\AbstractFeatureFlagServiceService',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Abstract base service for feature flag management
+ *
+ * Provides common functionality for both permanent and persistent feature flags,
+ * including strategy management and flag evaluation logic.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Service',
+         'uses' => 
+        array (
+          'loggerinterface' => 'Psr\\Log\\LoggerInterface',
+          'nulllogger' => 'Psr\\Log\\NullLogger',
+          'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+          'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+          'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => true,
+       'final' => false,
+       'extends' => NULL,
+       'implements' => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Service\\FeatureFlagServiceInterface',
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedPropertiesNode::__set_state(array(
+           'names' => 
+          array (
+            0 => 'strategies',
+          ),
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/** @var array<string, StrategyInterface> */',
+             'namespace' => 'Pulse\\FlagsBundle\\Service',
+             'uses' => 
+            array (
+              'loggerinterface' => 'Psr\\Log\\LoggerInterface',
+              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'type' => 'array',
+           'public' => false,
+           'private' => false,
+           'static' => false,
+           'readonly' => false,
+           'abstract' => false,
+           'final' => false,
+           'publicSet' => false,
+           'protectedSet' => false,
+           'privateSet' => false,
+           'virtual' => false,
+           'attributes' => 
+          array (
+          ),
+           'hooks' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedPropertiesNode::__set_state(array(
+           'names' => 
+          array (
+            0 => 'logger',
+          ),
+           'phpDoc' => NULL,
+           'type' => '?Psr\\Log\\LoggerInterface',
+           'public' => false,
+           'private' => false,
+           'static' => false,
+           'readonly' => false,
+           'abstract' => false,
+           'final' => false,
+           'publicSet' => false,
+           'protectedSet' => false,
+           'privateSet' => false,
+           'virtual' => false,
+           'attributes' => 
+          array (
+          ),
+           'hooks' => 
+          array (
+          ),
+        )),
+        2 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => '__construct',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => NULL,
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'logger',
+               'type' => '?Psr\\Log\\LoggerInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => true,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        3 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'addStrategy',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'void',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'strategy',
+               'type' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        4 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'isEnabled',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'bool',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'name',
+               'type' => 'string',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'context',
+               'type' => 'array',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => true,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        5 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'getConfig',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Get flag configuration
+     *
+     * @param string $name Flag name
+     * @return array<string, mixed>|null Flag configuration or null if not found
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Service',
+             'uses' => 
+            array (
+              'loggerinterface' => 'Psr\\Log\\LoggerInterface',
+              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => true,
+           'final' => false,
+           'static' => false,
+           'returnType' => '?array',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'name',
+               'type' => 'string',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        6 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'exists',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Check if flag exists
+     *
+     * @param string $name Flag name
+     * @return bool True if flag exists
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Service',
+             'uses' => 
+            array (
+              'loggerinterface' => 'Psr\\Log\\LoggerInterface',
+              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => true,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'bool',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'name',
+               'type' => 'string',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        7 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'paginate',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Get paginated list of flags
+     *
+     * @param int $page Page number (1-indexed)
+     * @param int $limit Items per page (capped at MAX_LIMIT)
+     * @return array{flags: array<string, array<string, mixed>>, pagination: array{total: int, page: int, pages: int, limit: int}}
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Service',
+             'uses' => 
+            array (
+              'loggerinterface' => 'Psr\\Log\\LoggerInterface',
+              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => true,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'array',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'page',
+               'type' => 'int',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => true,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'limit',
+               'type' => 'int',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => true,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        8 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'getLogPrefix',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Get log message prefix for this service type
+     *
+     * @return string Log prefix (e.g., "Permanent", "Persistent")
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Service',
+             'uses' => 
+            array (
+              'loggerinterface' => 'Psr\\Log\\LoggerInterface',
+              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => true,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'string',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Service/FeatureFlagServiceInterface.php' => 
   array (
     0 => 
     \PHPStan\Dependency\ExportedNode\ExportedInterfaceNode::__set_state(array(
-       'name' => 'Pulse\\FlagsBundle\\Service\\FeatureFlagInterface',
+       'name' => 'Pulse\\FlagsBundle\\Service\\FeatureFlagServiceInterface',
        'phpDoc' => NULL,
        'extends' => 
       array (
@@ -4277,6 +5387,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Service',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -4332,6 +5443,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Service',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -4376,6 +5488,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Service',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -4414,13 +5527,14 @@ return [
              'phpDocString' => '/**
      * Get paginated flags
      *
-     * @param int $page Page number (1-indexed, defaults to 1)
-     * @param int $limit Items per page (max 100, defaults to 50)
+     * @param int $page Page number (1-indexed)
+     * @param int $limit Items per page (capped at MAX_LIMIT)
      * @return array{flags: array<string, array<string, mixed>>, pagination: array{total: int, page: int, pages: int, limit: int}}
      */',
              'namespace' => 'Pulse\\FlagsBundle\\Service',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -4482,8 +5596,7 @@ return [
          'uses' => 
         array (
           'loggerinterface' => 'Psr\\Log\\LoggerInterface',
-          'nulllogger' => 'Psr\\Log\\NullLogger',
-          'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+          'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
         ),
          'constUses' => 
         array (
@@ -4491,10 +5604,9 @@ return [
       )),
        'abstract' => false,
        'final' => false,
-       'extends' => NULL,
+       'extends' => 'Pulse\\FlagsBundle\\Service\\AbstractFeatureFlagServiceService',
        'implements' => 
       array (
-        0 => 'Pulse\\FlagsBundle\\Service\\FeatureFlagInterface',
       ),
        'usedTraits' => 
       array (
@@ -4517,8 +5629,7 @@ return [
              'uses' => 
             array (
               'loggerinterface' => 'Psr\\Log\\LoggerInterface',
-              'nulllogger' => 'Psr\\Log\\NullLogger',
-              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -4562,75 +5673,6 @@ return [
         )),
         1 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'addStrategy',
-           'phpDoc' => NULL,
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'void',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'strategy',
-               'type' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        2 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'isEnabled',
-           'phpDoc' => NULL,
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'bool',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'name',
-               'type' => 'string',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'context',
-               'type' => 'array',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => true,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        3 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'getConfig',
            'phpDoc' => NULL,
            'byRef' => false,
@@ -4658,7 +5700,7 @@ return [
           array (
           ),
         )),
-        4 => 
+        2 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'exists',
            'phpDoc' => NULL,
@@ -4687,7 +5729,7 @@ return [
           array (
           ),
         )),
-        5 => 
+        3 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'paginate',
            'phpDoc' => NULL,
@@ -4727,6 +5769,24 @@ return [
           array (
           ),
         )),
+        4 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'getLogPrefix',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'string',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
       ),
        'attributes' => 
       array (
@@ -4750,9 +5810,9 @@ return [
          'uses' => 
         array (
           'loggerinterface' => 'Psr\\Log\\LoggerInterface',
-          'nulllogger' => 'Psr\\Log\\NullLogger',
+          'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+          'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
           'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-          'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
         ),
          'constUses' => 
         array (
@@ -4760,10 +5820,9 @@ return [
       )),
        'abstract' => false,
        'final' => false,
-       'extends' => NULL,
+       'extends' => 'Pulse\\FlagsBundle\\Service\\AbstractFeatureFlagServiceService',
        'implements' => 
       array (
-        0 => 'Pulse\\FlagsBundle\\Service\\FeatureFlagInterface',
       ),
        'usedTraits' => 
       array (
@@ -4815,75 +5874,6 @@ return [
         )),
         1 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'addStrategy',
-           'phpDoc' => NULL,
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'void',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'strategy',
-               'type' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        2 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
-           'name' => 'isEnabled',
-           'phpDoc' => NULL,
-           'byRef' => false,
-           'public' => true,
-           'private' => false,
-           'abstract' => false,
-           'final' => false,
-           'static' => false,
-           'returnType' => 'bool',
-           'parameters' => 
-          array (
-            0 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'name',
-               'type' => 'string',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => false,
-               'attributes' => 
-              array (
-              ),
-            )),
-            1 => 
-            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
-               'name' => 'context',
-               'type' => 'array',
-               'byRef' => false,
-               'variadic' => false,
-               'hasDefault' => true,
-               'attributes' => 
-              array (
-              ),
-            )),
-          ),
-           'attributes' => 
-          array (
-          ),
-        )),
-        3 => 
-        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'configure',
            'phpDoc' => 
           \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
@@ -4897,9 +5887,9 @@ return [
              'uses' => 
             array (
               'loggerinterface' => 'Psr\\Log\\LoggerInterface',
-              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
               'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
             ),
              'constUses' => 
             array (
@@ -4941,7 +5931,7 @@ return [
           array (
           ),
         )),
-        4 => 
+        2 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'enable',
            'phpDoc' => 
@@ -4956,9 +5946,9 @@ return [
              'uses' => 
             array (
               'loggerinterface' => 'Psr\\Log\\LoggerInterface',
-              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
               'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
             ),
              'constUses' => 
             array (
@@ -5000,7 +5990,7 @@ return [
           array (
           ),
         )),
-        5 => 
+        3 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'disable',
            'phpDoc' => 
@@ -5014,9 +6004,9 @@ return [
              'uses' => 
             array (
               'loggerinterface' => 'Psr\\Log\\LoggerInterface',
-              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
               'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
             ),
              'constUses' => 
             array (
@@ -5047,7 +6037,7 @@ return [
           array (
           ),
         )),
-        6 => 
+        4 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'remove',
            'phpDoc' => 
@@ -5061,9 +6051,9 @@ return [
              'uses' => 
             array (
               'loggerinterface' => 'Psr\\Log\\LoggerInterface',
-              'nulllogger' => 'Psr\\Log\\NullLogger',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
+              'flagstatus' => 'Pulse\\FlagsBundle\\Enum\\FlagStatus',
               'storageinterface' => 'Pulse\\FlagsBundle\\Storage\\StorageInterface',
-              'strategyinterface' => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
             ),
              'constUses' => 
             array (
@@ -5094,7 +6084,7 @@ return [
           array (
           ),
         )),
-        7 => 
+        5 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'getConfig',
            'phpDoc' => NULL,
@@ -5123,7 +6113,7 @@ return [
           array (
           ),
         )),
-        8 => 
+        6 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'exists',
            'phpDoc' => NULL,
@@ -5152,7 +6142,7 @@ return [
           array (
           ),
         )),
-        9 => 
+        7 => 
         \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
            'name' => 'paginate',
            'phpDoc' => NULL,
@@ -5187,6 +6177,24 @@ return [
               array (
               ),
             )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        8 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'getLogPrefix',
+           'phpDoc' => NULL,
+           'byRef' => false,
+           'public' => false,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'string',
+           'parameters' => 
+          array (
           ),
            'attributes' => 
           array (
@@ -5516,6 +6524,7 @@ return [
               'invalidargumentexception' => 'InvalidArgumentException',
               'pdo' => 'PDO',
               'pdoexception' => 'PDOException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
               'runtimeexception' => 'RuntimeException',
             ),
              'constUses' => 
@@ -5550,6 +6559,7 @@ return [
               'invalidargumentexception' => 'InvalidArgumentException',
               'pdo' => 'PDO',
               'pdoexception' => 'PDOException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
               'runtimeexception' => 'RuntimeException',
             ),
              'constUses' => 
@@ -5592,6 +6602,7 @@ return [
          'namespace' => 'Pulse\\FlagsBundle\\Storage',
          'uses' => 
         array (
+          'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
         ),
          'constUses' => 
         array (
@@ -5623,6 +6634,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Storage',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -5878,6 +6890,7 @@ return [
          'namespace' => 'Pulse\\FlagsBundle\\Storage',
          'uses' => 
         array (
+          'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
         ),
          'constUses' => 
         array (
@@ -5902,6 +6915,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Storage',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -5947,6 +6961,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Storage',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6002,6 +7017,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Storage',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6046,6 +7062,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Storage',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6089,6 +7106,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Storage',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6117,15 +7135,16 @@ return [
      * Retrieves paginated feature flags from storage.
      *
      * Returns flags and pagination metadata in a structured format.
-     * Page numbers are 1-indexed. Limit is capped at 100.
+     * Page numbers are 1-indexed. Limit is capped at MAX_LIMIT.
      *
-     * @param int $page Page number (1-indexed, defaults to 1)
-     * @param int $limit Items per page (max 100, defaults to 50)
+     * @param int $page Page number (1-indexed)
+     * @param int $limit Items per page (capped at MAX_LIMIT)
      * @return array{flags: array<string, array<string, mixed>>, pagination: array{total: int, page: int, pages: int, limit: int}}
      */',
              'namespace' => 'Pulse\\FlagsBundle\\Storage',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6180,6 +7199,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Storage',
              'uses' => 
             array (
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6234,6 +7254,7 @@ return [
          'uses' => 
         array (
           'logicexception' => 'LogicException',
+          'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
         ),
          'constUses' => 
         array (
@@ -6268,6 +7289,7 @@ return [
              'uses' => 
             array (
               'logicexception' => 'LogicException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6310,6 +7332,7 @@ return [
              'uses' => 
             array (
               'logicexception' => 'LogicException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6354,6 +7377,7 @@ return [
              'uses' => 
             array (
               'logicexception' => 'LogicException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6409,6 +7433,7 @@ return [
              'uses' => 
             array (
               'logicexception' => 'LogicException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6451,6 +7476,7 @@ return [
              'uses' => 
             array (
               'logicexception' => 'LogicException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6493,6 +7519,7 @@ return [
              'uses' => 
             array (
               'logicexception' => 'LogicException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6527,6 +7554,7 @@ return [
              'uses' => 
             array (
               'logicexception' => 'LogicException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6582,6 +7610,7 @@ return [
              'uses' => 
             array (
               'logicexception' => 'LogicException',
+              'pagination' => 'Pulse\\FlagsBundle\\Constants\\Pagination',
             ),
              'constUses' => 
             array (
@@ -6657,6 +7686,7 @@ return [
          'namespace' => 'Pulse\\FlagsBundle\\Strategy',
          'uses' => 
         array (
+          'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
         ),
          'constUses' => 
         array (
@@ -6691,6 +7721,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (
@@ -6740,6 +7771,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (
@@ -6794,6 +7826,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (
@@ -6869,6 +7902,7 @@ return [
          'namespace' => 'Pulse\\FlagsBundle\\Strategy',
          'uses' => 
         array (
+          'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
         ),
          'constUses' => 
         array (
@@ -6907,6 +7941,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (
@@ -6961,6 +7996,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (
@@ -7021,6 +8057,8 @@ return [
          'namespace' => 'Pulse\\FlagsBundle\\Strategy',
          'uses' => 
         array (
+          'percentageconstants' => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
+          'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
         ),
          'constUses' => 
         array (
@@ -7060,6 +8098,8 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'percentageconstants' => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (
@@ -7114,11 +8154,131 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'percentageconstants' => 'Pulse\\FlagsBundle\\Constants\\PercentageStrategy',
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (
             ),
           )),
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'string',
+           'parameters' => 
+          array (
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+      ),
+       'attributes' => 
+      array (
+      ),
+    )),
+  ),
+  '/Users/nskvorcov/Projects/pulse-flags-bundle/src/Strategy/SimpleStrategy.php' => 
+  array (
+    0 => 
+    \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
+       'name' => 'Pulse\\FlagsBundle\\Strategy\\SimpleStrategy',
+       'phpDoc' => 
+      \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+         'phpDocString' => '/**
+ * Simple on/off strategy
+ *
+ * This is the default strategy that always returns true when a flag is enabled.
+ * It provides basic on/off functionality without any additional conditions.
+ */',
+         'namespace' => 'Pulse\\FlagsBundle\\Strategy',
+         'uses' => 
+        array (
+          'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+        ),
+         'constUses' => 
+        array (
+        ),
+      )),
+       'abstract' => false,
+       'final' => false,
+       'extends' => NULL,
+       'implements' => 
+      array (
+        0 => 'Pulse\\FlagsBundle\\Strategy\\StrategyInterface',
+      ),
+       'usedTraits' => 
+      array (
+      ),
+       'traitUseAdaptations' => 
+      array (
+      ),
+       'statements' => 
+      array (
+        0 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'isEnabled',
+           'phpDoc' => 
+          \PHPStan\Dependency\ExportedNode\ExportedPhpDocNode::__set_state(array(
+             'phpDocString' => '/**
+     * Always returns true (simple on/off toggle)
+     *
+     * @param array<string, mixed> $config Flag configuration (not used)
+     * @param array<string, mixed> $context Evaluation context (not used)
+     * @return bool Always true
+     */',
+             'namespace' => 'Pulse\\FlagsBundle\\Strategy',
+             'uses' => 
+            array (
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
+            ),
+             'constUses' => 
+            array (
+            ),
+          )),
+           'byRef' => false,
+           'public' => true,
+           'private' => false,
+           'abstract' => false,
+           'final' => false,
+           'static' => false,
+           'returnType' => 'bool',
+           'parameters' => 
+          array (
+            0 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'config',
+               'type' => 'array',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => false,
+               'attributes' => 
+              array (
+              ),
+            )),
+            1 => 
+            \PHPStan\Dependency\ExportedNode\ExportedParameterNode::__set_state(array(
+               'name' => 'context',
+               'type' => 'array',
+               'byRef' => false,
+               'variadic' => false,
+               'hasDefault' => true,
+               'attributes' => 
+              array (
+              ),
+            )),
+          ),
+           'attributes' => 
+          array (
+          ),
+        )),
+        1 => 
+        \PHPStan\Dependency\ExportedNode\ExportedMethodNode::__set_state(array(
+           'name' => 'getName',
+           'phpDoc' => NULL,
            'byRef' => false,
            'public' => true,
            'private' => false,
@@ -7301,6 +8461,7 @@ return [
          'namespace' => 'Pulse\\FlagsBundle\\Strategy',
          'uses' => 
         array (
+          'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
         ),
          'constUses' => 
         array (
@@ -7339,6 +8500,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (
@@ -7393,6 +8555,7 @@ return [
              'namespace' => 'Pulse\\FlagsBundle\\Strategy',
              'uses' => 
             array (
+              'strategy' => 'Pulse\\FlagsBundle\\Enum\\FlagStrategy',
             ),
              'constUses' => 
             array (

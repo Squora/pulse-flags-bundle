@@ -14,17 +14,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * Manages settings for permanent storage format, persistent storage backend,
  * database connections, and admin panel behavior.
  *
- * Configuration structure:
- * ```yaml
- * pulse_flags:
- *     permanent_storage: yaml|php
- *     persistent_storage: db
- *     db:
- *         dsn: DATABASE_URL
- *         table: pulse_feature_flags
- *     admin:
- *         require_confirmation: true
- * ```
  */
 class Configuration implements ConfigurationInterface
 {

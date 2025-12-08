@@ -3,4 +3,5 @@ vendor/
 .claude
 .github
 .phpunit.cache
+/var
 docs

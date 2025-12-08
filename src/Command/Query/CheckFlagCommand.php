@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Command;
+namespace Pulse\FlagsBundle\Command\Query;
 
 use Pulse\FlagsBundle\Service\PermanentFeatureFlagService;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
@@ -20,9 +20,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * Tests feature flag activation with optional context (user_id, session_id)
  * and display detailed configuration information.
  *
- * @example php bin/console pulse:flags:check my_feature
- * @example php bin/console pulse:flags:check my_feature --user-id=123
- * @example php bin/console pulse:flags:check my_feature --session-id=abc123
+ * @example Check flag status without context:
+ * php bin/console pulse:flags:check my_feature
+ *
+ * @example Check flag status with user context:
+ * php bin/console pulse:flags:check my_feature --user-id=123
+ *
+ * @example Check flag status with session context:
+ * php bin/console pulse:flags:check my_feature --session-id=abc123
  *
  * The command shows:
  * - Current enabled/disabled status with context
@@ -68,8 +73,6 @@ class CheckFlagCommand extends Command
      * Evaluates the flag against provided context and displays detailed
      * configuration and evaluation result.
      *
-     * @param InputInterface $input Command input with flag name and context options
-     * @param OutputInterface $output Command output
      * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
      */
     protected function execute(InputInterface $input, OutputInterface $output): int

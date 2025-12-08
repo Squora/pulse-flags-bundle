@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PulseFlags Admin Panel</title>
-    <link rel="stylesheet" href="{{ asset('bundles/pulseflags/css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/pulseflags/admin/styles.css') }}">
 </head>
 <body>
-    {% include '@PulseFlags/admin/_header.html.twig' %}
+    <div id="alerts"></div>
+    {% include '@PulseFlagsAdmin/_header.html.twig' %}
 
     <div class="container">
-        {% include '@PulseFlags/admin/_stats.html.twig' %}
-        {% include '@PulseFlags/admin/_search_tabs.html.twig' %}
+        {% include '@PulseFlagsAdmin/_stats.html.twig' %}
+        {% include '@PulseFlagsAdmin/_search_tabs.html.twig' %}
     </div>
 
-    {% include '@PulseFlags/admin/_modals.html.twig' %}
+    {% include '@PulseFlagsAdmin/_modals.html.twig' %}
 
     <script>
         // Server-provided initial data (injected at page load)
@@ -38,6 +39,6 @@
             delete: '{{ path('pulse_flags_admin_delete', {name: '__NAME__'}) }}'.replace('__NAME__', '{name}')
         };
     </script>
-    <script src="{{ asset('bundles/pulseflags/js/admin.js') }}"></script>
+    <script src="{{ asset('bundles/pulseflags/admin/scripts.js') }}"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Command;
+namespace Pulse\FlagsBundle\Command\Flag;
 
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -18,7 +18,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * Disables persistent (writable) feature flags by setting enabled=false
  * while keeping the configuration in storage.
  *
- * @example php bin/console pulse:flags:disable my_feature
+ * @example Disable an existing feature flag:
+ * php bin/console pulse:flags:disable my_feature
  *
  * Note: Only works with persistent flags. Permanent flags are read-only.
  * To remove a flag completely, use pulse:flags:remove command.
@@ -49,8 +50,6 @@ class DisableFlagCommand extends Command
      *
      * Sets the flag's enabled status to false while keeping the configuration.
      *
-     * @param InputInterface $input Command input with flag name
-     * @param OutputInterface $output Command output
      * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -58,13 +57,13 @@ class DisableFlagCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $name = $input->getArgument('name');
         if (!$this->flagService->exists($name)) {
-            $io->warning("Feature flag '$name' does not exist");
+            $io->warning("Feature flag $name does not exist");
 
             return Command::FAILURE;
         }
 
         $this->flagService->disable($name);
-        $io->success("Feature flag '$name' disabled");
+        $io->success("Feature flag $name disabled");
 
         return Command::SUCCESS;
     }

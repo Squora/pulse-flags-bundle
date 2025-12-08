@@ -7,6 +7,7 @@ namespace Pulse\FlagsBundle\Storage;
 use InvalidArgumentException;
 use PDO;
 use PDOException;
+use Pulse\FlagsBundle\Constants\Pagination;
 use RuntimeException;
 
 class DbStorage implements StorageInterface
@@ -224,11 +225,11 @@ class DbStorage implements StorageInterface
         return $result;
     }
 
-    public function paginate(int $page = 1, int $limit = 50): array
+    public function paginate(int $page = Pagination::DEFAULT_PAGE, int $limit = Pagination::DEFAULT_LIMIT): array
     {
-        $limit = min($limit, 100);
-        $page = max($page, 1);
-        $offset = ($page - 1) * $limit;
+        $limit = min($limit, Pagination::MAX_LIMIT);
+        $page = max($page, Pagination::MIN_PAGE);
+        $offset = ($page - Pagination::MIN_PAGE) * $limit;
 
         $countStmt = $this->getConnection()->query(sprintf("SELECT COUNT(*) FROM %s", $this->table));
         if ($countStmt === false) {

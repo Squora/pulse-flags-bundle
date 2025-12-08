@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Pulse\FlagsBundle\Service;
 
-interface FeatureFlagInterface
+use Pulse\FlagsBundle\Constants\Pagination;
+
+interface FeatureFlagServiceInterface
 {
     /**
      * Check if a feature flag is enabled
@@ -34,9 +36,9 @@ interface FeatureFlagInterface
     /**
      * Get paginated flags
      *
-     * @param int $page Page number (1-indexed, defaults to 1)
-     * @param int $limit Items per page (max 100, defaults to 50)
+     * @param int $page Page number (1-indexed)
+     * @param int $limit Items per page (capped at MAX_LIMIT)
      * @return array{flags: array<string, array<string, mixed>>, pagination: array{total: int, page: int, pages: int, limit: int}}
      */
-    public function paginate(int $page = 1, int $limit = 50): array;
+    public function paginate(int $page = Pagination::DEFAULT_PAGE, int $limit = Pagination::DEFAULT_LIMIT): array;
 }

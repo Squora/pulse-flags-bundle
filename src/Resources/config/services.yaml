@@ -19,6 +19,9 @@ services:
     alias: pulse_flags.persistent_storage.db
 
   # Strategies
+  Pulse\FlagsBundle\Strategy\SimpleStrategy:
+    tags: ['pulse_flags.strategy']
+
   Pulse\FlagsBundle\Strategy\PercentageStrategy:
     tags: ['pulse_flags.strategy']
 
@@ -41,6 +44,7 @@ services:
       $permanentFlags: '%pulse_flags.permanent_flags%'
       $logger: '@?logger'
     calls:
+      - addStrategy: ['@Pulse\FlagsBundle\Strategy\SimpleStrategy']
       - addStrategy: ['@Pulse\FlagsBundle\Strategy\PercentageStrategy']
       - addStrategy: ['@Pulse\FlagsBundle\Strategy\UserIdStrategy']
       - addStrategy: ['@Pulse\FlagsBundle\Strategy\DateRangeStrategy']
@@ -52,6 +56,7 @@ services:
       $storage: '@pulse_flags.persistent_storage'
       $logger: '@?logger'
     calls:
+      - addStrategy: ['@Pulse\FlagsBundle\Strategy\SimpleStrategy']
       - addStrategy: ['@Pulse\FlagsBundle\Strategy\PercentageStrategy']
       - addStrategy: ['@Pulse\FlagsBundle\Strategy\UserIdStrategy']
       - addStrategy: ['@Pulse\FlagsBundle\Strategy\DateRangeStrategy']
@@ -61,32 +66,34 @@ services:
   Pulse\FlagsBundle\Service\FeatureFlagInterface:
     alias: Pulse\FlagsBundle\Service\PersistentFeatureFlagService
 
-  # Commands
-  Pulse\FlagsBundle\Command\ListFlagsCommand:
+  # Commands - Flag (CRUD operations)
+  Pulse\FlagsBundle\Command\Flag\CreateFlagCommand:
     tags: ['console.command']
 
-  Pulse\FlagsBundle\Command\EnableFlagCommand:
+  Pulse\FlagsBundle\Command\Flag\EnableFlagCommand:
     tags: ['console.command']
 
-  Pulse\FlagsBundle\Command\DisableFlagCommand:
+  Pulse\FlagsBundle\Command\Flag\DisableFlagCommand:
     tags: ['console.command']
 
-  Pulse\FlagsBundle\Command\CheckFlagCommand:
+  Pulse\FlagsBundle\Command\Flag\RemoveFlagCommand:
     tags: ['console.command']
 
-  Pulse\FlagsBundle\Command\CreateFlagCommand:
+  # Commands - Query (Information)
+  Pulse\FlagsBundle\Command\Query\CheckFlagCommand:
     tags: ['console.command']
 
-  Pulse\FlagsBundle\Command\RemoveFlagCommand:
+  Pulse\FlagsBundle\Command\Query\ListFlagsCommand:
     tags: ['console.command']
 
-  Pulse\FlagsBundle\Command\InitStorageCommand:
+  # Commands - Setup (Maintenance)
+  Pulse\FlagsBundle\Command\Setup\InitStorageCommand:
     tags: ['console.command']
     arguments:
       $persistentStorage: '@pulse_flags.persistent_storage'
 
   # Admin Controller
-  Pulse\FlagsBundle\Controller\AdminController:
+  Pulse\FlagsBundle\Admin\Controller\AdminController:
     arguments:
       $permanentFlagService: '@Pulse\FlagsBundle\Service\PermanentFeatureFlagService'
       $persistentFlagService: '@Pulse\FlagsBundle\Service\PersistentFeatureFlagService'

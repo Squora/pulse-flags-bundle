@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Pulse\FlagsBundle\Tests\Unit\Controller;
 
 use PHPUnit\Framework\TestCase;
-use Pulse\FlagsBundle\Controller\AdminController;
+use Pulse\FlagsBundle\Admin\Controller\AdminController;
 use Pulse\FlagsBundle\Service\PermanentFeatureFlagService;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Component\DependencyInjection\Container;

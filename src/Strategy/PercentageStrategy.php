@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Pulse\FlagsBundle\Strategy;
 
+use Pulse\FlagsBundle\Constants\PercentageStrategy as PercentageConstants;
+use Pulse\FlagsBundle\Enum\FlagStrategy;
+
 /**
  * Percentage-based rollout activation strategy for feature flags.
  *
@@ -44,13 +47,13 @@ class PercentageStrategy implements StrategyInterface
      */
     public function isEnabled(array $config, array $context = []): bool
     {
-        $percentage = $config['percentage'] ?? 100;
+        $percentage = $config['percentage'] ?? PercentageConstants::DEFAULT_PERCENTAGE;
 
-        if ($percentage >= 100) {
+        if ($percentage >= PercentageConstants::MAX_PERCENTAGE) {
             return true;
         }
 
-        if ($percentage <= 0) {
+        if ($percentage <= PercentageConstants::MIN_PERCENTAGE) {
             return false;
         }
 
@@ -58,7 +61,7 @@ class PercentageStrategy implements StrategyInterface
         $identifier = $context['user_id'] ?? $context['session_id'] ?? uniqid();
 
         // Calculate hash bucket (0-99)
-        $bucket = crc32((string)$identifier) % 100;
+        $bucket = crc32((string)$identifier) % PercentageConstants::HASH_BUCKETS;
 
         return $bucket < $percentage;
     }
@@ -70,6 +73,6 @@ class PercentageStrategy implements StrategyInterface
      */
     public function getName(): string
     {
-        return 'percentage';
+        return FlagStrategy::PERCENTAGE->value;
     }
 }

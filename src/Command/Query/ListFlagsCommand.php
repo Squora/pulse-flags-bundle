@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Command;
+namespace Pulse\FlagsBundle\Command\Query;
 
+use Pulse\FlagsBundle\Constants\Pagination;
+use Pulse\FlagsBundle\Service\FeatureFlagServiceInterface;
 use Pulse\FlagsBundle\Service\PermanentFeatureFlagService;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -35,13 +37,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ListFlagsCommand extends Command
 {
-    /**
-     * @param PermanentFeatureFlagService $permanentFlagService Service for permanent flags
-     * @param PersistentFeatureFlagService $persistentFlagService Service for persistent flags
-     */
     public function __construct(
-        private PermanentFeatureFlagService $permanentFlagService,
-        private PersistentFeatureFlagService $persistentFlagService,
+        private readonly PermanentFeatureFlagService $permanentFlagService,
+        private readonly PersistentFeatureFlagService $persistentFlagService,
     ) {
         parent::__construct();
     }
@@ -49,8 +47,6 @@ class ListFlagsCommand extends Command
     /**
      * Executes the command to display all feature flags.
      *
-     * @param InputInterface $input Command input
-     * @param OutputInterface $output Command output
      * @return int Command::SUCCESS on success
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -61,7 +57,7 @@ class ListFlagsCommand extends Command
         $persistentFlags = $this->getAllFlags($this->persistentFlagService);
         $totalFlags = count($permanentFlags) + count($persistentFlags);
 
-        if ($totalFlags === 0) {
+        if (0 === $totalFlags) {
             $io->info('No feature flags configured');
 
             return Command::SUCCESS;
@@ -69,26 +65,24 @@ class ListFlagsCommand extends Command
 
         $rows = [];
 
-        // Add permanent flags
         foreach ($permanentFlags as $name => $config) {
             $rows[] = $this->formatFlagRow($name, $config, 'Permanent');
         }
 
-        // Add persistent flags
         foreach ($persistentFlags as $name => $config) {
             $rows[] = $this->formatFlagRow($name, $config, 'Persistent');
         }
 
         $io->table(
             ['Flag Name', 'Description', 'Status', 'Type', 'Strategy', 'Details'],
-            $rows
+            $rows,
         );
 
         $io->success(sprintf(
             'Found %d feature flag(s) - %d permanent, %d persistent',
             $totalFlags,
             count($permanentFlags),
-            count($persistentFlags)
+            count($persistentFlags),
         ));
 
         return Command::SUCCESS;
@@ -97,14 +91,13 @@ class ListFlagsCommand extends Command
     /**
      * Fetches all flags from a service using pagination
      *
-     * @param PermanentFeatureFlagService|PersistentFeatureFlagService $service
      * @return array<string, array<string, mixed>>
      */
-    private function getAllFlags($service): array
+    private function getAllFlags(FeatureFlagServiceInterface $service): array
     {
         $allFlags = [];
-        $page = 1;
-        $limit = 100;
+        $page = Pagination::DEFAULT_PAGE;
+        $limit = Pagination::MAX_LIMIT;
 
         do {
             $result = $service->paginate($page, $limit);

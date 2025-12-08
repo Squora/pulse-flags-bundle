@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Command;
+namespace Pulse\FlagsBundle\Command\Flag;
 
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -18,8 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * Permanently deletes persistent (writable) feature flags from the database.
  * This operation cannot be undone.
  *
- * @example
- * # Remove a flag completely
+ * @example Remove a flag completely
  * php bin/console pulse:flags:remove my_feature
  *
  * Note: Only works with persistent flags. Permanent flags are read-only
@@ -31,20 +30,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class RemoveFlagCommand extends Command
 {
-    /**
-     * @param PersistentFeatureFlagService $flagService Service for managing persistent flags
-     */
     public function __construct(
-        private PersistentFeatureFlagService $flagService
+        private readonly PersistentFeatureFlagService $flagService
     ) {
         parent::__construct();
     }
 
-    /**
-     * Configures command arguments.
-     *
-     * @return void
-     */
     protected function configure(): void
     {
         $this->addArgument(
@@ -59,23 +50,20 @@ class RemoveFlagCommand extends Command
      *
      * Permanently deletes the flag from persistent storage.
      *
-     * @param InputInterface $input Command input with flag name
-     * @param OutputInterface $output Command output
      * @return int Command::SUCCESS on success, Command::FAILURE if flag not found
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $name = $input->getArgument('name');
-
         if (!$this->flagService->exists($name)) {
-            $io->warning("Feature flag '$name' does not exist");
+            $io->warning("Feature flag $name does not exist");
 
             return Command::FAILURE;
         }
 
         $this->flagService->remove($name);
-        $io->success("Feature flag '$name' removed permanently");
+        $io->success("Feature flag $name removed permanently");
 
         return Command::SUCCESS;
     }

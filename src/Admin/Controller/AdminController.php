@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Pulse\FlagsBundle\Controller;
+namespace Pulse\FlagsBundle\Admin\Controller;
 
 use Exception;
 use JsonException;
+use Pulse\FlagsBundle\Constants\Pagination;
+use Pulse\FlagsBundle\Enum\FlagStatus;
+use Pulse\FlagsBundle\Enum\FlagStrategy;
 use Pulse\FlagsBundle\Service\PermanentFeatureFlagService;
 use Pulse\FlagsBundle\Service\PersistentFeatureFlagService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,17 +34,6 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
  * - PUT/PATCH /admin/pulse-flags/flags/{name} - Update flag configuration
  * - POST /admin/pulse-flags/flags - Create new flag
  * - DELETE /admin/pulse-flags/flags/{name} - Delete flag
- *
- * Security:
- * - All modification endpoints return 403 for permanent flags
- * - Only persistent flags can be created, updated, or deleted
- * - Optional confirmation dialogs configurable via pulse_flags.admin.require_confirmation
- *
- * UI Features:
- * - Real-time flag management with JavaScript
- * - Color-coded status indicators
- * - Strategy-specific configuration forms
- * - Readonly indicators for permanent flags
  */
 #[Route('/admin/pulse-flags', name: 'pulse_flags_admin_')]
 class AdminController extends AbstractController
@@ -53,12 +45,6 @@ class AdminController extends AbstractController
     ) {
     }
 
-    /**
-     * Validate CSRF token from request
-     *
-     * @param Request $request HTTP request
-     * @return bool True if token is valid
-     */
     private function validateCsrfToken(Request $request): bool
     {
         $token = $request->headers->get('X-CSRF-Token')
@@ -77,14 +63,13 @@ class AdminController extends AbstractController
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        $page = max(1, (int) $request->query->get('page', '1'));
-        $limit = min(100, max(1, (int) $request->query->get('limit', '50')));
+        $page = max(Pagination::MIN_PAGE, (int) $request->query->get('page', (string)Pagination::DEFAULT_PAGE));
+        $limit = min(Pagination::MAX_LIMIT, max(Pagination::MIN_LIMIT, (int) $request->query->get('limit', (string)Pagination::DEFAULT_LIMIT)));
 
         $permanentResult = $this->permanentFlagService->paginate($page, $limit);
         $persistentResult = $this->persistentFlagService->paginate($page, $limit);
 
         $transformedFlags = [];
-
         foreach ($permanentResult['flags'] as $name => $config) {
             $transformedFlags[] = [
                 'name' => $name,
@@ -112,7 +97,7 @@ class AdminController extends AbstractController
 
         $csrfToken = $this->csrfTokenManager->getToken('pulse_flags_admin')->getValue();
 
-        return $this->render('@PulseFlags/admin/index.html.twig', [
+        return $this->render('@PulseFlagsAdmin/index.html.twig', [
             'flags_data' => $transformedFlags,
             'require_confirmation' => $this->getParameter('pulse_flags.admin.require_confirmation'),
             'csrf_token' => $csrfToken,
@@ -128,8 +113,8 @@ class AdminController extends AbstractController
     #[Route('/flags', name: 'list', methods: ['GET'])]
     public function apiList(Request $request): JsonResponse
     {
-        $page = max(1, (int) $request->query->get('page', '1'));
-        $limit = min(100, max(1, (int) $request->query->get('limit', '50')));
+        $page = max(Pagination::MIN_PAGE, (int) $request->query->get('page', (string)Pagination::DEFAULT_PAGE));
+        $limit = min(Pagination::MAX_LIMIT, max(Pagination::MIN_LIMIT, (int) $request->query->get('limit', (string)Pagination::DEFAULT_LIMIT)));
 
         $permanentResult = $this->permanentFlagService->paginate($page, $limit);
         $persistentResult = $this->persistentFlagService->paginate($page, $limit);
@@ -260,7 +245,7 @@ class AdminController extends AbstractController
             $config = $this->persistentFlagService->getConfig($name) ?? [];
             $config = array_merge($config, $data);
 
-            $strategy = $config['strategy'] ?? 'simple';
+            $strategy = $config['strategy'] ?? FlagStrategy::SIMPLE->value;
             $strategyFields = [
                 'percentage' => ['percentage'],
                 'user_id' => ['whitelist', 'blacklist'],
@@ -323,8 +308,8 @@ class AdminController extends AbstractController
 
         try {
             $config = array_merge([
-                'enabled' => false,
-                'strategy' => 'simple',
+                'enabled' => FlagStatus::DISABLED->toBool(),
+                'strategy' => FlagStrategy::SIMPLE->value,
             ], $data);
 
             $this->persistentFlagService->configure($name, $config);
