@@ -33,10 +33,10 @@
         // API endpoints configuration
         const API_ENDPOINTS = {
             list: '{{ path('pulse_flags_admin_list') }}',
-            toggle: '{{ path('pulse_flags_admin_toggle', {name: '__NAME__'}) }}'.replace('__NAME__', '{name}'),
+            toggle: '{{ path('pulse_flags_admin_toggle', {name: '__NAME__'}) }}',
             create: '{{ path('pulse_flags_admin_create') }}',
-            update: '{{ path('pulse_flags_admin_update', {name: '__NAME__'}) }}'.replace('__NAME__', '{name}'),
-            delete: '{{ path('pulse_flags_admin_delete', {name: '__NAME__'}) }}'.replace('__NAME__', '{name}')
+            update: '{{ path('pulse_flags_admin_update', {name: '__NAME__'}) }}',
+            delete: '{{ path('pulse_flags_admin_delete', {name: '__NAME__'}) }}'
         };
     </script>
     <script src="{{ asset('bundles/pulseflags/admin/scripts.js') }}"></script>

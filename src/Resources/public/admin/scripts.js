@@ -72,7 +72,7 @@ async function toggleFlag(name) {
  */
 async function performToggle(name, enable) {
     try {
-        const url = API_ENDPOINTS.toggle.replace('{name}', encodeURIComponent(name));
+        const url = API_ENDPOINTS.toggle.replace('__NAME__', encodeURIComponent(name));
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -110,7 +110,7 @@ async function saveFlag(data) {
     try {
         let response;
         if (editingFlag) {
-            const url = API_ENDPOINTS.update.replace('{name}', encodeURIComponent(editingFlag.name));
+            const url = API_ENDPOINTS.update.replace('__NAME__', encodeURIComponent(editingFlag.name));
             response = await fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -173,7 +173,7 @@ async function deleteFlag(name) {
         `Are you sure you want to delete flag "${name}"? This action cannot be undone.`,
         async () => {
             try {
-                const url = API_ENDPOINTS.delete.replace('{name}', encodeURIComponent(name));
+                const url = API_ENDPOINTS.delete.replace('__NAME__', encodeURIComponent(name));
                 const response = await fetch(url, {
                     method: 'DELETE',
                     headers: {

@@ -3,12 +3,10 @@
 // - allFlagsData: Array of flag objects from server
 // - editingFlag: Currently edited flag (null initially)
 // - isRendering: Boolean to prevent concurrent renders
-// - adminConfig: { requireConfirmation: boolean }
+// - adminConfig: { requireConfirmation: boolean, csrfToken: string, assetsUrl: string }
 // - API_ENDPOINTS: { list, toggle, update, create, delete }
 
-// ==================== State Management ====================
-let editingFlag = null;
-let isRendering = false;
+// Note: Variables are declared in the HTML template, not here
 
 // ==================== Statistics Functions ====================
 /**
