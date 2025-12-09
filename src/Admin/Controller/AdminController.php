@@ -250,6 +250,7 @@ class AdminController extends AbstractController
                 'percentage' => ['percentage'],
                 'user_id' => ['whitelist', 'blacklist'],
                 'date_range' => ['start_date', 'end_date'],
+                'composite' => ['operator', 'strategies'],
             ];
 
             foreach ($strategyFields as $fields) {

@@ -25,17 +25,23 @@
                 <input type="text" id="flagName" required placeholder="e.g., my_feature">
             </div>
 
-            <div class="form-group">
-                <label for="flagDescription">Description (Optional)</label>
-                <textarea id="flagDescription" placeholder="Describe what this flag controls..." rows="3"></textarea>
+            <!-- NEW POSITION: Enabled switch -->
+            <div class="form-group form-group-toggle">
+                <div class="toggle-wrapper">
+                    <div class="toggle-info">
+                        <label for="flagEnabled" class="toggle-label">Enable Flag</label>
+                        <span class="toggle-description">Activate this feature flag immediately</span>
+                    </div>
+                    <label class="flag-toggle flag-toggle-enhanced">
+                        <input type="checkbox" id="flagEnabled">
+                        <span class="slider slider-enhanced"></span>
+                    </label>
+                </div>
             </div>
 
             <div class="form-group">
-                <label for="flagEnabled">Enabled</label>
-                <select id="flagEnabled">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
+                <label for="flagDescription">Description (Optional)</label>
+                <textarea id="flagDescription" placeholder="Describe what this flag controls..." rows="3"></textarea>
             </div>
 
             <div class="form-group">
@@ -45,6 +51,7 @@
                     <option value="percentage">Percentage</option>
                     <option value="user_id">User ID</option>
                     <option value="date_range">Date Range</option>
+                    <option value="composite">Composite (Advanced)</option>
                 </select>
             </div>
 
@@ -73,6 +80,39 @@
                 <input type="date" id="flagEndDate">
             </div>
 
+            <!-- Composite Strategy Field -->
+            <div id="compositeField" style="display:none;">
+                <div class="composite-builder">
+                    <div class="composite-header">
+                        <h3>Composite Strategy Builder</h3>
+                        <p class="composite-description">Combine multiple strategies with AND/OR logic. Maximum nesting depth: 5 levels.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="compositeOperator">Root Operator</label>
+                        <select id="compositeOperator" class="operator-select">
+                            <option value="AND">AND (all must pass)</option>
+                            <option value="OR">OR (any must pass)</option>
+                        </select>
+                    </div>
+
+                    <div id="compositeStrategiesContainer" class="strategies-container"></div>
+
+                    <button type="button" class="btn btn-secondary" onclick="addCompositeStrategy(0, 'compositeStrategiesContainer')" style="width: 100%; margin-top: 12px;">
+                        + Add Strategy
+                    </button>
+
+                    <div class="json-preview-section">
+                        <button type="button" class="json-preview-toggle" onclick="toggleJsonPreview()">
+                            <span id="jsonPreviewIcon">▶</span> JSON Preview
+                        </button>
+                        <div id="jsonPreviewContent" class="json-preview-content" style="display: none;">
+                            <pre id="jsonPreviewCode"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div style="display: flex; gap: 10px; margin-top: 20px;">
                 <button type="button" class="btn btn-primary" onclick="submitFlagForm(event)">Save</button>
                 <button type="button" class="btn" style="background: var(--border-color); color: var(--text-primary);" onclick="closeFlagModal()">Cancel</button>
@@ -89,6 +129,49 @@
         <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;">
             <button type="button" class="btn" style="background: var(--border-color); color: var(--text-primary);" id="confirmNo">Cancel</button>
             <button type="button" class="btn btn-primary" id="confirmYes">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- Rename Confirmation Modal -->
+<div id="renameConfirmModal" class="modal">
+    <div class="modal-content" style="max-width: 550px;">
+        <h2 style="color: var(--warning); display: flex; align-items: center; gap: 10px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            Rename Flag Warning
+        </h2>
+
+        <div style="background: #fffbeb; border-left: 4px solid var(--warning); padding: 16px; margin: 20px 0; border-radius: 4px;">
+            <p style="margin: 0 0 12px 0; color: var(--text-primary); font-weight: 500;">
+                Warning! Renaming a flag requires updating all code references to this flag name.
+            </p>
+            <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                This may cause production errors if you don't update all flag references in your application code.
+            </p>
+        </div>
+
+        <div class="form-group">
+            <label for="renameConfirmInput">To confirm, enter the new flag name twice:</label>
+            <input type="text" id="renameConfirmInput" placeholder="Enter new flag name" style="margin-bottom: 12px;"/>
+            <div id="renameMatchIndicator" style="display: none; font-size: 0.85rem; margin-top: 4px;"></div>
+        </div>
+
+        <div style="background: var(--bg-light); padding: 12px; border-radius: 6px; margin-bottom: 20px;">
+            <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px;">
+                <strong>Original name:</strong> <code id="renameOriginalName" style="background: white; padding: 2px 8px; border-radius: 3px; color: var(--primary-red);"></code>
+            </div>
+            <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                <strong>New name:</strong> <code id="renameNewName" style="background: white; padding: 2px 8px; border-radius: 3px; color: var(--success);"></code>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;">
+            <button type="button" class="btn" style="background: var(--border-color); color: var(--text-primary);" id="renameCancelBtn">Cancel</button>
+            <button type="button" class="btn btn-primary" id="renameConfirmBtn" disabled style="background: var(--warning);">Confirm Rename</button>
         </div>
     </div>
 </div>
