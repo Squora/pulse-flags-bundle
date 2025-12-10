@@ -209,22 +209,56 @@ feature:
 
 ### 2. Percentage Strategy
 
-Gradual rollout with consistent user bucketing:
+Gradual rollout with consistent user bucketing (100,000 buckets for high precision):
 
 ```yaml
+# Standard rollout
 new_checkout:
     enabled: true
     strategy: percentage
     percentage: 25  # 25% of users
+
+# Fine-grained rollout (supports up to 3 decimal places)
+early_adopters:
+    enabled: true
+    strategy: percentage
+    percentage: 0.125  # 0.125% of users (125 out of 100,000)
+
+# Custom hash algorithm and seed
+experiment_v2:
+    enabled: true
+    strategy: percentage
+    percentage: 50
+    hash_algorithm: 'murmur3'  # Options: crc32 (default), md5, sha256, murmur3
+    hash_seed: 'exp-2025-q1'  # Optional seed for re-randomization
+
+# B2B: Hash by company (all users in same company get same experience)
+enterprise_feature:
+    enabled: true
+    strategy: percentage
+    percentage: 25
+    stickiness: 'company_id'  # Hash by company_id instead of user_id
+
+# Stickiness with fallback chain
+anonymous_feature:
+    enabled: true
+    strategy: percentage
+    percentage: 10
+    stickiness: ['user_id', 'session_id', 'device_id']  # Try in order
 ```
 
 ```php
 $this->flags->isEnabled('experiments.new_checkout', [
     'user_id' => $userId,  // Required for consistent bucketing
 ]);
+
+// For B2B features with company stickiness
+$this->flags->isEnabled('enterprise_feature', [
+    'company_id' => $companyId,  // All users in company get same experience
+]);
 ```
 
-**Important:** Same user always gets same result (uses CRC32 hash bucketing).
+**Important:** Same user always gets same result (consistent hash-based bucketing with 100,000 buckets).
 
 ### 3. User ID Strategy
 
