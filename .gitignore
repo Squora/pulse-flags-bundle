@@ -1,0 +1,28 @@
+# Dependencies
+/vendor/
+
+# IDE & Editors
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# Testing & Quality Tools
+/.phpunit.cache/
+/phpunit.xml
+/.phpunit.result.cache
+
+# Cache & Temporary Files
+/var/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Environment
+/.env.local
+/.env.*.local
+
+# Claude AI assistant
+/.claude/

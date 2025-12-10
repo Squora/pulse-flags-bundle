@@ -1,0 +1,20 @@
+# PulseFlags Bundle Configuration
+# This is the default configuration - copy to your config/packages/pulse_flags.yaml and customize
+
+pulse_flags:
+    # Storage format for permanent (read-only) flags loaded from config files
+    permanent_storage: yaml  # Options: yaml, ini, php
+
+    # Storage backend for persistent (runtime mutable) flags
+    persistent_storage: db  # Database storage (MySQL, PostgreSQL, SQLite)
+
+    # Database configuration
+    db:
+        dsn: '%env(resolve:DATABASE_URL)%'
+        user: ~  # Optional: extracted from DSN if null
+        password: ~  # Optional: extracted from DSN if null
+        table: 'pulse_feature_flags'
+
+    # Admin panel configuration
+    admin:
+        require_confirmation: true

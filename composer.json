@@ -1,0 +1,57 @@
+{
+    "name": "pulse/flags-bundle",
+    "description": "Core feature flag management for Symfony - services, storage, strategies, and CLI commands",
+    "type": "symfony-bundle",
+    "keywords": [
+        "feature flag",
+        "feature toggle",
+        "symfony",
+        "bundle",
+        "ab testing",
+        "percentage rollout",
+        "feature management"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "squora",
+            "email": "squortzov.nik@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "symfony/framework-bundle": "^7.3|^8.0",
+        "symfony/config": "^7.3|^8.0",
+        "symfony/console": "^7.3|^8.0",
+        "symfony/dependency-injection": "^7.3|^8.0",
+        "twig/twig": "^3.21",
+        "ext-yaml": "*",
+        "ext-pdo": "*",
+        "symfony/yaml": "^7.3|^8.0"
+    },
+    "require-dev": {
+        "doctrine/orm": "^3.5",
+        "phpunit/phpunit": "^12.4",
+        "symfony/phpunit-bridge": "^7.3|^8.0",
+        "phpstan/phpstan": "*",
+        "phpstan/phpstan-symfony": "*",
+        "phpstan/extension-installer": "*",
+        "friendsofphp/php-cs-fixer": "^3.91"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pulse\\Flags\\Core\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pulse\\Flags\\Core\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "symfony/flex": true
+        }
+    }
+}

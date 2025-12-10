@@ -1,0 +1,97 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Persistent Storage Implementation (writable)
+  pulse_flags.persistent_storage.db:
+    class: Pulse\Flags\Core\Storage\DbStorage
+    arguments:
+      $dsn: '%pulse_flags.db_dsn%'
+      $table: '%pulse_flags.db_table%'
+
+  # Storage Interface alias (points to active persistent storage)
+  Pulse\Flags\Core\Storage\StorageInterface:
+    alias: pulse_flags.persistent_storage
+
+  # Legacy alias for direct storage access
+  Pulse\Flags\Core\Storage\DbStorage:
+    alias: pulse_flags.persistent_storage.db
+
+  # Strategies
+  Pulse\Flags\Core\Strategy\SimpleStrategy:
+    tags: ['pulse_flags.strategy']
+
+  Pulse\Flags\Core\Strategy\PercentageStrategy:
+    tags: ['pulse_flags.strategy']
+
+  Pulse\Flags\Core\Strategy\UserIdStrategy:
+    tags: ['pulse_flags.strategy']
+
+  Pulse\Flags\Core\Strategy\DateRangeStrategy:
+    tags: ['pulse_flags.strategy']
+
+  Pulse\Flags\Core\Strategy\CompositeStrategy:
+    tags: ['pulse_flags.strategy']
+    calls:
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\UserIdStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\DateRangeStrategy']
+
+  # Permanent Feature Flag Service (read-only)
+  Pulse\Flags\Core\Service\PermanentFeatureFlagService:
+    arguments:
+      $permanentFlags: '%pulse_flags.permanent_flags%'
+      $logger: '@?logger'
+    calls:
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\SimpleStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\UserIdStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\DateRangeStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\CompositeStrategy']
+
+  # Persistent Feature Flag Service (writable)
+  Pulse\Flags\Core\Service\PersistentFeatureFlagService:
+    arguments:
+      $storage: '@pulse_flags.persistent_storage'
+      $logger: '@?logger'
+    calls:
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\SimpleStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\UserIdStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\DateRangeStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\CompositeStrategy']
+
+  # Main interface alias (points to persistent service for primary usage)
+  Pulse\Flags\Core\Service\FeatureFlagInterface:
+    alias: Pulse\Flags\Core\Service\PersistentFeatureFlagService
+
+  # Commands - Flag (CRUD operations)
+  Pulse\Flags\Core\Command\Flag\CreateFlagCommand:
+    tags: ['console.command']
+
+  Pulse\Flags\Core\Command\Flag\EnableFlagCommand:
+    tags: ['console.command']
+
+  Pulse\Flags\Core\Command\Flag\DisableFlagCommand:
+    tags: ['console.command']
+
+  Pulse\Flags\Core\Command\Flag\RemoveFlagCommand:
+    tags: ['console.command']
+
+  # Commands - Query (Information)
+  Pulse\Flags\Core\Command\Query\CheckFlagCommand:
+    tags: ['console.command']
+
+  Pulse\Flags\Core\Command\Query\ListFlagsCommand:
+    tags: ['console.command']
+
+  # Commands - Setup (Maintenance)
+  Pulse\Flags\Core\Command\Setup\InitStorageCommand:
+    tags: ['console.command']
+    arguments:
+      $persistentStorage: '@pulse_flags.persistent_storage'
+
+  # Twig Extension
+  Pulse\Flags\Core\Twig\FeatureFlagExtension:
+    tags: ['twig.extension']

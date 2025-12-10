@@ -1,0 +1,4 @@
+# PulseFlags Bundle Routes
+pulse_flags_admin:
+  resource: '@PulseFlagsBundle/src/Admin/Controller/'
+  type: attribute
