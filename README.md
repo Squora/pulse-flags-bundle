@@ -62,7 +62,7 @@ pulse_flags:
     permanent_storage: yaml  # Options: yaml, php
 
     # Storage backend for persistent (runtime mutable) flags
-    persistent_storage: db   # Options: db
+    persistent_storage: db   # Options: db, php
 
     # Database configuration (for persistent storage)
     db:
@@ -255,6 +255,7 @@ holiday_promo:
     strategy: date_range
     start_date: '2025-12-01'
     end_date: '2025-12-31'
+    timezone: 'America/New_York'  # Optional - ensures correct time for global apps
 ```
 
 ```php
@@ -379,6 +380,8 @@ For development/testing:
 ```yaml
 pulse_flags:
     permanent_storage: php  # Flags stored in PHP files
+    # or
+    persistent_storage: php # In-memory array storage
 ```
 
 ---
@@ -496,6 +499,193 @@ Five activation strategies are available:
 
 ---
 
+## Project Structure
+
+```
+config/
+├── packages/pulse_flags/
+│   ├── core.yaml          # Permanent flags (read-only)
+│   ├── experiments.yaml   # More permanent flags
+│   └── rollouts.yaml      # Even more permanent flags
+├── routes.yaml
+└── services.yaml
+
+src/
+├── Service/
+│   ├── AbstractFeatureFlagServiceService.php
+│   ├── FeatureFlagServiceInterface.php
+│   ├── PermanentFeatureFlagService.php
+│   └── PersistentFeatureFlagService.php
+├── Storage/
+│   ├── StorageInterface.php
+│   ├── DbStorage.php             # Database backend
+│   ├── PhpStorage.php            # PHP array storage
+│   └── YamlStorage.php           # YAML file storage (read-only)
+├── Strategy/
+│   ├── StrategyInterface.php
+│   ├── SimpleStrategy.php
+│   ├── PercentageStrategy.php
+│   ├── UserIdStrategy.php
+│   ├── DateRangeStrategy.php
+│   └── CompositeStrategy.php
+├── Command/
+│   ├── Flag/
+│   │   ├── CreateFlagCommand.php
+│   │   ├── EnableFlagCommand.php
+│   │   ├── DisableFlagCommand.php
+│   │   └── RemoveFlagCommand.php
+│   ├── Query/
+│   │   ├── CheckFlagCommand.php
+│   │   └── ListFlagsCommand.php
+│   └── Setup/
+│       └── InitStorageCommand.php
+├── Twig/
+│   └── FeatureFlagExtension.php
+├── DependencyInjection/
+│   ├── Configuration.php
+│   ├── PulseFlagsExtension.php
+│   └── FlagsConfigurationLoader.php
+└── PulseFlagsBundle.php
+```
+
+---
+
+## API Reference
+
+### FeatureFlagServiceInterface
+
+Main interface for checking feature flags:
+
+```php
+interface FeatureFlagServiceInterface
+{
+    /**
+     * Check if a feature flag is enabled
+     *
+     * @param string $name Flag name (e.g., 'core.new_ui')
+     * @param array $context Context for strategy evaluation
+     * @return bool True if enabled
+     */
+    public function isEnabled(string $name, array $context = []): bool;
+
+    /**
+     * Get flag configuration
+     *
+     * @param string $name Flag name
+     * @return array|null Configuration or null if not found
+     */
+    public function getConfig(string $name): ?array;
+
+    /**
+     * Check if flag exists
+     *
+     * @param string $name Flag name
+     * @return bool True if exists
+     */
+    public function exists(string $name): bool;
+
+    /**
+     * Get all flags
+     *
+     * @return array<string, array> All flags keyed by name
+     */
+    public function all(): array;
+}
+```
+
+### PersistentFeatureFlagService
+
+Service for runtime-mutable flags with additional methods:
+
+```php
+class PersistentFeatureFlagService implements FeatureFlagServiceInterface
+{
+    /** Configure or update a flag */
+    public function configure(string $name, array $config): void;
+
+    /** Enable a flag (sets enabled=true) */
+    public function enable(string $name): void;
+
+    /** Disable a flag (sets enabled=false) */
+    public function disable(string $name): void;
+
+    /** Remove a flag completely */
+    public function remove(string $name): void;
+}
+```
+
+### Context Parameters
+
+Context object passed to `isEnabled()` for strategy evaluation:
+
+| Parameter | Type | Used By Strategy | Description |
+|-----------|------|------------------|-------------|
+| `user_id` | string\|int | percentage, user_id | User identifier for consistent bucketing |
+| `session_id` | string | percentage | Session identifier (fallback if no user_id) |
+| `current_date` | DateTime | date_range | Current date for time-bounded features |
+
+**Example:**
+```php
+$context = [
+    'user_id' => $user->getId(),
+    'session_id' => $session->getId(),
+    'current_date' => new \DateTime(),
+];
+
+$isEnabled = $flagService->isEnabled('my_feature', $context);
+```
+
+### Strategy Configuration Reference
+
+#### Simple Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: simple
+```
+
+#### Percentage Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: percentage
+    percentage: 25  # 0-100
+```
+
+#### User ID Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: user_id
+    whitelist: ['123', '456']  # Allow only these users
+    # OR
+    blacklist: ['999']  # Block these users
+```
+
+#### Date Range Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: date_range
+    start_date: '2025-01-01'  # YYYY-MM-DD
+    end_date: '2025-12-31'    # Optional
+```
+
+#### Composite Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: composite
+    operator: AND  # or OR
+    strategies:
+        - type: percentage
+          percentage: 50
+        - type: date_range
+          start_date: '2025-01-01'
+```
+
+---
+
 ## Troubleshooting
 
 ### Database Table Doesn't Exist
@@ -549,6 +739,46 @@ $this->flags->isEnabled('experiments.feature', [
 
 ---
 
+## Uninstallation
+
+### Step 1: Remove bundle registration
+
+Edit `config/bundles.php` and remove the line:
+
+```php
+Pulse\Flags\Core\PulseFlagsBundle::class => ['all' => true],
+```
+
+### Step 2: Remove configuration files
+
+```bash
+rm -rf config/packages/pulse_flags.yaml
+rm -rf config/packages/pulse_flags/
+```
+
+### Step 3: Clear cache
+
+```bash
+php bin/console cache:clear
+# or
+rm -rf var/cache/*
+```
+
+### Step 4: Remove the package
+
+```bash
+composer remove pulse/flags-bundle
+```
+
+### Step 5 (Optional): Drop database table
+
+```bash
+php bin/console doctrine:query:sql "DROP TABLE pulse_feature_flags"
+# Or create a migration to remove the table
+```
+
+---
+
 ## Related Packages
 
 - **[pulse/flags-admin-panel-bundle](https://github.com/pulse/flags-admin-panel-bundle)** - Web UI for managing feature flags
@@ -562,3 +792,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 This bundle is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Credits
+
+Developed with ❤️ by the Pulse team.

@@ -30,7 +30,7 @@ use Pulse\Flags\Core\Enum\FlagStrategy;
  * Context requirements:
  * - 'user_id' (recommended): For consistent per-user bucketing
  * - 'session_id' (fallback): For anonymous users
- * - Falls back to random ID if neither provided (not recommended for production)
+ * - Returns false if neither is provided (fail-safe behavior)
  */
 class PercentageStrategy implements StrategyInterface
 {
@@ -40,6 +40,9 @@ class PercentageStrategy implements StrategyInterface
      * Uses consistent hash-based bucketing to ensure the same user always
      * gets the same result. Percentage of 100 or more always returns true,
      * percentage of 0 or less always returns false.
+     *
+     * IMPORTANT: Requires 'user_id' or 'session_id' in context for consistent bucketing.
+     * Returns false if no identifier is provided (fail-safe behavior).
      *
      * @param array<string, mixed> $config Configuration array with 'percentage' key (0-100)
      * @param array<string, mixed> $context Runtime context with 'user_id' or 'session_id'
@@ -57,8 +60,15 @@ class PercentageStrategy implements StrategyInterface
             return false;
         }
 
-        // Use user_id for consistent bucketing
-        $identifier = $context['user_id'] ?? $context['session_id'] ?? uniqid();
+        // Use user_id or session_id for consistent bucketing
+        // CRITICAL FIX: Removed uniqid() fallback to ensure consistency
+        $identifier = $context['user_id'] ?? $context['session_id'] ?? null;
+
+        if ($identifier === null) {
+            // Fail-safe: return false when no identifier provided
+            // This ensures consistent behavior and prevents random bucketing
+            return false;
+        }
 
         // Calculate hash bucket (0-99)
         $bucket = crc32((string)$identifier) % PercentageConstants::HASH_BUCKETS;
