@@ -47,7 +47,7 @@ class UserIdStrategy implements StrategyInterface
      * Determines if the feature should be enabled based on user ID lists.
      *
      * Checks the user_id from context against whitelist or blacklist.
-     * Uses strict type comparison (===) for security.
+     * Uses O(1) hash lookup for optimal performance with large lists.
      *
      * @param array<string, mixed> $config Configuration with 'whitelist' and/or 'blacklist' keys
      * @param array<string, mixed> $context Runtime context with 'user_id' key
@@ -61,14 +61,16 @@ class UserIdStrategy implements StrategyInterface
             return false;
         }
 
-        // Check whitelist
+        // Check whitelist - O(1) hash lookup using array_flip
         if (!empty($config['whitelist'])) {
-            return in_array($userId, $config['whitelist'], true);
+            $whitelist = array_flip($config['whitelist']);
+            return isset($whitelist[$userId]);
         }
 
-        // Check blacklist
+        // Check blacklist - O(1) hash lookup using array_flip
         if (!empty($config['blacklist'])) {
-            return !in_array($userId, $config['blacklist'], true);
+            $blacklist = array_flip($config['blacklist']);
+            return !isset($blacklist[$userId]);
         }
 
         return true;

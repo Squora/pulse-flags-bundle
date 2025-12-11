@@ -35,28 +35,58 @@ abstract class AbstractFeatureFlagServiceService implements FeatureFlagServiceIn
 
     public function isEnabled(string $name, array $context = []): bool
     {
+        $startTime = microtime(true);
+
         $config = $this->getConfig($name);
         if (null === $config) {
-            $this->logger?->debug($this->getLogPrefix() . ' feature flag not found', [
+            $this->logger?->info('Feature flag not found', [
                 'flag' => $name,
+                'flag_type' => $this->getLogPrefix(),
+                'result' => false,
+                'reason' => 'not_found',
             ]);
 
             return false;
         }
 
-        if (!($config['enabled'] ?? false)) {
+        $enabled = $config['enabled'] ?? false;
+        if (!$enabled) {
+            $this->logger?->info('Feature flag disabled', [
+                'flag' => $name,
+                'flag_type' => $this->getLogPrefix(),
+                'result' => false,
+                'reason' => 'disabled',
+            ]);
+
             return false;
         }
 
         $strategyName = $config['strategy'] ?? FlagStrategy::SIMPLE->value;
         if (FlagStrategy::SIMPLE->value === $strategyName) {
+            $duration = (microtime(true) - $startTime) * 1000;
+
+            $this->logger?->info('Feature flag evaluated', [
+                'flag' => $name,
+                'flag_type' => $this->getLogPrefix(),
+                'strategy' => $strategyName,
+                'result' => true,
+                'duration_ms' => round($duration, 2),
+            ]);
+
             return true;
         }
 
         if (!isset($this->strategies[$strategyName])) {
-            $this->logger?->warning('Strategy not found for ' . $this->getLogPrefix() . ' flag', [
+            $duration = (microtime(true) - $startTime) * 1000;
+
+            $this->logger?->error('Strategy not found for feature flag', [
                 'flag' => $name,
+                'flag_type' => $this->getLogPrefix(),
                 'strategy' => $strategyName,
+                'result' => false,
+                'reason' => 'strategy_not_found',
+                'available_strategies' => array_keys($this->strategies),
+                'duration_ms' => round($duration, 2),
             ]);
 
             return false;
@@ -64,12 +94,16 @@ abstract class AbstractFeatureFlagServiceService implements FeatureFlagServiceIn
 
         $strategy = $this->strategies[$strategyName];
         $result = $strategy->isEnabled($config, $context);
+        $duration = (microtime(true) - $startTime) * 1000;
 
-        $this->logger?->debug($this->getLogPrefix() . ' feature flag evaluated', [
+        $this->logger?->info('Feature flag evaluated', [
             'flag' => $name,
+            'flag_type' => $this->getLogPrefix(),
             'strategy' => $strategyName,
             'result' => $result,
-            'context' => $context,
+            'duration_ms' => round($duration, 2),
+            'context_keys' => array_keys($context),
+            'context_size' => count($context),
         ]);
 
         return $result;

@@ -25,13 +25,14 @@ use Pulse\Flags\Core\Enum\FlagStrategy;
  * ]
  * ```
  *
- * Example configuration (active from specific date onwards):
+ * Example configuration with timezone (active from specific date onwards):
  * ```php
  * [
  *     'enabled' => true,
  *     'strategy' => 'date_range',
  *     'start_date' => '2025-01-01',  // Active from January 1st
  *     'end_date' => null,             // No end date
+ *     'timezone' => 'America/New_York',  // Optional timezone (defaults to server timezone)
  * ]
  * ```
  *
@@ -42,6 +43,7 @@ use Pulse\Flags\Core\Enum\FlagStrategy;
  * - Dates are inclusive (both start and end dates are included)
  * - Start date is normalized to 00:00:00 (beginning of day)
  * - End date is normalized to 23:59:59 (end of day)
+ * - Timezone is applied to all dates if specified (server timezone if not)
  * - If only start_date: Feature enabled from that date onwards
  * - If only end_date: Feature enabled until that date
  * - Invalid dates return false (fail-safe behavior)
@@ -67,6 +69,12 @@ class DateRangeStrategy implements StrategyInterface
                 $currentDate = new \DateTimeImmutable($currentDate);
             }
 
+            // Apply timezone if specified in configuration
+            if (!empty($config['timezone'])) {
+                $timezone = new \DateTimeZone($config['timezone']);
+                $currentDate = $currentDate->setTimezone($timezone);
+            }
+
             $startDate = null;
             $endDate = null;
 
@@ -74,6 +82,13 @@ class DateRangeStrategy implements StrategyInterface
                 $startDate = $config['start_date'] instanceof \DateTimeInterface
                     ? \DateTimeImmutable::createFromInterface($config['start_date'])
                     : new \DateTimeImmutable($config['start_date']);
+
+                // Apply timezone if specified
+                if (!empty($config['timezone'])) {
+                    $timezone = new \DateTimeZone($config['timezone']);
+                    $startDate = $startDate->setTimezone($timezone);
+                }
+
                 // Normalize to start of day
                 $startDate = $startDate->setTime(0, 0, 0);
             }
@@ -82,6 +97,13 @@ class DateRangeStrategy implements StrategyInterface
                 $endDate = $config['end_date'] instanceof \DateTimeInterface
                     ? \DateTimeImmutable::createFromInterface($config['end_date'])
                     : new \DateTimeImmutable($config['end_date']);
+
+                // Apply timezone if specified
+                if (!empty($config['timezone'])) {
+                    $timezone = new \DateTimeZone($config['timezone']);
+                    $endDate = $endDate->setTimezone($timezone);
+                }
+
                 // Normalize to end of day
                 $endDate = $endDate->setTime(23, 59, 59);
             }

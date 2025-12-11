@@ -16,8 +16,13 @@
 
 ## Features
 
-- **Percentage Rollout** - Gradual feature deployment with consistent user bucketing (CRC32 hashing)
-- **Multiple Strategies** - Simple, percentage, user ID whitelist/blacklist, date range, composite
+- **Advanced Rollout Strategies** - 10 powerful strategies for precise targeting
+  - Percentage rollout with 0.001% precision (100,000 buckets)
+  - User segments (reusable groups)
+  - Custom attributes with 13 operators (equals, in, greater_than, contains, regex, etc.)
+  - Progressive rollout (automated gradual releases)
+  - IP/Geo targeting
+- **Flexible Configuration** - Hash algorithms (CRC32, MD5, SHA256, MurmurHash3), stickiness, timezone support
 - **Dual Storage Architecture**:
   - **Permanent Flags** - Read-only flags from YAML/PHP config files (version-controlled, critical features)
   - **Persistent Flags** - Runtime-mutable flags in database (MySQL, PostgreSQL, SQLite)
@@ -62,7 +67,7 @@ pulse_flags:
     permanent_storage: yaml  # Options: yaml, php
 
     # Storage backend for persistent (runtime mutable) flags
-    persistent_storage: db   # Options: db
+    persistent_storage: db   # Options: db, php
 
     # Database configuration (for persistent storage)
     db:
@@ -209,22 +214,56 @@ feature:
 
 ### 2. Percentage Strategy
 
-Gradual rollout with consistent user bucketing:
+Gradual rollout with consistent user bucketing (100,000 buckets for high precision):
 
 ```yaml
+# Standard rollout
 new_checkout:
     enabled: true
     strategy: percentage
     percentage: 25  # 25% of users
+
+# Fine-grained rollout (supports up to 3 decimal places)
+early_adopters:
+    enabled: true
+    strategy: percentage
+    percentage: 0.125  # 0.125% of users (125 out of 100,000)
+
+# Custom hash algorithm and seed
+experiment_v2:
+    enabled: true
+    strategy: percentage
+    percentage: 50
+    hash_algorithm: 'murmur3'  # Options: crc32 (default), md5, sha256, murmur3
+    hash_seed: 'exp-2025-q1'  # Optional seed for re-randomization
+
+# B2B: Hash by company (all users in same company get same experience)
+enterprise_feature:
+    enabled: true
+    strategy: percentage
+    percentage: 25
+    stickiness: 'company_id'  # Hash by company_id instead of user_id
+
+# Stickiness with fallback chain
+anonymous_feature:
+    enabled: true
+    strategy: percentage
+    percentage: 10
+    stickiness: ['user_id', 'session_id', 'device_id']  # Try in order
 ```
 
 ```php
 $this->flags->isEnabled('experiments.new_checkout', [
     'user_id' => $userId,  // Required for consistent bucketing
 ]);
+
+// For B2B features with company stickiness
+$this->flags->isEnabled('enterprise_feature', [
+    'company_id' => $companyId,  // All users in company get same experience
+]);
 ```
 
-**Important:** Same user always gets same result (uses CRC32 hash bucketing).
+**Important:** Same user always gets same result (consistent hash-based bucketing with 100,000 buckets).
 
 ### 3. User ID Strategy
 
@@ -255,6 +294,7 @@ holiday_promo:
     strategy: date_range
     start_date: '2025-12-01'
     end_date: '2025-12-31'
+    timezone: 'America/New_York'  # Optional - ensures correct time for global apps
 ```
 
 ```php
@@ -279,11 +319,249 @@ complex_feature:
     operator: AND  # or OR
 ```
 
+### 6. Segment Strategy
+
+Define reusable user groups once, reference across multiple flags:
+
+```yaml
+# First, configure segments in pulse_flags configuration
+pulse_flags:
+    segments:
+        premium_users:
+            type: 'static'
+            user_ids: ['1', '2', '3', '123', '456']
+
+        internal_team:
+            type: 'dynamic'
+            condition: 'email_domain'
+            value: 'company.com'
+
+        us_users:
+            type: 'dynamic'
+            condition: 'country'
+            value: 'US'
+
+# Then use segments in flags
+premium_feature:
+    enabled: true
+    strategy: segment
+    segments: ['premium_users', 'internal_team']  # OR logic - user in ANY segment
+
+regional_feature:
+    enabled: true
+    strategy: segment
+    segments: ['us_users']
+```
+
+```php
+$this->flags->isEnabled('premium_feature', [
+    'user_id' => $userId,  // Required for all segments
+    'email' => $email,     // Required for email_domain dynamic segments
+    'country' => $country, // Required for country dynamic segments
+]);
+```
+
+**Benefits:**
+- Define user groups once, reuse everywhere
+- Eliminates repetitive whitelist configurations
+- Supports both static (explicit lists) and dynamic (rule-based) segments
+
+### 7. Custom Attribute Strategy
+
+Target users by any attribute with powerful operators:
+
+```yaml
+# Premium subscribers with account age > 30 days
+premium_feature:
+    enabled: true
+    strategy: custom_attribute
+    rules:
+        - attribute: 'subscription_tier'
+          operator: 'in'
+          values: ['premium', 'enterprise']
+        - attribute: 'account_age_days'
+          operator: 'greater_than'
+          value: 30
+
+# Regional feature for specific countries
+regional_feature:
+    enabled: true
+    strategy: custom_attribute
+    rules:
+        - attribute: 'country'
+          operator: 'in'
+          values: ['US', 'CA', 'GB']
+
+# Educational institutions
+edu_feature:
+    enabled: true
+    strategy: custom_attribute
+    rules:
+        - attribute: 'email'
+          operator: 'ends_with'
+          value: '.edu'
+
+# Advanced regex matching
+beta_program:
+    enabled: true
+    strategy: custom_attribute
+    rules:
+        - attribute: 'phone_number'
+          operator: 'regex'
+          value: '/^\+1/'
+```
+
+```php
+$this->flags->isEnabled('premium_feature', [
+    'subscription_tier' => 'premium',
+    'account_age_days' => 45,
+    'country' => 'US',
+    'email' => 'user@example.com',
+]);
+```
+
+**Available operators:**
+- `equals`, `not_equals` - Exact comparison
+- `in`, `not_in` - Array membership
+- `greater_than`, `less_than`, `greater_than_or_equals`, `less_than_or_equals` - Numeric comparison
+- `contains`, `not_contains` - Substring matching
+- `starts_with`, `ends_with` - String prefix/suffix
+- `regex` - Regular expression matching
+
+**Logic:** All rules must pass (AND logic)
+
+### 8. Progressive Rollout Strategy
+
+Automate gradual rollouts with scheduled percentage increases:
+
+```yaml
+# Simple progressive rollout
+new_feature:
+    enabled: true
+    strategy: progressive_rollout
+    schedule:
+        - { percentage: 1, start_date: '2025-01-01' }
+        - { percentage: 5, start_date: '2025-01-03' }
+        - { percentage: 25, start_date: '2025-01-07' }
+        - { percentage: 50, start_date: '2025-01-10' }
+        - { percentage: 100, start_date: '2025-01-15' }
+    stickiness: 'user_id'
+
+# Fine-grained rollout with timezone
+critical_feature:
+    enabled: true
+    strategy: progressive_rollout
+    schedule:
+        - { percentage: 0.1, start_date: '2025-01-01 00:00:00' }
+        - { percentage: 1, start_date: '2025-01-01 12:00:00' }
+        - { percentage: 5, start_date: '2025-01-02 00:00:00' }
+        - { percentage: 100, start_date: '2025-01-07 00:00:00' }
+    stickiness: ['user_id', 'session_id']
+    timezone: 'America/New_York'
+```
+
+```php
+$this->flags->isEnabled('new_feature', [
+    'user_id' => $userId,  // Required for consistent bucketing
+]);
+```
+
+**Benefits:**
+- Automate gradual rollouts without manual intervention
+- Reduce risk by slowly increasing user exposure
+- Monitor metrics at each stage before expanding
+- Easy rollback by adjusting schedule
+
+### 9. IP Strategy
+
+Target users by IP address (supports CIDR notation):
+
+```yaml
+# Internal testing (office network)
+internal_feature:
+    enabled: true
+    strategy: ip
+    whitelist_ips: ['203.0.113.42', '198.51.100.10']
+
+# Private networks (VPN, office)
+vpn_feature:
+    enabled: true
+    strategy: ip
+    ip_ranges: ['10.0.0.0/8', '192.168.0.0/16', '172.16.0.0/12']
+
+# Mixed configuration
+staging_access:
+    enabled: true
+    strategy: ip
+    whitelist_ips: ['203.0.113.42']
+    ip_ranges: ['10.0.0.0/8']
+```
+
+```php
+$this->flags->isEnabled('internal_feature', [
+    'ip_address' => $request->getClientIp(),
+]);
+```
+
+**Supported formats:**
+- IPv4: `192.168.1.1`
+- IPv6: `2001:0db8:85a3:0000:0000:8a2e:0370:7334`
+- CIDR: `192.168.0.0/16`, `2001:db8::/32`
+
+### 10. Geo Strategy
+
+Target users by geographic location:
+
+```yaml
+# Country-based targeting
+eu_feature:
+    enabled: true
+    strategy: geo
+    countries: ['DE', 'FR', 'GB', 'IT', 'ES', 'NL', 'BE']  # ISO 3166-1 alpha-2
+
+# GDPR compliance (all EU countries)
+gdpr_banner:
+    enabled: true
+    strategy: geo
+    countries: [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE',
+    ]
+
+# Regional targeting
+california_feature:
+    enabled: true
+    strategy: geo
+    regions: ['CA']  # US state codes
+
+# City-based targeting
+metro_feature:
+    enabled: true
+    strategy: geo
+    cities: ['New York', 'Los Angeles', 'Chicago']
+```
+
+```php
+$this->flags->isEnabled('eu_feature', [
+    'country' => 'DE',  // ISO 3166-1 alpha-2 code
+    'region' => 'CA',   // Optional - state/region code
+    'city' => 'Berlin', // Optional - city name
+]);
+```
+
+**Note:** Geographic data must be provided in context. Common approaches:
+- CDN edge functions (Cloudflare Workers, AWS Lambda@Edge)
+- Application middleware using GeoIP2/MaxMind databases
+- Reverse proxy headers (X-Country-Code)
+
 ---
 
 ## CLI Commands
 
-### List All Flags
+### Flag Management
+
+#### List All Flags
 
 ```bash
 php bin/console pulse:flags:list
@@ -291,13 +569,13 @@ php bin/console pulse:flags:list
 # Output shows both permanent and persistent flags with their status
 ```
 
-### Create Flag
+#### Create Flag
 
 ```bash
 php bin/console pulse:flags:create my_new_feature
 ```
 
-### Enable Flag
+#### Enable Flag
 
 ```bash
 # Simple enable
@@ -313,7 +591,7 @@ php bin/console pulse:flags:enable my_feature --whitelist=123 --whitelist=456
 php bin/console pulse:flags:enable my_feature --start-date=2025-01-01 --end-date=2025-12-31
 ```
 
-### Disable Flag
+#### Disable Flag
 
 ```bash
 # Disable (keeps config, sets enabled=false)
@@ -323,7 +601,7 @@ php bin/console pulse:flags:disable my_feature
 php bin/console pulse:flags:disable my_feature --remove
 ```
 
-### Check Flag Status
+#### Check Flag Status
 
 ```bash
 php bin/console pulse:flags:check my_feature
@@ -332,7 +610,7 @@ php bin/console pulse:flags:check my_feature
 php bin/console pulse:flags:check my_feature --user-id=123
 ```
 
-### Initialize Storage
+#### Initialize Storage
 
 ```bash
 # Create DB tables or initialize storage
@@ -341,6 +619,209 @@ php bin/console pulse:flags:init-storage
 # Force re-initialization
 php bin/console pulse:flags:init-storage --force
 ```
+
+### Validation & Testing
+
+#### Validate Flag Configuration
+
+Validate flag configurations for errors and warnings:
+
+```bash
+# Validate single flag
+php bin/console pulse:flags:validate experiments.new_feature
+
+# Validate all flags
+php bin/console pulse:flags:validate
+
+# Exit codes:
+#   0 - All flags valid
+#   1 - Validation errors found
+#   2 - Warnings found (non-blocking)
+```
+
+**Validation checks:**
+- Required fields presence
+- Value ranges and formats (percentage 0-100, dates, etc.)
+- Strategy-specific rules (whitelist XOR blacklist, schedule order)
+- Performance warnings (large user lists, past end dates)
+
+#### Test Flag Evaluation
+
+Test how a flag evaluates with specific context:
+
+```bash
+# Test with user ID
+php bin/console pulse:flags:test experiments.new_feature --user-id=123
+
+# Test with multiple context values
+php bin/console pulse:flags:test geo.eu_feature --country=DE --email=user@example.com
+
+# Test with custom attributes
+php bin/console pulse:flags:test premium.feature \
+  --context=subscription_tier=premium \
+  --context=account_age_days=45
+
+# Test progressive rollout
+php bin/console pulse:flags:test rollout.gradual --user-id=123
+```
+
+**Output shows:**
+- Final evaluation result (enabled/disabled)
+- Flag configuration
+- Applied context
+- Strategy used
+
+### Import & Export
+
+#### Export Flags
+
+Export all flags to JSON or YAML:
+
+```bash
+# Export to stdout (JSON)
+php bin/console pulse:flags:export
+
+# Export to file (pretty JSON)
+php bin/console pulse:flags:export --output=flags.json --pretty
+
+# Export to YAML
+php bin/console pulse:flags:export --format=yaml --output=flags.yaml
+```
+
+#### Import Flags
+
+Import flags from JSON or YAML file:
+
+```bash
+# Import from JSON file
+php bin/console pulse:flags:import flags.json
+
+# Import from YAML file
+php bin/console pulse:flags:import flags.yaml --format=yaml
+
+# Merge with existing flags (skip existing, add new only)
+php bin/console pulse:flags:import flags.json --merge
+
+# Dry run (preview changes without applying)
+php bin/console pulse:flags:import flags.json --dry-run
+```
+
+**Note:** Import only works with persistent flags (database). Permanent flags must be edited manually in YAML files.
+
+### Segment Management
+
+#### List Segments
+
+```bash
+# List all segments
+php bin/console pulse:flags:segments:list
+
+# Filter by type
+php bin/console pulse:flags:segments:list --type=static
+
+# Show detailed information
+php bin/console pulse:flags:segments:list --detailed
+```
+
+#### Create Segment
+
+```bash
+# Create static segment with user IDs
+php bin/console pulse:flags:segments:create premium_users \
+  --user-ids=1 --user-ids=2 --user-ids=3
+
+# Create dynamic segment (email domain)
+php bin/console pulse:flags:segments:create internal_team \
+  --type=dynamic --condition=email_domain --value=company.com
+
+# Create dynamic segment (country)
+php bin/console pulse:flags:segments:create eu_users \
+  --type=dynamic --condition=country --operator=in --value=DE,FR,GB
+```
+
+---
+
+## Developer Experience
+
+### Enhanced Logging
+
+All flag evaluations are automatically logged with structured context for debugging and monitoring:
+
+```php
+// Every isEnabled() call logs:
+[2025-01-15 10:30:45] app.INFO: Feature flag evaluated {
+    "flag": "experiments.new_checkout",
+    "flag_type": "Persistent",
+    "strategy": "percentage",
+    "result": true,
+    "duration_ms": 1.23,
+    "context_keys": ["user_id", "email"],
+    "context_size": 2
+}
+```
+
+**Log levels:**
+- `INFO` - Successful flag evaluation, flag not found (returns false)
+- `ERROR` - Strategy not found, configuration errors
+
+**Configure logging in your PSR-3 logger:**
+
+```yaml
+# config/packages/monolog.yaml
+monolog:
+    handlers:
+        feature_flags:
+            type: stream
+            path: "%kernel.logs_dir%/feature_flags.log"
+            level: info
+            channels: ["app"]
+```
+
+### Strategy Validation Framework
+
+Comprehensive validation framework checks all strategy configurations for errors and warnings:
+
+**Features:**
+- **Automatic validation** - Validates all 10 strategies with strategy-specific rules
+- **Early error detection** - Catch configuration errors before deployment
+- **Performance warnings** - Warns about large user lists, past dates, etc.
+- **CI/CD integration** - Use exit codes for automated testing
+
+**Example validation errors:**
+
+```bash
+$ php bin/console pulse:flags:validate experiments.bad_config
+
+Flag configuration has errors:
+  • Percentage must be between 0 and 100 (got: 150)
+  • Hash algorithm must be one of: crc32, md5, sha256, murmur3 (got: invalid)
+
+Warnings:
+  • Percentage < 0.001% may not work reliably with small user bases
+```
+
+**Validators for all strategies:**
+- `PercentageStrategyValidator` - Validates percentage range, hash algorithm, stickiness
+- `UserIdStrategyValidator` - Validates whitelist/blacklist (XOR), warns on large lists
+- `DateRangeStrategyValidator` - Validates date formats, timezone, logical order
+- `SegmentStrategyValidator` - Validates segment existence
+- `CustomAttributeStrategyValidator` - Validates rules, operators, regex patterns
+- `ProgressiveRolloutStrategyValidator` - Validates schedule order, percentages
+- `IpStrategyValidator` - Validates IP addresses and CIDR notation
+- `GeoStrategyValidator` - Validates country codes (ISO 3166-1 alpha-2)
+- `CompositeStrategyValidator` - Recursively validates nested strategies
+
+### Import/Export for Backup & Migration
+
+Export and import flags for:
+- **Backup & restore** - Regular snapshots of flag configurations
+- **Environment sync** - Copy flags from staging to production
+- **Migration** - Move flags between projects
+- **Version control** - Export to commit alongside code
+
+**Supported formats:**
+- JSON (compact or pretty-printed)
+- YAML (human-readable)
 
 ---
 
@@ -379,6 +860,8 @@ For development/testing:
 ```yaml
 pulse_flags:
     permanent_storage: php  # Flags stored in PHP files
+    # or
+    persistent_storage: php # In-memory array storage
 ```
 
 ---
@@ -486,13 +969,219 @@ Commands are organized by purpose:
 
 ### Strategies
 
-Five activation strategies are available:
+Ten activation strategies are available:
 
 - **`SimpleStrategy`** - Basic on/off toggle
-- **`PercentageStrategy`** - Gradual rollout with consistent bucketing
-- **`UserIdStrategy`** - Whitelist/blacklist specific users
-- **`DateRangeStrategy`** - Time-bounded features
+- **`PercentageStrategy`** - Gradual rollout with consistent bucketing (100,000 buckets)
+- **`UserIdStrategy`** - Whitelist/blacklist specific users (O(1) hash set lookups)
+- **`DateRangeStrategy`** - Time-bounded features with timezone support
 - **`CompositeStrategy`** - Combine multiple strategies with AND/OR logic
+- **`SegmentStrategy`** - Reusable user groups (static and dynamic segments)
+- **`CustomAttributeStrategy`** - Rule-based targeting with 13 operators
+- **`ProgressiveRolloutStrategy`** - Automated gradual rollout schedules
+- **`IpStrategy`** - IP address targeting with CIDR support (IPv4/IPv6)
+- **`GeoStrategy`** - Geographic targeting (country/region/city)
+
+---
+
+## Project Structure
+
+```
+config/
+├── packages/pulse_flags/
+│   ├── core.yaml          # Permanent flags (read-only)
+│   ├── experiments.yaml   # More permanent flags
+│   └── rollouts.yaml      # Even more permanent flags
+├── routes.yaml
+└── services.yaml
+
+src/
+├── Service/
+│   ├── AbstractFeatureFlagServiceService.php
+│   ├── FeatureFlagServiceInterface.php
+│   ├── PermanentFeatureFlagService.php
+│   └── PersistentFeatureFlagService.php
+├── Storage/
+│   ├── StorageInterface.php
+│   ├── DbStorage.php             # Database backend
+│   ├── PhpStorage.php            # PHP array storage
+│   └── YamlStorage.php           # YAML file storage (read-only)
+├── Strategy/
+│   ├── StrategyInterface.php
+│   ├── SimpleStrategy.php
+│   ├── PercentageStrategy.php
+│   ├── UserIdStrategy.php
+│   ├── DateRangeStrategy.php
+│   └── CompositeStrategy.php
+├── Command/
+│   ├── Flag/
+│   │   ├── CreateFlagCommand.php
+│   │   ├── EnableFlagCommand.php
+│   │   ├── DisableFlagCommand.php
+│   │   └── RemoveFlagCommand.php
+│   ├── Query/
+│   │   ├── CheckFlagCommand.php
+│   │   └── ListFlagsCommand.php
+│   └── Setup/
+│       └── InitStorageCommand.php
+├── Twig/
+│   └── FeatureFlagExtension.php
+├── DependencyInjection/
+│   ├── Configuration.php
+│   ├── PulseFlagsExtension.php
+│   └── FlagsConfigurationLoader.php
+└── PulseFlagsBundle.php
+```
+
+---
+
+## API Reference
+
+### FeatureFlagServiceInterface
+
+Main interface for checking feature flags:
+
+```php
+interface FeatureFlagServiceInterface
+{
+    /**
+     * Check if a feature flag is enabled
+     *
+     * @param string $name Flag name (e.g., 'core.new_ui')
+     * @param array $context Context for strategy evaluation
+     * @return bool True if enabled
+     */
+    public function isEnabled(string $name, array $context = []): bool;
+
+    /**
+     * Get flag configuration
+     *
+     * @param string $name Flag name
+     * @return array|null Configuration or null if not found
+     */
+    public function getConfig(string $name): ?array;
+
+    /**
+     * Check if flag exists
+     *
+     * @param string $name Flag name
+     * @return bool True if exists
+     */
+    public function exists(string $name): bool;
+
+    /**
+     * Get all flags
+     *
+     * @return array<string, array> All flags keyed by name
+     */
+    public function all(): array;
+}
+```
+
+### PersistentFeatureFlagService
+
+Service for runtime-mutable flags with additional methods:
+
+```php
+class PersistentFeatureFlagService implements FeatureFlagServiceInterface
+{
+    /** Configure or update a flag */
+    public function configure(string $name, array $config): void;
+
+    /** Enable a flag (sets enabled=true) */
+    public function enable(string $name): void;
+
+    /** Disable a flag (sets enabled=false) */
+    public function disable(string $name): void;
+
+    /** Remove a flag completely */
+    public function remove(string $name): void;
+}
+```
+
+### Context Parameters
+
+Context object passed to `isEnabled()` for strategy evaluation:
+
+| Parameter | Type | Used By Strategy | Description |
+|-----------|------|------------------|-------------|
+| `user_id` | string\|int | percentage, user_id, segment | User identifier for consistent bucketing |
+| `session_id` | string | percentage | Session identifier (fallback if no user_id) |
+| `current_date` | DateTime | date_range | Current date for time-bounded features |
+| `company_id` | string\|int | percentage (stickiness) | Company identifier for B2B features |
+| `email` | string | segment (dynamic), custom_attribute | User email address |
+| `country` | string | segment (dynamic), custom_attribute, geo | ISO 3166-1 alpha-2 country code |
+| `region` | string | geo | State/region code or name |
+| `city` | string | geo | City name |
+| `ip_address` | string | ip | User's IP address (IPv4 or IPv6) |
+| *custom* | mixed | custom_attribute | Any custom attribute for rule-based targeting |
+
+**Example:**
+```php
+$context = [
+    'user_id' => $user->getId(),
+    'session_id' => $session->getId(),
+    'current_date' => new \DateTime(),
+    'email' => $user->getEmail(),
+    'country' => 'US',
+    'region' => 'CA',
+    'city' => 'San Francisco',
+    'ip_address' => $request->getClientIp(),
+    'subscription_tier' => 'premium',
+    'account_age_days' => 45,
+];
+
+$isEnabled = $flagService->isEnabled('my_feature', $context);
+```
+
+### Strategy Configuration Reference
+
+#### Simple Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: simple
+```
+
+#### Percentage Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: percentage
+    percentage: 25  # 0-100
+```
+
+#### User ID Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: user_id
+    whitelist: ['123', '456']  # Allow only these users
+    # OR
+    blacklist: ['999']  # Block these users
+```
+
+#### Date Range Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: date_range
+    start_date: '2025-01-01'  # YYYY-MM-DD
+    end_date: '2025-12-31'    # Optional
+```
+
+#### Composite Strategy
+```yaml
+my_feature:
+    enabled: true
+    strategy: composite
+    operator: AND  # or OR
+    strategies:
+        - type: percentage
+          percentage: 50
+        - type: date_range
+          start_date: '2025-01-01'
+```
 
 ---
 
@@ -549,6 +1238,46 @@ $this->flags->isEnabled('experiments.feature', [
 
 ---
 
+## Uninstallation
+
+### Step 1: Remove bundle registration
+
+Edit `config/bundles.php` and remove the line:
+
+```php
+Pulse\Flags\Core\PulseFlagsBundle::class => ['all' => true],
+```
+
+### Step 2: Remove configuration files
+
+```bash
+rm -rf config/packages/pulse_flags.yaml
+rm -rf config/packages/pulse_flags/
+```
+
+### Step 3: Clear cache
+
+```bash
+php bin/console cache:clear
+# or
+rm -rf var/cache/*
+```
+
+### Step 4: Remove the package
+
+```bash
+composer remove pulse/flags-bundle
+```
+
+### Step 5 (Optional): Drop database table
+
+```bash
+php bin/console doctrine:query:sql "DROP TABLE pulse_feature_flags"
+# Or create a migration to remove the table
+```
+
+---
+
 ## Related Packages
 
 - **[pulse/flags-admin-panel-bundle](https://github.com/pulse/flags-admin-panel-bundle)** - Web UI for managing feature flags
@@ -562,3 +1291,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 This bundle is released under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Credits
+
+Developed with ❤️ by the Pulse team.
