@@ -62,7 +62,7 @@ pulse_flags:
     permanent_storage: yaml  # Options: yaml, php
 
     # Storage backend for persistent (runtime mutable) flags
-    persistent_storage: db   # Options: db, php
+    persistent_storage: db   # Options: db
 
     # Database configuration (for persistent storage)
     db:
@@ -229,7 +229,7 @@ experiment_v2:
     enabled: true
     strategy: percentage
     percentage: 50
-    hash_algorithm: 'murmur3'  # Options: crc32 (default), md5, sha256, murmur3
+    hash_algorithm: 'md5'  # Options: crc32 (default), md5, sha256
     hash_seed: 'exp-2025-q1'  # Optional seed for re-randomization
 
 # B2B: Hash by company (all users in same company get same experience)

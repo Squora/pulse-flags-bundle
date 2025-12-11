@@ -35,7 +35,6 @@ class HashCalculator
             HashAlgorithm::CRC32 => $this->crc32Hash($hashInput),
             HashAlgorithm::MD5 => $this->md5Hash($hashInput),
             HashAlgorithm::SHA256 => $this->sha256Hash($hashInput),
-            HashAlgorithm::MURMUR3 => $this->murmur3Hash($hashInput),
         };
 
         return $hash % $buckets;
@@ -78,20 +77,5 @@ class HashCalculator
         $hexHash = hash('sha256', $input);
         // Use first 8 hex characters (32 bits)
         return abs((int) hexdec(substr($hexHash, 0, 8)));
-    }
-
-    /**
-     * MurmurHash3 approximation using MD5.
-     * PHP doesn't have native MurmurHash3, so we use MD5 as a substitute.
-     * Provides similar distribution characteristics.
-     *
-     * @param string $input The input string to hash
-     * @return int The hash value
-     */
-    private function murmur3Hash(string $input): int
-    {
-        // Use MD5 as MurmurHash3 approximation
-        // In production, consider using pecl-hash extension for true MurmurHash3
-        return $this->md5Hash($input);
     }
 }

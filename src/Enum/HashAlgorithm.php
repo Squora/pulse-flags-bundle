@@ -11,7 +11,6 @@ namespace Pulse\Flags\Core\Enum;
  * - CRC32: Fast, good distribution, default choice
  * - MD5: Better distribution, slightly slower
  * - SHA256: Cryptographic hash, slowest but most secure
- * - MURMUR3: Best distribution, fastest, recommended for high-traffic
  *
  * Use hash seeds to re-randomize experiments without changing user IDs.
  */
@@ -36,12 +35,4 @@ enum HashAlgorithm: string
      * Use for security-sensitive feature flags.
      */
     case SHA256 = 'sha256';
-
-    /**
-     * MurmurHash3 simulation using MD5.
-     * Excellent distribution and performance.
-     * Recommended for high-traffic applications.
-     * Note: PHP doesn't have native MurmurHash3, using MD5 as approximation.
-     */
-    case MURMUR3 = 'murmur3';
 }
