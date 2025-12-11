@@ -34,6 +34,13 @@ interface FeatureFlagServiceInterface
     public function exists(string $name): bool;
 
     /**
+     * Get all flags
+     *
+     * @return array<string, array<string, mixed>> Associative array of flag names to configurations
+     */
+    public function all(): array;
+
+    /**
      * Get paginated flags
      *
      * @param int $page Page number (1-indexed)

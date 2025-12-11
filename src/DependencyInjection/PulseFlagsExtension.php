@@ -70,6 +70,10 @@ class PulseFlagsExtension extends Extension
         $this->configureLogging($container, $config);
 
         $container->setParameter('pulse_flags.permanent_flags', $permanentFlags);
+
+        // Load segments from configuration
+        $segmentsConfig = $config['segments'] ?? [];
+        $container->setParameter('pulse_flags.segments', $segmentsConfig);
     }
 
     /**

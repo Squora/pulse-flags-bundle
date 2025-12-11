@@ -37,7 +37,7 @@ class TestFlagCommand extends Command
             ->addOption('user-id', 'u', InputOption::VALUE_REQUIRED, 'User ID for context')
             ->addOption('session-id', 's', InputOption::VALUE_REQUIRED, 'Session ID for context')
             ->addOption('company-id', 'c', InputOption::VALUE_REQUIRED, 'Company ID for context')
-            ->addOption('email', 'e', InputOption::VALUE_REQUIRED, 'Email for context')
+            ->addOption('email', null, InputOption::VALUE_REQUIRED, 'Email for context')
             ->addOption('country', null, InputOption::VALUE_REQUIRED, 'Country code for context')
             ->addOption('region', null, InputOption::VALUE_REQUIRED, 'Region for context')
             ->addOption('city', null, InputOption::VALUE_REQUIRED, 'City for context')

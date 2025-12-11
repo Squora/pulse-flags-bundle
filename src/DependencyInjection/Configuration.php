@@ -62,6 +62,35 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+
+            ->arrayNode('segments')
+                ->useAttributeAsKey('name')
+                ->arrayPrototype()
+                    ->children()
+                        ->enumNode('type')
+                            ->values(['static', 'dynamic'])
+                            ->defaultValue('static')
+                        ->end()
+                        ->arrayNode('user_ids')
+                            ->scalarPrototype()->end()
+                        ->end()
+                        ->scalarNode('condition')->end()
+                        ->scalarNode('value')->end()
+                    ->end()
+                    ->validate()
+                        ->ifTrue(function ($v) {
+                            return $v['type'] === 'static' && empty($v['user_ids']);
+                        })
+                        ->thenInvalid('Static segments must have user_ids array')
+                    ->end()
+                    ->validate()
+                        ->ifTrue(function ($v) {
+                            return $v['type'] === 'dynamic' && (empty($v['condition']) || !isset($v['value']));
+                        })
+                        ->thenInvalid('Dynamic segments must have both condition and value')
+                    ->end()
+                ->end()
+            ->end()
             ->end();
 
         return $treeBuilder;

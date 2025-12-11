@@ -672,43 +672,6 @@ php bin/console pulse:flags:test rollout.gradual --user-id=123
 - Applied context
 - Strategy used
 
-### Import & Export
-
-#### Export Flags
-
-Export all flags to JSON or YAML:
-
-```bash
-# Export to stdout (JSON)
-php bin/console pulse:flags:export
-
-# Export to file (pretty JSON)
-php bin/console pulse:flags:export --output=flags.json --pretty
-
-# Export to YAML
-php bin/console pulse:flags:export --format=yaml --output=flags.yaml
-```
-
-#### Import Flags
-
-Import flags from JSON or YAML file:
-
-```bash
-# Import from JSON file
-php bin/console pulse:flags:import flags.json
-
-# Import from YAML file
-php bin/console pulse:flags:import flags.yaml --format=yaml
-
-# Merge with existing flags (skip existing, add new only)
-php bin/console pulse:flags:import flags.json --merge
-
-# Dry run (preview changes without applying)
-php bin/console pulse:flags:import flags.json --dry-run
-```
-
-**Note:** Import only works with persistent flags (database). Permanent flags must be edited manually in YAML files.
-
 ### Segment Management
 
 #### List Segments
@@ -811,18 +774,6 @@ Warnings:
 - `IpStrategyValidator` - Validates IP addresses and CIDR notation
 - `GeoStrategyValidator` - Validates country codes (ISO 3166-1 alpha-2)
 - `CompositeStrategyValidator` - Recursively validates nested strategies
-
-### Import/Export for Backup & Migration
-
-Export and import flags for:
-- **Backup & restore** - Regular snapshots of flag configurations
-- **Environment sync** - Copy flags from staging to production
-- **Migration** - Move flags between projects
-- **Version control** - Export to commit alongside code
-
-**Supported formats:**
-- JSON (compact or pretty-printed)
-- YAML (human-readable)
 
 ---
 

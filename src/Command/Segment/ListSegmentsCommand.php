@@ -68,7 +68,7 @@ HELP
         // Filter by type if specified
         if ($typeFilter) {
             $segments = array_filter($segments, function ($segment) use ($typeFilter) {
-                return ($segment['type'] ?? 'static') === $typeFilter;
+                return $segment->getType() === $typeFilter;
             });
 
             if (empty($segments)) {
@@ -92,16 +92,16 @@ HELP
     /**
      * Display segments in simple table format.
      *
-     * @param array<string, array<string, mixed>> $segments
+     * @param array<string, \Pulse\Flags\Core\Segment\SegmentInterface> $segments
      */
     private function displaySimpleSegments(array $segments, SymfonyStyle $io): void
     {
         $rows = [];
-        foreach ($segments as $name => $config) {
-            $type = $config['type'] ?? 'static';
-            $size = $this->getSegmentSize($config);
+        foreach ($segments as $segment) {
+            $type = $segment->getType();
+            $size = $this->getSegmentSize($segment);
 
-            $rows[] = [$name, $type, $size];
+            $rows[] = [$segment->getName(), $type, $size];
         }
 
         $io->table(['Segment Name', 'Type', 'Size'], $rows);
@@ -110,18 +110,18 @@ HELP
     /**
      * Display segments with detailed information.
      *
-     * @param array<string, array<string, mixed>> $segments
+     * @param array<string, \Pulse\Flags\Core\Segment\SegmentInterface> $segments
      */
     private function displayDetailedSegments(array $segments, SymfonyStyle $io): void
     {
-        foreach ($segments as $name => $config) {
-            $io->section($name);
+        foreach ($segments as $segment) {
+            $io->section($segment->getName());
 
-            $type = $config['type'] ?? 'static';
+            $type = $segment->getType();
             $io->writeln(sprintf('<info>Type:</info> %s', $type));
 
-            if ($type === 'static') {
-                $userIds = $config['user_ids'] ?? [];
+            if ($type === 'static' && $segment instanceof \Pulse\Flags\Core\Segment\StaticSegment) {
+                $userIds = $segment->getUserIds();
                 $io->writeln(sprintf('<info>User IDs:</info> %d users', count($userIds)));
 
                 if (count($userIds) <= 10) {
@@ -130,15 +130,11 @@ HELP
                     $io->listing(array_slice($userIds, 0, 10));
                     $io->writeln(sprintf('<comment>... and %d more</comment>', count($userIds) - 10));
                 }
-            } elseif ($type === 'dynamic') {
-                $condition = $config['condition'] ?? 'unknown';
-                $value = $config['value'] ?? '';
+            } elseif ($type === 'dynamic' && $segment instanceof \Pulse\Flags\Core\Segment\DynamicSegment) {
+                $condition = $segment->getCondition();
+                $value = $segment->getValue();
                 $io->writeln(sprintf('<info>Condition:</info> %s', $condition));
-                $io->writeln(sprintf('<info>Value:</info> %s', $value));
-
-                if (isset($config['operator'])) {
-                    $io->writeln(sprintf('<info>Operator:</info> %s', $config['operator']));
-                }
+                $io->writeln(sprintf('<info>Value:</info> %s', is_array($value) ? implode(', ', $value) : $value));
             }
 
             $io->newLine();
@@ -148,14 +144,14 @@ HELP
     /**
      * Get segment size description.
      *
-     * @param array<string, mixed> $config
+     * @param \Pulse\Flags\Core\Segment\SegmentInterface $segment
      */
-    private function getSegmentSize(array $config): string
+    private function getSegmentSize($segment): string
     {
-        $type = $config['type'] ?? 'static';
+        $type = $segment->getType();
 
-        if ($type === 'static') {
-            $count = count($config['user_ids'] ?? []);
+        if ($type === 'static' && $segment instanceof \Pulse\Flags\Core\Segment\StaticSegment) {
+            $count = $segment->getCount();
             return sprintf('%d user%s', $count, $count !== 1 ? 's' : '');
         }
 

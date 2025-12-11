@@ -18,3 +18,27 @@ pulse_flags:
     # Admin panel configuration
     admin:
         require_confirmation: true
+
+    # Segments configuration (optional)
+    # Define reusable user groups for segment-based feature flags
+    segments:
+        # Static segment - explicit list of user IDs
+        premium_users:
+            type: static
+            user_ids: ['1', '2', '3', '123', '456']
+
+        beta_testers:
+            type: static
+            user_ids: ['10', '20', '30']
+
+        # Dynamic segment - email domain matching
+        internal_team:
+            type: dynamic
+            condition: email_domain
+            value: company.com
+
+        # Dynamic segment - country matching
+        us_users:
+            type: dynamic
+            condition: country
+            value: US

@@ -36,6 +36,11 @@ class PermanentFeatureFlagService extends AbstractFeatureFlagServiceService
         return isset($this->permanentFlags[$name]);
     }
 
+    public function all(): array
+    {
+        return $this->permanentFlags;
+    }
+
     public function paginate(int $page = Pagination::DEFAULT_PAGE, int $limit = Pagination::DEFAULT_LIMIT): array
     {
         $limit = min($limit, Pagination::MAX_LIMIT);

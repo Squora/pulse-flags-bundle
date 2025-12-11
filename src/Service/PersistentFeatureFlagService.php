@@ -7,6 +7,7 @@ namespace Pulse\Flags\Core\Service;
 use Psr\Log\LoggerInterface;
 use Pulse\Flags\Core\Constants\Pagination;
 use Pulse\Flags\Core\Enum\FlagStatus;
+use Pulse\Flags\Core\Enum\FlagStrategy;
 use Pulse\Flags\Core\Storage\StorageInterface;
 
 /**
@@ -49,6 +50,11 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
     public function enable(string $name, array $options = []): void
     {
         $config = $this->storage->get($name) ?? [];
+
+        // Ensure strategy is always set (use simple as default)
+        if (!isset($config['strategy']) && !isset($options['strategy'])) {
+            $options['strategy'] = FlagStrategy::SIMPLE->value;
+        }
 
         $config = array_merge($config, $options, ['enabled' => FlagStatus::ENABLED->toBool()]);
         $this->storage->set($name, $config);
@@ -93,6 +99,11 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
     public function exists(string $name): bool
     {
         return $this->storage->has($name);
+    }
+
+    public function all(): array
+    {
+        return $this->storage->all();
     }
 
     public function paginate(int $page = Pagination::DEFAULT_PAGE, int $limit = Pagination::DEFAULT_LIMIT): array
