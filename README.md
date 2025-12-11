@@ -28,6 +28,7 @@
   - **Persistent Flags** - Runtime-mutable flags in database (MySQL, PostgreSQL, SQLite)
 - **Twig Integration** - Built-in `is_feature_enabled()` function for templates
 - **CLI Commands** - Complete command-line management and inspection tools
+- **Configurable Logging** - Optional logging with custom channels, levels, and file output
 - **Protection** - Permanent flags cannot be modified or deleted at runtime
 - **Multi-Storage Support** - MySQL, PostgreSQL, SQLite, PHP arrays, YAML files
 - **Type-Safe** - Full PHP type hints and strict types throughout
@@ -67,7 +68,7 @@ pulse_flags:
     permanent_storage: yaml  # Options: yaml, php
 
     # Storage backend for persistent (runtime mutable) flags
-    persistent_storage: db   # Options: db, php
+    persistent_storage: db   # Options: db
 
     # Database configuration (for persistent storage)
     db:
@@ -234,7 +235,7 @@ experiment_v2:
     enabled: true
     strategy: percentage
     percentage: 50
-    hash_algorithm: 'murmur3'  # Options: crc32 (default), md5, sha256, murmur3
+    hash_algorithm: 'md5'  # Options: crc32 (default), md5, sha256
     hash_seed: 'exp-2025-q1'  # Optional seed for re-randomization
 
 # B2B: Hash by company (all users in same company get same experience)
@@ -860,8 +861,6 @@ For development/testing:
 ```yaml
 pulse_flags:
     permanent_storage: php  # Flags stored in PHP files
-    # or
-    persistent_storage: php # In-memory array storage
 ```
 
 ---
@@ -934,6 +933,100 @@ Use descriptive, namespaced names:
 - flag1
 - test
 - new_feature
+```
+
+---
+
+## Logging
+
+PulseFlags includes configurable logging to help debug configuration issues and audit flag operations.
+
+### Configuration
+
+Configure logging behavior in `config/packages/pulse_flags.yaml`:
+
+```yaml
+pulse_flags:
+    logging:
+        enabled: true              # Enable/disable logging (default: true)
+        channel: 'pulse_flags'     # Monolog channel name (default: 'pulse_flags')
+        level: 'warning'           # Minimum log level (default: 'warning')
+```
+
+### Disable Logging
+
+To completely disable logging:
+
+```yaml
+pulse_flags:
+    logging:
+        enabled: false
+```
+
+### Custom Log Channel with File Output
+
+Create a dedicated log file for feature flags using Monolog:
+
+```yaml
+# config/packages/monolog.yaml
+monolog:
+    channels: ['pulse_flags']
+
+    handlers:
+        pulse_flags:
+            type: stream
+            path: '%kernel.logs_dir%/pulse_flags.log'
+            level: info
+            channels: ['pulse_flags']
+```
+
+```yaml
+# config/packages/pulse_flags.yaml
+pulse_flags:
+    logging:
+        enabled: true
+        channel: 'pulse_flags'
+        level: 'info'
+```
+
+### What Gets Logged
+
+**Warning Level** (default):
+- Missing or unknown strategies in flag configuration
+- Composite strategy configuration errors
+
+**Info Level**:
+- Feature flag configured/enabled/disabled/removed (audit trail for persistent flags)
+
+**Error Level**:
+- Unknown strategy types in composite configurations
+
+### Example Log Output
+
+```
+[2025-01-15 10:23:45] pulse_flags.INFO: [PulseFlags] Feature flag enabled {"flag":"new_checkout","options":{"strategy":"percentage","percentage":25}}
+[2025-01-15 10:24:12] pulse_flags.WARNING: [PulseFlags] Strategy not found for flag {"flag":"beta_feature","strategy":"unknown_strategy","type":"Permanent"}
+[2025-01-15 10:25:33] pulse_flags.ERROR: [PulseFlags] Unknown strategy in composite configuration {"strategy":"invalid","index":0,"available_strategies":["simple","percentage","user_id","date_range"]}
+```
+
+### Production Recommendations
+
+For production environments:
+
+```yaml
+pulse_flags:
+    logging:
+        enabled: true
+        level: 'warning'  # Only log errors and warnings
+```
+
+For development/debugging:
+
+```yaml
+pulse_flags:
+    logging:
+        enabled: true
+        level: 'info'  # Log all flag operations
 ```
 
 ---
@@ -1291,7 +1384,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 This bundle is released under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Credits
-
-Developed with ❤️ by the Pulse team.

@@ -39,13 +39,6 @@ abstract class AbstractFeatureFlagServiceService implements FeatureFlagServiceIn
 
         $config = $this->getConfig($name);
         if (null === $config) {
-            $this->logger?->info('Feature flag not found', [
-                'flag' => $name,
-                'flag_type' => $this->getLogPrefix(),
-                'result' => false,
-                'reason' => 'not_found',
-            ]);
-
             return false;
         }
 
@@ -77,36 +70,17 @@ abstract class AbstractFeatureFlagServiceService implements FeatureFlagServiceIn
         }
 
         if (!isset($this->strategies[$strategyName])) {
-            $duration = (microtime(true) - $startTime) * 1000;
-
-            $this->logger?->error('Strategy not found for feature flag', [
+            $this->logger?->warning('[PulseFlags] Strategy not found for flag', [
                 'flag' => $name,
                 'flag_type' => $this->getLogPrefix(),
                 'strategy' => $strategyName,
-                'result' => false,
-                'reason' => 'strategy_not_found',
-                'available_strategies' => array_keys($this->strategies),
-                'duration_ms' => round($duration, 2),
+                'type' => $this->getLogPrefix(),
             ]);
 
             return false;
         }
 
-        $strategy = $this->strategies[$strategyName];
-        $result = $strategy->isEnabled($config, $context);
-        $duration = (microtime(true) - $startTime) * 1000;
-
-        $this->logger?->info('Feature flag evaluated', [
-            'flag' => $name,
-            'flag_type' => $this->getLogPrefix(),
-            'strategy' => $strategyName,
-            'result' => $result,
-            'duration_ms' => round($duration, 2),
-            'context_keys' => array_keys($context),
-            'context_size' => count($context),
-        ]);
-
-        return $result;
+        return $this->strategies[$strategyName]->isEnabled($config, $context);
     }
 
     /**

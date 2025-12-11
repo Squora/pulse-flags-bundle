@@ -50,7 +50,7 @@ use Pulse\Flags\Core\Strategy\Hash\HashCalculator;
  *     'enabled' => true,
  *     'strategy' => 'percentage',
  *     'percentage' => 50,
- *     'hash_algorithm' => 'murmur3',  // Options: crc32, md5, sha256, murmur3
+ *     'hash_algorithm' => 'md5',  // Options: crc32, md5, sha256
  *     'hash_seed' => 'experiment-2025-q1',  // Seed for hash diversification
  * ]
  * ```

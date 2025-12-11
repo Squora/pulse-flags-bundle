@@ -34,7 +34,7 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
     {
         $this->storage->set($name, $config);
 
-        $this->logger?->info('Persistent feature flag configured', [
+        $this->logger?->info('[PulseFlags] Feature flag configured', [
             'flag' => $name,
             'config' => $config,
         ]);
@@ -53,7 +53,7 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
         $config = array_merge($config, $options, ['enabled' => FlagStatus::ENABLED->toBool()]);
         $this->storage->set($name, $config);
 
-        $this->logger?->info('Persistent feature flag enabled', [
+        $this->logger?->info('[PulseFlags] Feature flag enabled', [
             'flag' => $name,
             'options' => $options,
         ]);
@@ -71,7 +71,7 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
         $config['enabled'] = FlagStatus::DISABLED->toBool();
         $this->storage->set($name, $config);
 
-        $this->logger?->info('Persistent feature flag disabled', ['flag' => $name]);
+        $this->logger?->info('[PulseFlags] Feature flag disabled', ['flag' => $name]);
     }
 
     /**
@@ -82,7 +82,7 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
     public function remove(string $name): void
     {
         $this->storage->remove($name);
-        $this->logger?->info('Persistent feature flag removed', ['flag' => $name]);
+        $this->logger?->info('[PulseFlags] Feature flag removed', ['flag' => $name]);
     }
 
     public function getConfig(string $name): ?array

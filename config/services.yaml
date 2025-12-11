@@ -3,6 +3,11 @@ services:
     autowire: true
     autoconfigure: true
 
+  # Logger for feature flags (optional, based on configuration)
+  pulse_flags.logger:
+    class: Psr\Log\NullLogger
+    public: false
+
   # Persistent Storage Implementation (writable)
   pulse_flags.persistent_storage.db:
     class: Pulse\Flags\Core\Storage\DbStorage
@@ -32,6 +37,8 @@ services:
     tags: ['pulse_flags.strategy']
 
   Pulse\Flags\Core\Strategy\CompositeStrategy:
+    arguments:
+      $logger: '@pulse_flags.logger'
     tags: ['pulse_flags.strategy']
     calls:
       - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']
@@ -42,7 +49,7 @@ services:
   Pulse\Flags\Core\Service\PermanentFeatureFlagService:
     arguments:
       $permanentFlags: '%pulse_flags.permanent_flags%'
-      $logger: '@?logger'
+      $logger: '@pulse_flags.logger'
     calls:
       - addStrategy: ['@Pulse\Flags\Core\Strategy\SimpleStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']
@@ -54,7 +61,7 @@ services:
   Pulse\Flags\Core\Service\PersistentFeatureFlagService:
     arguments:
       $storage: '@pulse_flags.persistent_storage'
-      $logger: '@?logger'
+      $logger: '@pulse_flags.logger'
     calls:
       - addStrategy: ['@Pulse\Flags\Core\Strategy\SimpleStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']

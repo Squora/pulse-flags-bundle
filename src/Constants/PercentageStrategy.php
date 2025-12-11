@@ -29,9 +29,8 @@ final class PercentageStrategy
 
     /**
      * Number of buckets for consistent hashing.
-     * Increased from 100 to 100,000 for higher precision rollouts (0.001% granularity).
+     * 100,000 for higher precision rollouts (0.001% granularity).
      * This allows fine-grained rollouts like 0.125%, 0.5%, 1%, etc.
-     * Industry standard (LaunchDarkly uses 100,000 buckets).
      */
     public const HASH_BUCKETS = 100000;
 

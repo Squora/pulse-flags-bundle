@@ -111,7 +111,7 @@ class CompositeStrategy implements StrategyInterface
             $strategyName = $strategyConfig['type'] ?? null;
 
             if (!$strategyName) {
-                $this->logger?->warning('Composite strategy missing "type" field', [
+                $this->logger?->warning('[PulseFlags] Composite strategy missing "type" field', [
                     'index' => $index,
                     'config' => $strategyConfig,
                 ]);
@@ -119,7 +119,7 @@ class CompositeStrategy implements StrategyInterface
             }
 
             if (!isset($this->strategies[$strategyName])) {
-                $this->logger?->error('Unknown strategy in composite', [
+                $this->logger?->error('[PulseFlags] Unknown strategy in composite configuration', [
                     'strategy' => $strategyName,
                     'index' => $index,
                     'available_strategies' => array_keys($this->strategies),
