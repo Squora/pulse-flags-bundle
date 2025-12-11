@@ -42,6 +42,26 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('table')->defaultValue('pulse_feature_flags')->end()
                 ->end()
             ->end()
+
+            ->arrayNode('logging')
+                ->addDefaultsIfNotSet()
+                ->info('Logging configuration for feature flags operations')
+                ->children()
+                    ->booleanNode('enabled')
+                        ->defaultTrue()
+                        ->info('Enable or disable logging')
+                    ->end()
+                    ->scalarNode('channel')
+                        ->defaultValue('pulse_flags')
+                        ->info('Custom logger channel name (requires monolog configuration)')
+                    ->end()
+                    ->enumNode('level')
+                        ->values(['debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'])
+                        ->defaultValue('warning')
+                        ->info('Minimum log level to capture')
+                    ->end()
+                ->end()
+            ->end()
             ->end();
 
         return $treeBuilder;

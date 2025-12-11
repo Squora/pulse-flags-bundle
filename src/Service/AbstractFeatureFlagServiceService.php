@@ -37,10 +37,6 @@ abstract class AbstractFeatureFlagServiceService implements FeatureFlagServiceIn
     {
         $config = $this->getConfig($name);
         if (null === $config) {
-            $this->logger?->debug($this->getLogPrefix() . ' feature flag not found', [
-                'flag' => $name,
-            ]);
-
             return false;
         }
 
@@ -54,25 +50,17 @@ abstract class AbstractFeatureFlagServiceService implements FeatureFlagServiceIn
         }
 
         if (!isset($this->strategies[$strategyName])) {
-            $this->logger?->warning('Strategy not found for ' . $this->getLogPrefix() . ' flag', [
+            $this->logger?->warning('[PulseFlags] Strategy not found for flag', [
                 'flag' => $name,
                 'strategy' => $strategyName,
+                'type' => $this->getLogPrefix(),
             ]);
 
             return false;
         }
 
         $strategy = $this->strategies[$strategyName];
-        $result = $strategy->isEnabled($config, $context);
-
-        $this->logger?->debug($this->getLogPrefix() . ' feature flag evaluated', [
-            'flag' => $name,
-            'strategy' => $strategyName,
-            'result' => $result,
-            'context' => $context,
-        ]);
-
-        return $result;
+        return $strategy->isEnabled($config, $context);
     }
 
     /**

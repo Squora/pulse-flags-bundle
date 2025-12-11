@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pulse\Flags\Core\Strategy;
 
 use Pulse\Flags\Core\Enum\FlagStrategy;
+use Psr\Log\LoggerInterface;
 
 /**
  * Composite activation strategy for feature flags.
@@ -43,7 +44,8 @@ use Pulse\Flags\Core\Enum\FlagStrategy;
  * - AND operator: All strategies must return true (short-circuits on first false)
  * - OR operator: At least one strategy must return true (short-circuits on first true)
  * - Empty strategies array always returns true
- * - Unknown strategy types are skipped
+ * - Unknown strategy types are logged as errors and skipped
+ * - Missing type field is logged as warning and skipped
  * - Default operator is AND
  */
 class CompositeStrategy implements StrategyInterface
@@ -54,6 +56,23 @@ class CompositeStrategy implements StrategyInterface
      * @var array<string, StrategyInterface>
      */
     private array $strategies = [];
+
+    /**
+     * Optional logger for debugging composite strategy evaluation.
+     *
+     * @var LoggerInterface|null
+     */
+    private ?LoggerInterface $logger = null;
+
+    /**
+     * Constructor for dependency injection.
+     *
+     * @param LoggerInterface|null $logger Optional logger for debugging
+     */
+    public function __construct(?LoggerInterface $logger = null)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * Adds a strategy to the registry for use in composite evaluation.
@@ -87,10 +106,23 @@ class CompositeStrategy implements StrategyInterface
 
         $operator = $config['operator'] ?? 'AND';
 
-        foreach ($strategies as $strategyConfig) {
+        foreach ($strategies as $index => $strategyConfig) {
             $strategyName = $strategyConfig['type'] ?? null;
 
-            if (!$strategyName || !isset($this->strategies[$strategyName])) {
+            if (!$strategyName) {
+                $this->logger?->warning('[PulseFlags] Composite strategy missing "type" field', [
+                    'index' => $index,
+                    'config' => $strategyConfig,
+                ]);
+                continue;
+            }
+
+            if (!isset($this->strategies[$strategyName])) {
+                $this->logger?->error('[PulseFlags] Unknown strategy in composite configuration', [
+                    'strategy' => $strategyName,
+                    'index' => $index,
+                    'available_strategies' => array_keys($this->strategies),
+                ]);
                 continue;
             }
 
