@@ -23,6 +23,7 @@
   - **Persistent Flags** - Runtime-mutable flags in database (MySQL, PostgreSQL, SQLite)
 - **Twig Integration** - Built-in `is_feature_enabled()` function for templates
 - **CLI Commands** - Complete command-line management and inspection tools
+- **Configurable Logging** - Optional logging with custom channels, levels, and file output
 - **Protection** - Permanent flags cannot be modified or deleted at runtime
 - **Multi-Storage Support** - MySQL, PostgreSQL, SQLite, PHP arrays, YAML files
 - **Type-Safe** - Full PHP type hints and strict types throughout
@@ -414,8 +415,6 @@ For development/testing:
 ```yaml
 pulse_flags:
     permanent_storage: php  # Flags stored in PHP files
-    # or
-    persistent_storage: php # In-memory array storage
 ```
 
 ---
@@ -492,6 +491,100 @@ Use descriptive, namespaced names:
 
 ---
 
+## Logging
+
+PulseFlags includes configurable logging to help debug configuration issues and audit flag operations.
+
+### Configuration
+
+Configure logging behavior in `config/packages/pulse_flags.yaml`:
+
+```yaml
+pulse_flags:
+    logging:
+        enabled: true              # Enable/disable logging (default: true)
+        channel: 'pulse_flags'     # Monolog channel name (default: 'pulse_flags')
+        level: 'warning'           # Minimum log level (default: 'warning')
+```
+
+### Disable Logging
+
+To completely disable logging:
+
+```yaml
+pulse_flags:
+    logging:
+        enabled: false
+```
+
+### Custom Log Channel with File Output
+
+Create a dedicated log file for feature flags using Monolog:
+
+```yaml
+# config/packages/monolog.yaml
+monolog:
+    channels: ['pulse_flags']
+
+    handlers:
+        pulse_flags:
+            type: stream
+            path: '%kernel.logs_dir%/pulse_flags.log'
+            level: info
+            channels: ['pulse_flags']
+```
+
+```yaml
+# config/packages/pulse_flags.yaml
+pulse_flags:
+    logging:
+        enabled: true
+        channel: 'pulse_flags'
+        level: 'info'
+```
+
+### What Gets Logged
+
+**Warning Level** (default):
+- Missing or unknown strategies in flag configuration
+- Composite strategy configuration errors
+
+**Info Level**:
+- Feature flag configured/enabled/disabled/removed (audit trail for persistent flags)
+
+**Error Level**:
+- Unknown strategy types in composite configurations
+
+### Example Log Output
+
+```
+[2025-01-15 10:23:45] pulse_flags.INFO: [PulseFlags] Feature flag enabled {"flag":"new_checkout","options":{"strategy":"percentage","percentage":25}}
+[2025-01-15 10:24:12] pulse_flags.WARNING: [PulseFlags] Strategy not found for flag {"flag":"beta_feature","strategy":"unknown_strategy","type":"Permanent"}
+[2025-01-15 10:25:33] pulse_flags.ERROR: [PulseFlags] Unknown strategy in composite configuration {"strategy":"invalid","index":0,"available_strategies":["simple","percentage","user_id","date_range"]}
+```
+
+### Production Recommendations
+
+For production environments:
+
+```yaml
+pulse_flags:
+    logging:
+        enabled: true
+        level: 'warning'  # Only log errors and warnings
+```
+
+For development/debugging:
+
+```yaml
+pulse_flags:
+    logging:
+        enabled: true
+        level: 'info'  # Log all flag operations
+```
+
+---
+
 ## Architecture
 
 ### Services
@@ -530,193 +623,6 @@ Five activation strategies are available:
 - **`UserIdStrategy`** - Whitelist/blacklist specific users
 - **`DateRangeStrategy`** - Time-bounded features
 - **`CompositeStrategy`** - Combine multiple strategies with AND/OR logic
-
----
-
-## Project Structure
-
-```
-config/
-├── packages/pulse_flags/
-│   ├── core.yaml          # Permanent flags (read-only)
-│   ├── experiments.yaml   # More permanent flags
-│   └── rollouts.yaml      # Even more permanent flags
-├── routes.yaml
-└── services.yaml
-
-src/
-├── Service/
-│   ├── AbstractFeatureFlagServiceService.php
-│   ├── FeatureFlagServiceInterface.php
-│   ├── PermanentFeatureFlagService.php
-│   └── PersistentFeatureFlagService.php
-├── Storage/
-│   ├── StorageInterface.php
-│   ├── DbStorage.php             # Database backend
-│   ├── PhpStorage.php            # PHP array storage
-│   └── YamlStorage.php           # YAML file storage (read-only)
-├── Strategy/
-│   ├── StrategyInterface.php
-│   ├── SimpleStrategy.php
-│   ├── PercentageStrategy.php
-│   ├── UserIdStrategy.php
-│   ├── DateRangeStrategy.php
-│   └── CompositeStrategy.php
-├── Command/
-│   ├── Flag/
-│   │   ├── CreateFlagCommand.php
-│   │   ├── EnableFlagCommand.php
-│   │   ├── DisableFlagCommand.php
-│   │   └── RemoveFlagCommand.php
-│   ├── Query/
-│   │   ├── CheckFlagCommand.php
-│   │   └── ListFlagsCommand.php
-│   └── Setup/
-│       └── InitStorageCommand.php
-├── Twig/
-│   └── FeatureFlagExtension.php
-├── DependencyInjection/
-│   ├── Configuration.php
-│   ├── PulseFlagsExtension.php
-│   └── FlagsConfigurationLoader.php
-└── PulseFlagsBundle.php
-```
-
----
-
-## API Reference
-
-### FeatureFlagServiceInterface
-
-Main interface for checking feature flags:
-
-```php
-interface FeatureFlagServiceInterface
-{
-    /**
-     * Check if a feature flag is enabled
-     *
-     * @param string $name Flag name (e.g., 'core.new_ui')
-     * @param array $context Context for strategy evaluation
-     * @return bool True if enabled
-     */
-    public function isEnabled(string $name, array $context = []): bool;
-
-    /**
-     * Get flag configuration
-     *
-     * @param string $name Flag name
-     * @return array|null Configuration or null if not found
-     */
-    public function getConfig(string $name): ?array;
-
-    /**
-     * Check if flag exists
-     *
-     * @param string $name Flag name
-     * @return bool True if exists
-     */
-    public function exists(string $name): bool;
-
-    /**
-     * Get all flags
-     *
-     * @return array<string, array> All flags keyed by name
-     */
-    public function all(): array;
-}
-```
-
-### PersistentFeatureFlagService
-
-Service for runtime-mutable flags with additional methods:
-
-```php
-class PersistentFeatureFlagService implements FeatureFlagServiceInterface
-{
-    /** Configure or update a flag */
-    public function configure(string $name, array $config): void;
-
-    /** Enable a flag (sets enabled=true) */
-    public function enable(string $name): void;
-
-    /** Disable a flag (sets enabled=false) */
-    public function disable(string $name): void;
-
-    /** Remove a flag completely */
-    public function remove(string $name): void;
-}
-```
-
-### Context Parameters
-
-Context object passed to `isEnabled()` for strategy evaluation:
-
-| Parameter | Type | Used By Strategy | Description |
-|-----------|------|------------------|-------------|
-| `user_id` | string\|int | percentage, user_id | User identifier for consistent bucketing |
-| `session_id` | string | percentage | Session identifier (fallback if no user_id) |
-| `current_date` | DateTime | date_range | Current date for time-bounded features |
-
-**Example:**
-```php
-$context = [
-    'user_id' => $user->getId(),
-    'session_id' => $session->getId(),
-    'current_date' => new \DateTime(),
-];
-
-$isEnabled = $flagService->isEnabled('my_feature', $context);
-```
-
-### Strategy Configuration Reference
-
-#### Simple Strategy
-```yaml
-my_feature:
-    enabled: true
-    strategy: simple
-```
-
-#### Percentage Strategy
-```yaml
-my_feature:
-    enabled: true
-    strategy: percentage
-    percentage: 25  # 0-100
-```
-
-#### User ID Strategy
-```yaml
-my_feature:
-    enabled: true
-    strategy: user_id
-    whitelist: ['123', '456']  # Allow only these users
-    # OR
-    blacklist: ['999']  # Block these users
-```
-
-#### Date Range Strategy
-```yaml
-my_feature:
-    enabled: true
-    strategy: date_range
-    start_date: '2025-01-01'  # YYYY-MM-DD
-    end_date: '2025-12-31'    # Optional
-```
-
-#### Composite Strategy
-```yaml
-my_feature:
-    enabled: true
-    strategy: composite
-    operator: AND  # or OR
-    strategies:
-        - type: percentage
-          percentage: 50
-        - type: date_range
-          start_date: '2025-01-01'
-```
 
 ---
 
@@ -773,46 +679,6 @@ $this->flags->isEnabled('experiments.feature', [
 
 ---
 
-## Uninstallation
-
-### Step 1: Remove bundle registration
-
-Edit `config/bundles.php` and remove the line:
-
-```php
-Pulse\Flags\Core\PulseFlagsBundle::class => ['all' => true],
-```
-
-### Step 2: Remove configuration files
-
-```bash
-rm -rf config/packages/pulse_flags.yaml
-rm -rf config/packages/pulse_flags/
-```
-
-### Step 3: Clear cache
-
-```bash
-php bin/console cache:clear
-# or
-rm -rf var/cache/*
-```
-
-### Step 4: Remove the package
-
-```bash
-composer remove pulse/flags-bundle
-```
-
-### Step 5 (Optional): Drop database table
-
-```bash
-php bin/console doctrine:query:sql "DROP TABLE pulse_feature_flags"
-# Or create a migration to remove the table
-```
-
----
-
 ## Related Packages
 
 - **[pulse/flags-admin-panel-bundle](https://github.com/pulse/flags-admin-panel-bundle)** - Web UI for managing feature flags
@@ -826,7 +692,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 This bundle is released under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Credits
-
-Developed with ❤️ by the Pulse team.

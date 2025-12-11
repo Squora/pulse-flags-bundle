@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pulse\Flags\Core;
 
+use Pulse\Flags\Core\DependencyInjection\Compiler\LoggerConfigurationPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -25,6 +27,19 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class PulseFlagsBundle extends Bundle
 {
+    /**
+     * Build the container and register compiler passes.
+     *
+     * @param ContainerBuilder $container The container builder
+     * @return void
+     */
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new LoggerConfigurationPass());
+    }
+
     /**
      * Get bundle path for asset management
      *
