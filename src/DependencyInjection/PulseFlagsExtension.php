@@ -55,6 +55,7 @@ class PulseFlagsExtension extends Extension
 
         $projectDir = $container->getParameter('kernel.project_dir');
         $configDir = (string) $projectDir . '/config';
+        // Get permanent storage format from config (yaml or php)
         $permanentFormatValue = $config['permanent_storage'] ?? 'yaml';
         $permanentFormat = StorageFormat::tryFrom($permanentFormatValue) ?? StorageFormat::YAML;
         $permanentFlags = FlagsConfigurationLoader::loadFlagsFromDirectory($configDir, $permanentFormat);
@@ -67,7 +68,6 @@ class PulseFlagsExtension extends Extension
         }
 
         $this->configurePersistentStorage($container, $config);
-        $this->configureLogging($container, $config);
 
         $container->setParameter('pulse_flags.permanent_flags', $permanentFlags);
 
@@ -77,8 +77,9 @@ class PulseFlagsExtension extends Extension
     }
 
     /**
-     * Configures the persistent storage backend based on configuration.
+     * Configures the persistent storage backend.
      *
+     * Persistent storage is hardcoded to use database (DB).
      * Sets up container parameters and service aliases for database storage.
      * Validates required configuration options.
      *
@@ -96,23 +97,6 @@ class PulseFlagsExtension extends Extension
         $container->setParameter('pulse_flags.db_dsn', $dbConfig['dsn']);
         $container->setParameter('pulse_flags.db_table', $dbConfig['table'] ?? 'pulse_feature_flags');
         $container->setAlias('pulse_flags.persistent_storage', 'pulse_flags.persistent_storage.db');
-    }
-
-    /**
-     * Configures logging settings for the bundle.
-     *
-     * Sets up parameters for logger channel, enabled state, and minimum log level.
-     *
-     * @param ContainerBuilder $container The dependency injection container
-     * @param array<string, mixed> $config Processed bundle configuration
-     * @return void
-     */
-    private function configureLogging(ContainerBuilder $container, array $config): void
-    {
-        $loggingConfig = $config['logging'] ?? [];
-        $container->setParameter('pulse_flags.logging.enabled', $loggingConfig['enabled'] ?? true);
-        $container->setParameter('pulse_flags.logging.channel', $loggingConfig['channel'] ?? 'pulse_flags');
-        $container->setParameter('pulse_flags.logging.level', $loggingConfig['level'] ?? 'warning');
     }
 
     /**

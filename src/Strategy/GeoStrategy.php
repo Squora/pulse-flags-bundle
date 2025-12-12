@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pulse\Flags\Core\Strategy;
 
 use Pulse\Flags\Core\Enum\FlagStrategy;
-use Psr\Log\LoggerInterface;
 
 /**
  * Geographic location-based activation strategy for feature flags.
@@ -65,16 +64,6 @@ use Psr\Log\LoggerInterface;
  */
 class GeoStrategy implements StrategyInterface
 {
-    private ?LoggerInterface $logger;
-
-    /**
-     * @param LoggerInterface|null $logger Optional logger for debugging
-     */
-    public function __construct(?LoggerInterface $logger = null)
-    {
-        $this->logger = $logger;
-    }
-
     /**
      * Determines if the feature should be enabled based on geographic location.
      *
@@ -92,7 +81,6 @@ class GeoStrategy implements StrategyInterface
         $cities = $config['cities'] ?? [];
 
         if (empty($countries) && empty($regions) && empty($cities)) {
-            $this->logger?->warning('Geo strategy has no countries, regions, or cities configured');
             return false;
         }
 
@@ -134,7 +122,6 @@ class GeoStrategy implements StrategyInterface
         $userCountry = $context['country'] ?? null;
 
         if ($userCountry === null) {
-            $this->logger?->warning('Geo strategy requires country in context');
             return false;
         }
 
@@ -142,15 +129,7 @@ class GeoStrategy implements StrategyInterface
         $userCountry = strtoupper((string) $userCountry);
         $countries = array_map('strtoupper', $countries);
 
-        $matched = in_array($userCountry, $countries, true);
-
-        if ($matched) {
-            $this->logger?->debug('Country matched', [
-                'country' => $userCountry,
-            ]);
-        }
-
-        return $matched;
+        return in_array($userCountry, $countries, true);
     }
 
     /**
@@ -169,7 +148,6 @@ class GeoStrategy implements StrategyInterface
         $userRegion = $context['region'] ?? null;
 
         if ($userRegion === null) {
-            $this->logger?->warning('Geo strategy requires region in context when regions configured');
             return false;
         }
 
@@ -177,15 +155,7 @@ class GeoStrategy implements StrategyInterface
         $userRegion = strtoupper((string) $userRegion);
         $regions = array_map('strtoupper', $regions);
 
-        $matched = in_array($userRegion, $regions, true);
-
-        if ($matched) {
-            $this->logger?->debug('Region matched', [
-                'region' => $userRegion,
-            ]);
-        }
-
-        return $matched;
+        return in_array($userRegion, $regions, true);
     }
 
     /**
@@ -204,7 +174,6 @@ class GeoStrategy implements StrategyInterface
         $userCity = $context['city'] ?? null;
 
         if ($userCity === null) {
-            $this->logger?->warning('Geo strategy requires city in context when cities configured');
             return false;
         }
 
@@ -212,15 +181,7 @@ class GeoStrategy implements StrategyInterface
         $userCity = strtolower((string) $userCity);
         $cities = array_map('strtolower', $cities);
 
-        $matched = in_array($userCity, $cities, true);
-
-        if ($matched) {
-            $this->logger?->debug('City matched', [
-                'city' => $userCity,
-            ]);
-        }
-
-        return $matched;
+        return in_array($userCity, $cities, true);
     }
 
     /**

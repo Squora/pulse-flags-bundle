@@ -22,13 +22,16 @@
   - Custom attributes with 13 operators (equals, in, greater_than, contains, regex, etc.)
   - Progressive rollout (automated gradual releases)
   - IP/Geo targeting
+- **Type-Safe Context Objects** - Each strategy has specialized immutable Value Objects with IDE autocomplete
+  - `UserContext`, `GeoContext`, `IpContext`, `DateRangeContext`, etc.
+  - Compile-time error checking for missing required fields
+  - No more typos in context field names
 - **Flexible Configuration** - Hash algorithms (CRC32, MD5, SHA256, MurmurHash3), stickiness, timezone support
 - **Dual Storage Architecture**:
   - **Permanent Flags** - Read-only flags from YAML/PHP config files (version-controlled, critical features)
   - **Persistent Flags** - Runtime-mutable flags in database (MySQL, PostgreSQL, SQLite)
 - **Twig Integration** - Built-in `is_feature_enabled()` function for templates
 - **CLI Commands** - Complete command-line management and inspection tools
-- **Configurable Logging** - Optional logging with custom channels, levels, and file output
 - **Protection** - Permanent flags cannot be modified or deleted at runtime
 - **Multi-Storage Support** - MySQL, PostgreSQL, SQLite, PHP arrays, YAML files
 - **Type-Safe** - Full PHP type hints and strict types throughout
@@ -66,9 +69,6 @@ Create `config/packages/pulse_flags.yaml`:
 pulse_flags:
     # Storage format for permanent (read-only) flags loaded from config files
     permanent_storage: yaml  # Options: yaml, php
-
-    # Storage backend for persistent (runtime mutable) flags
-    persistent_storage: db   # Options: db
 
     # Database configuration (for persistent storage)
     db:
@@ -130,6 +130,7 @@ php bin/console pulse:flags:enable experiments.beta_checkout --percentage=10
 
 ```php
 use Pulse\Flags\Core\Service\FeatureFlagServiceInterface;
+use Pulse\Flags\Core\Context\{EmptyContext, UserContext, GeoContext};
 
 class ProductController
 {
@@ -139,16 +140,23 @@ class ProductController
 
     public function checkout(): Response
     {
-        // Simple check (works for both permanent and persistent flags)
-        if ($this->flags->isEnabled('core.new_ui')) {
+        // Simple check with EmptyContext (for simple strategy)
+        if ($this->flags->isEnabled('core.new_ui', new EmptyContext())) {
             return $this->render('product/checkout_new.html.twig');
         }
 
-        // Percentage-based with consistent user bucketing
-        if ($this->flags->isEnabled('experiments.beta_checkout', [
-            'user_id' => $this->getUser()?->getId(),
-        ])) {
+        // Percentage-based with type-safe UserContext
+        if ($this->flags->isEnabled('experiments.beta_checkout',
+            new UserContext(userId: (string) $this->getUser()?->getId())
+        )) {
             return $this->render('product/checkout_beta.html.twig');
+        }
+
+        // Geographic targeting with GeoContext
+        if ($this->flags->isEnabled('geo.eu_features',
+            new GeoContext(country: 'DE', city: 'Berlin')
+        )) {
+            return $this->render('product/eu_checkout.html.twig');
         }
 
         return $this->render('product/checkout.html.twig');
@@ -170,6 +178,80 @@ class ProductController
     {# Beta checkout flow #}
 {% endif %}
 ```
+
+---
+
+## Type-Safe Context Objects
+
+Each strategy has its own specialized context Value Object that provides type safety and IDE autocomplete:
+
+```php
+use Pulse\Flags\Core\Context\{
+    EmptyContext,
+    UserContext,
+    GeoContext,
+    IpContext,
+    DateRangeContext,
+    CustomAttributeContext,
+    SegmentContext,
+    CompositeContext
+};
+
+// Simple strategy - no context needed
+$flags->isEnabled('feature', new EmptyContext());
+
+// User-based strategies (percentage, user_id)
+$flags->isEnabled('feature', new UserContext(
+    userId: '123',
+    sessionId: 'sess_abc',  // optional
+    companyId: 'company_1'   // optional
+));
+
+// Geographic targeting
+$flags->isEnabled('feature', new GeoContext(
+    country: 'US',
+    region: 'CA',    // optional
+    city: 'San Francisco'  // optional
+));
+
+// IP-based targeting
+$flags->isEnabled('feature', new IpContext(
+    ipAddress: '192.168.1.1'
+));
+
+// Date range
+$flags->isEnabled('feature', new DateRangeContext(
+    currentDate: new DateTimeImmutable('2025-12-15')
+));
+
+// Custom attributes
+$flags->isEnabled('feature', new CustomAttributeContext(
+    attributes: [
+        'subscription_tier' => 'premium',
+        'account_age_days' => 45
+    ]
+));
+
+// Segments
+$flags->isEnabled('feature', new SegmentContext(
+    userId: '123',
+    attributes: ['email' => 'user@example.com']  // optional
+));
+
+// Multiple contexts combined
+$flags->isEnabled('feature', new CompositeContext(
+    new UserContext(userId: '123'),
+    new GeoContext(country: 'US')
+));
+```
+
+**Benefits:**
+- **Type safety** - IDE autocomplete and compile-time error checking
+- **Immutability** - Contexts are immutable after creation
+- **Clear intent** - Each context explicitly shows which strategy it's for
+- **No typos** - Field name errors caught during development
+
+See [Context Documentation](src/Context/README.md) for complete details.
 
 ---
 
@@ -254,14 +336,20 @@ anonymous_feature:
 ```
 
 ```php
-$this->flags->isEnabled('experiments.new_checkout', [
-    'user_id' => $userId,  // Required for consistent bucketing
-]);
+use Pulse\Flags\Core\Context\UserContext;
+
+// Type-safe context with required userId
+$this->flags->isEnabled('experiments.new_checkout',
+    new UserContext(userId: $userId)
+);
 
 // For B2B features with company stickiness
-$this->flags->isEnabled('enterprise_feature', [
-    'company_id' => $companyId,  // All users in company get same experience
-]);
+$this->flags->isEnabled('enterprise_feature',
+    new UserContext(
+        userId: $userId,
+        companyId: $companyId  // All users in company get same experience
+    )
+);
 ```
 
 **Important:** Same user always gets same result (consistent hash-based bucketing with 100,000 buckets).
@@ -280,9 +368,11 @@ premium_features:
 ```
 
 ```php
-$this->flags->isEnabled('core.premium_features', [
-    'user_id' => $userId,
-]);
+use Pulse\Flags\Core\Context\UserContext;
+
+$this->flags->isEnabled('core.premium_features',
+    new UserContext(userId: $userId)
+);
 ```
 
 ### 4. Date Range Strategy
@@ -299,9 +389,11 @@ holiday_promo:
 ```
 
 ```php
-$this->flags->isEnabled('promo.holiday_promo', [
-    'current_date' => new \DateTime(),
-]);
+use Pulse\Flags\Core\Context\DateRangeContext;
+
+$this->flags->isEnabled('promo.holiday_promo',
+    new DateRangeContext(currentDate: new \DateTimeImmutable())
+);
 ```
 
 ### 5. Composite Strategy
@@ -355,11 +447,17 @@ regional_feature:
 ```
 
 ```php
-$this->flags->isEnabled('premium_feature', [
-    'user_id' => $userId,  // Required for all segments
-    'email' => $email,     // Required for email_domain dynamic segments
-    'country' => $country, // Required for country dynamic segments
-]);
+use Pulse\Flags\Core\Context\SegmentContext;
+
+$this->flags->isEnabled('premium_feature',
+    new SegmentContext(
+        userId: $userId,
+        attributes: [
+            'email' => $email,     // For email_domain dynamic segments
+            'country' => $country  // For country dynamic segments
+        ]
+    )
+);
 ```
 
 **Benefits:**
@@ -413,12 +511,18 @@ beta_program:
 ```
 
 ```php
-$this->flags->isEnabled('premium_feature', [
-    'subscription_tier' => 'premium',
-    'account_age_days' => 45,
-    'country' => 'US',
-    'email' => 'user@example.com',
-]);
+use Pulse\Flags\Core\Context\CustomAttributeContext;
+
+$this->flags->isEnabled('premium_feature',
+    new CustomAttributeContext(
+        attributes: [
+            'subscription_tier' => 'premium',
+            'account_age_days' => 45,
+            'country' => 'US',
+            'email' => 'user@example.com'
+        ]
+    )
+);
 ```
 
 **Available operators:**
@@ -462,9 +566,11 @@ critical_feature:
 ```
 
 ```php
-$this->flags->isEnabled('new_feature', [
-    'user_id' => $userId,  // Required for consistent bucketing
-]);
+use Pulse\Flags\Core\Context\UserContext;
+
+$this->flags->isEnabled('new_feature',
+    new UserContext(userId: $userId)  // Required for consistent bucketing
+);
 ```
 
 **Benefits:**
@@ -499,9 +605,11 @@ staging_access:
 ```
 
 ```php
-$this->flags->isEnabled('internal_feature', [
-    'ip_address' => $request->getClientIp(),
-]);
+use Pulse\Flags\Core\Context\IpContext;
+
+$this->flags->isEnabled('internal_feature',
+    new IpContext(ipAddress: $request->getClientIp())
+);
 ```
 
 **Supported formats:**
@@ -544,11 +652,15 @@ metro_feature:
 ```
 
 ```php
-$this->flags->isEnabled('eu_feature', [
-    'country' => 'DE',  // ISO 3166-1 alpha-2 code
-    'region' => 'CA',   // Optional - state/region code
-    'city' => 'Berlin', // Optional - city name
-]);
+use Pulse\Flags\Core\Context\GeoContext;
+
+$this->flags->isEnabled('eu_feature',
+    new GeoContext(
+        country: 'DE',       // ISO 3166-1 alpha-2 code
+        region: 'CA',        // Optional - state/region code
+        city: 'Berlin'       // Optional - city name
+    )
+);
 ```
 
 **Note:** Geographic data must be provided in context. Common approaches:
@@ -858,16 +970,18 @@ $flagService->remove('core.critical_feature');  // ❌ Error!
 
 ### Consistent Percentage Bucketing
 
-Always pass `user_id` or `session_id` for percentage strategies:
+Always pass UserContext with userId for percentage strategies:
 
 ```php
-// ✅ Good - consistent results for same user
-$this->flags->isEnabled('experiments.feature', [
-    'user_id' => $userId
-]);
+use Pulse\Flags\Core\Context\UserContext;
 
-// ❌ Bad - random results on each call
-$this->flags->isEnabled('experiments.feature');
+// ✅ Good - consistent results for same user
+$this->flags->isEnabled('experiments.feature',
+    new UserContext(userId: $userId)
+);
+
+// ❌ Bad - EmptyContext gives no identifier for bucketing
+$this->flags->isEnabled('experiments.feature', new EmptyContext());
 ```
 
 ### Flag Naming Convention
@@ -1079,6 +1193,159 @@ src/
 
 ---
 
+## Context API Reference
+
+Each strategy requires a specific context object that provides type-safe data access:
+
+### Strategy-Context Mapping
+
+| Strategy | Context Type | Required Parameters | Optional Parameters |
+|----------|-------------|---------------------|---------------------|
+| `SimpleStrategy` | `EmptyContext` | - | - |
+| `UserIdStrategy` | `UserContext` | `userId` | `sessionId`, `companyId` |
+| `PercentageStrategy` | `UserContext` | `userId` | `sessionId`, `companyId` |
+| `ProgressiveRolloutStrategy` | `UserContext` | `userId` | `sessionId`, `companyId` |
+| `DateRangeStrategy` | `DateRangeContext` | `currentDate` | - |
+| `GeoStrategy` | `GeoContext` | `country` | `region`, `city` |
+| `IpStrategy` | `IpContext` | `ipAddress` | - |
+| `CustomAttributeStrategy` | `CustomAttributeContext` | `attributes` | - |
+| `SegmentStrategy` | `SegmentContext` | `userId` | `attributes` |
+| `CompositeStrategy` | `CompositeContext` | Depends on nested strategies | - |
+
+### Context Classes
+
+#### EmptyContext
+```php
+use Pulse\Flags\Core\Context\EmptyContext;
+
+// No parameters - used for SimpleStrategy
+$context = new EmptyContext();
+```
+
+#### UserContext
+```php
+use Pulse\Flags\Core\Context\UserContext;
+
+// Required: userId
+// Optional: sessionId, companyId
+$context = new UserContext(
+    userId: '123',
+    sessionId: 'sess_abc',    // optional
+    companyId: 'company_1'    // optional
+);
+
+$context->getUserId();      // string
+$context->getSessionId();   // ?string
+$context->getCompanyId();   // ?string
+```
+
+#### GeoContext
+```php
+use Pulse\Flags\Core\Context\GeoContext;
+
+// Required: country
+// Optional: region, city
+$context = new GeoContext(
+    country: 'US',
+    region: 'CA',              // optional
+    city: 'San Francisco'      // optional
+);
+
+$context->getCountry();  // string
+$context->getRegion();   // ?string
+$context->getCity();     // ?string
+```
+
+#### IpContext
+```php
+use Pulse\Flags\Core\Context\IpContext;
+
+// Required: ipAddress
+$context = new IpContext(
+    ipAddress: '192.168.1.1'
+);
+
+$context->getIpAddress();  // string
+```
+
+#### DateRangeContext
+```php
+use Pulse\Flags\Core\Context\DateRangeContext;
+
+// Required: currentDate
+$context = new DateRangeContext(
+    currentDate: new DateTimeImmutable('2025-12-15')
+);
+
+$context->getCurrentDate();  // DateTimeImmutable
+```
+
+#### CustomAttributeContext
+```php
+use Pulse\Flags\Core\Context\CustomAttributeContext;
+
+// Required: attributes (array)
+$context = new CustomAttributeContext(
+    attributes: [
+        'subscription_tier' => 'premium',
+        'account_age_days' => 45
+    ]
+);
+
+$context->getAttributes();        // array
+$context->get('key', $default);   // mixed
+$context->has('key');             // bool
+```
+
+#### SegmentContext
+```php
+use Pulse\Flags\Core\Context\SegmentContext;
+
+// Required: userId
+// Optional: attributes (for dynamic segments)
+$context = new SegmentContext(
+    userId: '123',
+    attributes: [              // optional
+        'email' => 'user@example.com',
+        'country' => 'US'
+    ]
+);
+
+$context->getUserId();            // string
+$context->getAttributes();        // array
+$context->get('key', $default);   // mixed
+$context->has('key');             // bool
+```
+
+#### CompositeContext
+```php
+use Pulse\Flags\Core\Context\CompositeContext;
+use Pulse\Flags\Core\Context\{UserContext, GeoContext};
+
+// Combines multiple contexts
+$context = new CompositeContext(
+    new UserContext(userId: '123'),
+    new GeoContext(country: 'US')
+);
+
+$context->getContexts();  // ContextInterface[]
+```
+
+### All Contexts Implement ContextInterface
+
+```php
+interface ContextInterface
+{
+    /**
+     * Convert context to array for strategy evaluation
+     * @return array<string, mixed>
+     */
+    public function toArray(): array;
+}
+```
+
+---
+
 ## API Reference
 
 ### FeatureFlagServiceInterface
@@ -1086,16 +1353,18 @@ src/
 Main interface for checking feature flags:
 
 ```php
+use Pulse\Flags\Core\Context\ContextInterface;
+
 interface FeatureFlagServiceInterface
 {
     /**
      * Check if a feature flag is enabled
      *
      * @param string $name Flag name (e.g., 'core.new_ui')
-     * @param array $context Context for strategy evaluation
+     * @param ContextInterface $context Type-safe context for strategy evaluation
      * @return bool True if enabled
      */
-    public function isEnabled(string $name, array $context = []): bool;
+    public function isEnabled(string $name, ContextInterface $context): bool;
 
     /**
      * Get flag configuration
@@ -1143,40 +1412,73 @@ class PersistentFeatureFlagService implements FeatureFlagServiceInterface
 }
 ```
 
-### Context Parameters
+### Context Usage Examples
 
-Context object passed to `isEnabled()` for strategy evaluation:
+Type-safe context objects passed to `isEnabled()` for strategy evaluation:
 
-| Parameter | Type | Used By Strategy | Description |
-|-----------|------|------------------|-------------|
-| `user_id` | string\|int | percentage, user_id, segment | User identifier for consistent bucketing |
-| `session_id` | string | percentage | Session identifier (fallback if no user_id) |
-| `current_date` | DateTime | date_range | Current date for time-bounded features |
-| `company_id` | string\|int | percentage (stickiness) | Company identifier for B2B features |
-| `email` | string | segment (dynamic), custom_attribute | User email address |
-| `country` | string | segment (dynamic), custom_attribute, geo | ISO 3166-1 alpha-2 country code |
-| `region` | string | geo | State/region code or name |
-| `city` | string | geo | City name |
-| `ip_address` | string | ip | User's IP address (IPv4 or IPv6) |
-| *custom* | mixed | custom_attribute | Any custom attribute for rule-based targeting |
-
-**Example:**
+**Example: Complete context usage**
 ```php
-$context = [
-    'user_id' => $user->getId(),
-    'session_id' => $session->getId(),
-    'current_date' => new \DateTime(),
-    'email' => $user->getEmail(),
-    'country' => 'US',
-    'region' => 'CA',
-    'city' => 'San Francisco',
-    'ip_address' => $request->getClientIp(),
-    'subscription_tier' => 'premium',
-    'account_age_days' => 45,
-];
+use Pulse\Flags\Core\Context\{
+    EmptyContext,
+    UserContext,
+    GeoContext,
+    IpContext,
+    DateRangeContext,
+    CustomAttributeContext,
+    SegmentContext,
+    CompositeContext
+};
 
-$isEnabled = $flagService->isEnabled('my_feature', $context);
+// Simple strategy
+$flags->isEnabled('feature', new EmptyContext());
+
+// User-based strategies
+$flags->isEnabled('feature', new UserContext(
+    userId: $user->getId(),
+    sessionId: $session->getId(),
+    companyId: $user->getCompanyId()
+));
+
+// Geographic targeting
+$flags->isEnabled('feature', new GeoContext(
+    country: 'US',
+    region: 'CA',
+    city: 'San Francisco'
+));
+
+// IP targeting
+$flags->isEnabled('feature', new IpContext(
+    ipAddress: $request->getClientIp()
+));
+
+// Date range
+$flags->isEnabled('feature', new DateRangeContext(
+    currentDate: new \DateTimeImmutable()
+));
+
+// Custom attributes
+$flags->isEnabled('feature', new CustomAttributeContext(
+    attributes: [
+        'subscription_tier' => 'premium',
+        'account_age_days' => 45
+    ]
+));
+
+// Segments
+$flags->isEnabled('feature', new SegmentContext(
+    userId: $user->getId(),
+    attributes: ['email' => $user->getEmail()]
+));
+
+// Multiple contexts combined
+$flags->isEnabled('feature', new CompositeContext(
+    new UserContext(userId: $user->getId()),
+    new GeoContext(country: 'US'),
+    new IpContext(ipAddress: $request->getClientIp())
+));
 ```
+
+See [Context API Reference](#context-api-reference) for complete documentation.
 
 ### Strategy Configuration Reference
 
@@ -1259,16 +1561,18 @@ php bin/console doctrine:migrations:migrate
 
 **Problem:** Percentage-based flags always return `false`
 
-**Solution:** You must pass `user_id` or `session_id` in context for consistent bucketing:
+**Solution:** You must pass UserContext with userId for consistent bucketing:
 
 ```php
-// ❌ Wrong - no context
-$this->flags->isEnabled('experiments.feature');
+use Pulse\Flags\Core\Context\{EmptyContext, UserContext};
 
-// ✅ Correct - with user context
-$this->flags->isEnabled('experiments.feature', [
-    'user_id' => $this->getUser()?->getId()
-]);
+// ❌ Wrong - EmptyContext for percentage strategy
+$this->flags->isEnabled('experiments.feature', new EmptyContext());
+
+// ✅ Correct - UserContext with userId
+$this->flags->isEnabled('experiments.feature',
+    new UserContext(userId: (string) $this->getUser()?->getId())
+);
 ```
 
 ### Flag Changes Not Visible

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pulse\Flags\Core\Strategy;
 
 use Pulse\Flags\Core\Enum\FlagStrategy;
-use Psr\Log\LoggerInterface;
 
 /**
  * IP address-based activation strategy for feature flags.
@@ -64,16 +63,6 @@ use Psr\Log\LoggerInterface;
  */
 class IpStrategy implements StrategyInterface
 {
-    private ?LoggerInterface $logger;
-
-    /**
-     * @param LoggerInterface|null $logger Optional logger for debugging
-     */
-    public function __construct(?LoggerInterface $logger = null)
-    {
-        $this->logger = $logger;
-    }
-
     /**
      * Determines if the feature should be enabled based on IP address.
      *
@@ -88,7 +77,6 @@ class IpStrategy implements StrategyInterface
         $ipAddress = $context['ip_address'] ?? null;
 
         if ($ipAddress === null || !is_string($ipAddress)) {
-            $this->logger?->warning('IP strategy requires ip_address in context');
             return false;
         }
 
@@ -96,15 +84,11 @@ class IpStrategy implements StrategyInterface
         $ipRanges = $config['ip_ranges'] ?? [];
 
         if (empty($whitelistIps) && empty($ipRanges)) {
-            $this->logger?->warning('IP strategy has no whitelist_ips or ip_ranges configured');
             return false;
         }
 
         // Check whitelist IPs (exact match)
         if (!empty($whitelistIps) && in_array($ipAddress, $whitelistIps, true)) {
-            $this->logger?->debug('IP found in whitelist', [
-                'ip_address' => $ipAddress,
-            ]);
             return true;
         }
 
@@ -112,10 +96,6 @@ class IpStrategy implements StrategyInterface
         if (!empty($ipRanges)) {
             foreach ($ipRanges as $range) {
                 if ($this->ipInRange($ipAddress, $range)) {
-                    $this->logger?->debug('IP matches range', [
-                        'ip_address' => $ipAddress,
-                        'range' => $range,
-                    ]);
                     return true;
                 }
             }
@@ -148,10 +128,6 @@ class IpStrategy implements StrategyInterface
         $subnetBinary = @inet_pton($subnet);
 
         if ($ipBinary === false || $subnetBinary === false) {
-            $this->logger?->error('Invalid IP address or subnet', [
-                'ip' => $ip,
-                'range' => $range,
-            ]);
             return false;
         }
 
@@ -166,11 +142,6 @@ class IpStrategy implements StrategyInterface
 
         // Validate bits
         if ($bits < 0 || $bits > $maxBits) {
-            $this->logger?->error('Invalid CIDR bits', [
-                'range' => $range,
-                'bits' => $bits,
-                'max_bits' => $maxBits,
-            ]);
             return false;
         }
 

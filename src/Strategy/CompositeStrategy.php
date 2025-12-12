@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pulse\Flags\Core\Strategy;
 
 use Pulse\Flags\Core\Enum\FlagStrategy;
-use Psr\Log\LoggerInterface;
 
 /**
  * Composite activation strategy for feature flags.
@@ -58,23 +57,6 @@ class CompositeStrategy implements StrategyInterface
     private array $strategies = [];
 
     /**
-     * Optional logger for debugging composite strategy evaluation.
-     *
-     * @var LoggerInterface|null
-     */
-    private ?LoggerInterface $logger = null;
-
-    /**
-     * Constructor for dependency injection.
-     *
-     * @param LoggerInterface|null $logger Optional logger for debugging
-     */
-    public function __construct(?LoggerInterface $logger = null)
-    {
-        $this->logger = $logger;
-    }
-
-    /**
      * Adds a strategy to the registry for use in composite evaluation.
      *
      * @param StrategyInterface $strategy The strategy to add
@@ -101,7 +83,6 @@ class CompositeStrategy implements StrategyInterface
         $strategies = $config['strategies'] ?? [];
 
         if (empty($strategies)) {
-            $this->logger?->debug('Composite strategy has no strategies, returning true');
             return true;
         }
 
@@ -111,31 +92,15 @@ class CompositeStrategy implements StrategyInterface
             $strategyName = $strategyConfig['type'] ?? null;
 
             if (!$strategyName) {
-                $this->logger?->warning('[PulseFlags] Composite strategy missing "type" field', [
-                    'index' => $index,
-                    'config' => $strategyConfig,
-                ]);
                 continue;
             }
 
             if (!isset($this->strategies[$strategyName])) {
-                $this->logger?->error('[PulseFlags] Unknown strategy in composite configuration', [
-                    'strategy' => $strategyName,
-                    'index' => $index,
-                    'available_strategies' => array_keys($this->strategies),
-                ]);
                 continue;
             }
 
             $strategy = $this->strategies[$strategyName];
             $result = $strategy->isEnabled($strategyConfig, $context);
-
-            $this->logger?->debug('Composite sub-strategy evaluated', [
-                'strategy' => $strategyName,
-                'index' => $index,
-                'result' => $result,
-                'operator' => $operator,
-            ]);
 
             if ($operator === 'OR' && $result) {
                 return true;

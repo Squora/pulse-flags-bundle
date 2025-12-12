@@ -3,11 +3,6 @@ services:
     autowire: true
     autoconfigure: true
 
-  # Logger for feature flags (optional, based on configuration)
-  pulse_flags.logger:
-    class: Psr\Log\NullLogger
-    public: false
-
   # Persistent Storage Implementation (writable)
   pulse_flags.persistent_storage.db:
     class: Pulse\Flags\Core\Storage\DbStorage
@@ -36,19 +31,78 @@ services:
   Pulse\Flags\Core\Strategy\DateRangeStrategy:
     tags: ['pulse_flags.strategy']
 
+  # Operators for CustomAttributeStrategy
+  Pulse\Flags\Core\Strategy\Operator\ContainsOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\EqualsOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\NotEqualsOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\GreaterThanOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\LessThanOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\GreaterThanOrEqualsOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\LessThanOrEqualsOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\InOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\NotInOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\StartsWithOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\EndsWithOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\RegexOperator:
+    tags: ['pulse_flags.operator']
+
+  Pulse\Flags\Core\Strategy\Operator\NotContainsOperator:
+    tags: ['pulse_flags.operator']
+
   Pulse\Flags\Core\Strategy\SegmentStrategy:
-    arguments:
-      $logger: '@pulse_flags.logger'
     tags: ['pulse_flags.strategy']
 
   Pulse\Flags\Core\Strategy\CompositeStrategy:
-    arguments:
-      $logger: '@pulse_flags.logger'
     tags: ['pulse_flags.strategy']
     calls:
       - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\UserIdStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\DateRangeStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\GeoStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\IpStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\ProgressiveRolloutStrategy']
+
+  # GeoStrategy
+  Pulse\Flags\Core\Strategy\GeoStrategy:
+    tags: ['pulse_flags.strategy']
+
+  # IpStrategy
+  Pulse\Flags\Core\Strategy\IpStrategy:
+    tags: ['pulse_flags.strategy']
+
+  # CustomAttributeStrategy
+  Pulse\Flags\Core\Strategy\CustomAttributeStrategy:
+    arguments:
+      $operators: !tagged_iterator pulse_flags.operator
+    tags: ['pulse_flags.strategy']
+
+  # ProgressiveRolloutStrategy
+  Pulse\Flags\Core\Strategy\ProgressiveRolloutStrategy:
+    arguments:
+      $percentageStrategy: '@Pulse\Flags\Core\Strategy\PercentageStrategy'
+    tags: ['pulse_flags.strategy']
 
   # Strategy Validators
   Pulse\Flags\Core\Strategy\Validation\SimpleStrategyValidator:
@@ -95,7 +149,6 @@ services:
   Pulse\Flags\Core\Service\PermanentFeatureFlagService:
     arguments:
       $permanentFlags: '%pulse_flags.permanent_flags%'
-      $logger: '@pulse_flags.logger'
     calls:
       - addStrategy: ['@Pulse\Flags\Core\Strategy\SimpleStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']
@@ -103,12 +156,15 @@ services:
       - addStrategy: ['@Pulse\Flags\Core\Strategy\DateRangeStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\SegmentStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\CompositeStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\GeoStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\IpStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\CustomAttributeStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\ProgressiveRolloutStrategy']
 
   # Persistent Feature Flag Service (writable)
   Pulse\Flags\Core\Service\PersistentFeatureFlagService:
     arguments:
       $storage: '@pulse_flags.persistent_storage'
-      $logger: '@pulse_flags.logger'
     calls:
       - addStrategy: ['@Pulse\Flags\Core\Strategy\SimpleStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\PercentageStrategy']
@@ -116,6 +172,10 @@ services:
       - addStrategy: ['@Pulse\Flags\Core\Strategy\DateRangeStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\SegmentStrategy']
       - addStrategy: ['@Pulse\Flags\Core\Strategy\CompositeStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\GeoStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\IpStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\CustomAttributeStrategy']
+      - addStrategy: ['@Pulse\Flags\Core\Strategy\ProgressiveRolloutStrategy']
 
   # Main interface alias (points to persistent service for primary usage)
   Pulse\Flags\Core\Service\FeatureFlagInterface:

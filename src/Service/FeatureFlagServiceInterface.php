@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pulse\Flags\Core\Service;
 
 use Pulse\Flags\Core\Constants\Pagination;
+use Pulse\Flags\Core\Context\ContextInterface;
 
 interface FeatureFlagServiceInterface
 {
@@ -12,10 +13,10 @@ interface FeatureFlagServiceInterface
      * Check if a feature flag is enabled
      *
      * @param string $name Flag name
-     * @param array<string, mixed> $context Context for strategy evaluation (user_id, session_id, current_date, etc.)
+     * @param ContextInterface $context Context for strategy evaluation
      * @return bool True if a flag is enabled
      */
-    public function isEnabled(string $name, array $context = []): bool;
+    public function isEnabled(string $name, ContextInterface $context): bool;
 
     /**
      * Get flag configuration

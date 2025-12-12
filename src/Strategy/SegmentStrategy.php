@@ -6,7 +6,6 @@ namespace Pulse\Flags\Core\Strategy;
 
 use Pulse\Flags\Core\Enum\FlagStrategy;
 use Pulse\Flags\Core\Segment\SegmentRepository;
-use Psr\Log\LoggerInterface;
 
 /**
  * Segment-based activation strategy for feature flags.
@@ -68,16 +67,13 @@ use Psr\Log\LoggerInterface;
 class SegmentStrategy implements StrategyInterface
 {
     private SegmentRepository $segmentRepository;
-    private ?LoggerInterface $logger;
 
     /**
      * @param SegmentRepository $segmentRepository Repository containing segment definitions
-     * @param LoggerInterface|null $logger Optional logger for debugging
      */
-    public function __construct(SegmentRepository $segmentRepository, ?LoggerInterface $logger = null)
+    public function __construct(SegmentRepository $segmentRepository)
     {
         $this->segmentRepository = $segmentRepository;
-        $this->logger = $logger;
     }
 
     /**
@@ -94,14 +90,12 @@ class SegmentStrategy implements StrategyInterface
         $userId = $context['user_id'] ?? null;
 
         if ($userId === null) {
-            $this->logger?->warning('Segment strategy requires user_id in context');
             return false;
         }
 
         $segmentNames = $config['segments'] ?? [];
 
         if (empty($segmentNames)) {
-            $this->logger?->warning('Segment strategy has no segments configured');
             return false;
         }
 
@@ -110,19 +104,10 @@ class SegmentStrategy implements StrategyInterface
             $segment = $this->segmentRepository->get($segmentName);
 
             if ($segment === null) {
-                $this->logger?->error('Segment not found', [
-                    'segment' => $segmentName,
-                    'available_segments' => $this->segmentRepository->getNames(),
-                ]);
                 continue;
             }
 
             if ($segment->contains($userId, $context)) {
-                $this->logger?->debug('User found in segment', [
-                    'user_id' => $userId,
-                    'segment' => $segmentName,
-                    'segment_type' => $segment->getType(),
-                ]);
                 return true;
             }
         }

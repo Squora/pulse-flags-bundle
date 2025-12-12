@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Pulse\Flags\Core\Service;
 
-use Psr\Log\LoggerInterface;
 use Pulse\Flags\Core\Constants\Pagination;
 
 /**
@@ -17,13 +16,10 @@ class PermanentFeatureFlagService extends AbstractFeatureFlagServiceService
 {
     /**
      * @param array<string, array<string, mixed>> $permanentFlags Permanent flags loaded from config files
-     * @param LoggerInterface|null $logger Optional logger
      */
     public function __construct(
-        private readonly array $permanentFlags,
-        ?LoggerInterface $logger = null
+        private readonly array $permanentFlags
     ) {
-        parent::__construct($logger);
     }
 
     public function getConfig(string $name): ?array
@@ -59,10 +55,5 @@ class PermanentFeatureFlagService extends AbstractFeatureFlagServiceService
                 'limit' => $limit,
             ],
         ];
-    }
-
-    protected function getLogPrefix(): string
-    {
-        return 'Permanent';
     }
 }

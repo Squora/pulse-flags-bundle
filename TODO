@@ -1,6 +1,0 @@
-after push
-3. Проработать стратегии
-2. Добавить кэширование
-1. Тесты добавить и запушить
-0. Сделать DTO/VO для конфигов стратегий чтобы парсить одним методом
--1. ListAllFlagsCommand [EA] 'array_merge(...)' is used in a loop and is a resources greedy construction.  пагинацию

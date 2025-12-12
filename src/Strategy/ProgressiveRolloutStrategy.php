@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pulse\Flags\Core\Strategy;
 
 use Pulse\Flags\Core\Enum\FlagStrategy;
-use Psr\Log\LoggerInterface;
 
 /**
  * Progressive rollout strategy with automated percentage increases over time.
@@ -64,16 +63,13 @@ use Psr\Log\LoggerInterface;
 class ProgressiveRolloutStrategy implements StrategyInterface
 {
     private PercentageStrategy $percentageStrategy;
-    private ?LoggerInterface $logger;
 
     /**
      * @param PercentageStrategy $percentageStrategy Underlying percentage strategy
-     * @param LoggerInterface|null $logger Optional logger for debugging
      */
-    public function __construct(PercentageStrategy $percentageStrategy, ?LoggerInterface $logger = null)
+    public function __construct(PercentageStrategy $percentageStrategy)
     {
         $this->percentageStrategy = $percentageStrategy;
-        $this->logger = $logger;
     }
 
     /**
@@ -90,7 +86,6 @@ class ProgressiveRolloutStrategy implements StrategyInterface
         $schedule = $config['schedule'] ?? [];
 
         if (empty($schedule)) {
-            $this->logger?->warning('Progressive rollout strategy has no schedule configured');
             return false;
         }
 
@@ -98,14 +93,8 @@ class ProgressiveRolloutStrategy implements StrategyInterface
         $currentPercentage = $this->getCurrentPercentage($schedule, $config);
 
         if ($currentPercentage === null) {
-            $this->logger?->debug('Progressive rollout not started yet');
             return false;
         }
-
-        $this->logger?->debug('Progressive rollout current stage', [
-            'current_percentage' => $currentPercentage,
-            'schedule_stages' => count($schedule),
-        ]);
 
         // Create config for percentage strategy
         $percentageConfig = [
@@ -145,11 +134,8 @@ class ProgressiveRolloutStrategy implements StrategyInterface
         if (!empty($config['timezone'])) {
             try {
                 $timezone = new \DateTimeZone($config['timezone']);
-            } catch (\Exception $e) {
-                $this->logger?->error('Invalid timezone in progressive rollout', [
-                    'timezone' => $config['timezone'],
-                    'error' => $e->getMessage(),
-                ]);
+            } catch (\Exception) {
+                // Invalid timezone, use default
             }
         }
 
@@ -160,10 +146,6 @@ class ProgressiveRolloutStrategy implements StrategyInterface
 
         foreach ($schedule as $index => $stage) {
             if (!isset($stage['percentage']) || !isset($stage['start_date'])) {
-                $this->logger?->warning('Progressive rollout stage missing required fields', [
-                    'stage_index' => $index,
-                    'stage' => $stage,
-                ]);
                 continue;
             }
 
@@ -173,22 +155,11 @@ class ProgressiveRolloutStrategy implements StrategyInterface
                 // If this stage has started, update current percentage
                 if ($now >= $startDate) {
                     $currentPercentage = (float) $stage['percentage'];
-
-                    $this->logger?->debug('Progressive rollout stage active', [
-                        'stage_index' => $index,
-                        'percentage' => $currentPercentage,
-                        'start_date' => $stage['start_date'],
-                    ]);
                 } else {
                     // Stages are sorted, so we can stop here
                     break;
                 }
-            } catch (\Exception $e) {
-                $this->logger?->error('Invalid date in progressive rollout schedule', [
-                    'stage_index' => $index,
-                    'start_date' => $stage['start_date'] ?? 'missing',
-                    'error' => $e->getMessage(),
-                ]);
+            } catch (\Exception) {
                 continue;
             }
         }

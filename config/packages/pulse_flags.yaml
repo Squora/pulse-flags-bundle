@@ -3,12 +3,9 @@
 
 pulse_flags:
     # Storage format for permanent (read-only) flags loaded from config files
-    permanent_storage: yaml  # Options: yaml, ini, php
+    permanent_storage: yaml  # Options: yaml, php
 
-    # Storage backend for persistent (runtime mutable) flags
-    persistent_storage: db  # Database storage (MySQL, PostgreSQL, SQLite)
-
-    # Database configuration
+    # Database configuration for persistent (runtime editable) flags
     db:
         dsn: '%env(resolve:DATABASE_URL)%'
         user: ~  # Optional: extracted from DSN if null

@@ -7,7 +7,6 @@ namespace Pulse\Flags\Core\Strategy;
 use Pulse\Flags\Core\Enum\AttributeOperator;
 use Pulse\Flags\Core\Enum\FlagStrategy;
 use Pulse\Flags\Core\Strategy\Operator\OperatorInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Custom attribute-based activation strategy for feature flags.
@@ -93,19 +92,14 @@ class CustomAttributeStrategy implements StrategyInterface
     /** @var array<string, OperatorInterface> */
     private array $operators = [];
 
-    private ?LoggerInterface $logger;
-
     /**
      * @param iterable<OperatorInterface> $operators Available operators
-     * @param LoggerInterface|null $logger Optional logger for debugging
      */
-    public function __construct(iterable $operators, ?LoggerInterface $logger = null)
+    public function __construct(iterable $operators)
     {
         foreach ($operators as $operator) {
             $this->operators[$operator->getOperator()->value] = $operator;
         }
-
-        $this->logger = $logger;
     }
 
     /**
@@ -122,7 +116,6 @@ class CustomAttributeStrategy implements StrategyInterface
         $rules = $config['rules'] ?? [];
 
         if (empty($rules)) {
-            $this->logger?->warning('Custom attribute strategy has no rules configured');
             return false;
         }
 
@@ -150,21 +143,11 @@ class CustomAttributeStrategy implements StrategyInterface
         $operatorName = $rule['operator'] ?? null;
 
         if (!$attribute || !$operatorName) {
-            $this->logger?->error('Custom attribute rule missing required fields', [
-                'rule_index' => $index,
-                'attribute' => $attribute,
-                'operator' => $operatorName,
-            ]);
             return false;
         }
 
         // Check if attribute exists in context
         if (!array_key_exists($attribute, $context)) {
-            $this->logger?->debug('Attribute not found in context', [
-                'rule_index' => $index,
-                'attribute' => $attribute,
-                'available_attributes' => array_keys($context),
-            ]);
             return false;
         }
 
@@ -174,11 +157,6 @@ class CustomAttributeStrategy implements StrategyInterface
         $operator = $this->operators[$operatorName] ?? null;
 
         if ($operator === null) {
-            $this->logger?->error('Unknown operator in custom attribute rule', [
-                'rule_index' => $index,
-                'operator' => $operatorName,
-                'available_operators' => array_keys($this->operators),
-            ]);
             return false;
         }
 
@@ -187,25 +165,8 @@ class CustomAttributeStrategy implements StrategyInterface
 
         // Evaluate rule
         try {
-            $result = $operator->evaluate($actualValue, $expectedValue);
-
-            $this->logger?->debug('Custom attribute rule evaluated', [
-                'rule_index' => $index,
-                'attribute' => $attribute,
-                'operator' => $operatorName,
-                'actual_value' => $actualValue,
-                'expected_value' => $expectedValue,
-                'result' => $result,
-            ]);
-
-            return $result;
-        } catch (\Throwable $e) {
-            $this->logger?->error('Error evaluating custom attribute rule', [
-                'rule_index' => $index,
-                'attribute' => $attribute,
-                'operator' => $operatorName,
-                'error' => $e->getMessage(),
-            ]);
+            return $operator->evaluate($actualValue, $expectedValue);
+        } catch (\Throwable) {
             return false;
         }
     }
