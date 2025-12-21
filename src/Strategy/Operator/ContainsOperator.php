@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * String contains substring operator.
  *
- * Example:
- * ```php
- * // email contains '@company.com'
+ * @example email contains '@company.com'
  * $operator->evaluate('john@company.com', '@company.com'); // true
- * $operator->evaluate('john@gmail.com', '@company.com');   // false
- * ```
+ * $operator->evaluate('john@gmail.com', '@company.com'); // false
  */
 class ContainsOperator implements OperatorInterface
 {

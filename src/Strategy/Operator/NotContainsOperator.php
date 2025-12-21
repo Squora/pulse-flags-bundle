@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * String does not contain substring operator.
  *
- * Example:
- * ```php
- * // email not_contains '@competitor.com'
+ * @example email not_contains '@competitor.com'
  * $operator->evaluate('john@company.com', '@competitor.com'); // true
  * $operator->evaluate('john@competitor.com', '@competitor.com'); // false
- * ```
  */
 class NotContainsOperator implements OperatorInterface
 {

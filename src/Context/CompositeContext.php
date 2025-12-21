@@ -33,10 +33,9 @@ final class CompositeContext implements ContextInterface
 
     public function toArray(): array
     {
-        $result = [];
-        foreach ($this->contexts as $context) {
-            $result = array_merge($result, $context->toArray());
-        }
-        return $result;
+        return array_merge(...array_map(
+            static fn(ContextInterface $context) => $context->toArray(),
+            $this->contexts
+        ));
     }
 }

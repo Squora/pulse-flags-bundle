@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * String ends with suffix operator.
  *
- * Example:
- * ```php
- * // email ends_with '.edu'
+ * @example email ends_with '.edu'
  * $operator->evaluate('student@university.edu', '.edu'); // true
- * $operator->evaluate('student@gmail.com', '.edu');      // false
- * ```
+ * $operator->evaluate('student@gmail.com', '.edu'); // false
  */
 class EndsWithOperator implements OperatorInterface
 {

@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * String starts with prefix operator.
  *
- * Example:
- * ```php
- * // user_agent starts_with 'Mozilla'
+ * @example user_agent starts_with 'Mozilla'
  * $operator->evaluate('Mozilla/5.0 ...', 'Mozilla'); // true
  * $operator->evaluate('Chrome/91.0 ...', 'Mozilla'); // false
- * ```
  */
 class StartsWithOperator implements OperatorInterface
 {

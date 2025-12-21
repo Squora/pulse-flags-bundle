@@ -20,15 +20,6 @@ use Pulse\Flags\Core\Enum\FlagStrategy;
  * - SimpleStrategy cannot be used in composites (always returns true)
  * - Maximum nesting depth of 5 levels
  * - Strategy-specific validation (percentage bounds, required fields, etc.)
- *
- * Example usage:
- * ```php
- * $validator = new CompositeStrategyValidator();
- * $errors = $validator->validate($config);
- * if (!empty($errors)) {
- *     throw new \InvalidArgumentException(implode(', ', $errors));
- * }
- * ```
  */
 class CompositeStrategyValidator implements StrategyValidatorInterface
 {

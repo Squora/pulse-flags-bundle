@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * Greater than operator (>).
  *
- * Example:
- * ```php
- * // account_age_days > 30
+ * @example account_age_days > 30
  * $operator->evaluate(45, 30); // true
  * $operator->evaluate(20, 30); // false
- * ```
  */
 class GreaterThanOperator implements OperatorInterface
 {

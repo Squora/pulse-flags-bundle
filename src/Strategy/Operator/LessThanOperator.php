@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * Less than operator (<).
  *
- * Example:
- * ```php
- * // login_count < 5
+ * @example login_count < 5
  * $operator->evaluate(3, 5); // true
  * $operator->evaluate(7, 5); // false
- * ```
  */
 class LessThanOperator implements OperatorInterface
 {

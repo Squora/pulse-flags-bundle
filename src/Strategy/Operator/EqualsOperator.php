@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * Exact equality operator (===).
  *
- * Example:
- * ```php
- * // subscription_tier === 'premium'
+ * @example subscription_tier === 'premium'
  * $operator->evaluate('premium', 'premium'); // true
- * $operator->evaluate('free', 'premium');    // false
- * ```
+ * $operator->evaluate('free', 'premium'); // false
  */
 class EqualsOperator implements OperatorInterface
 {

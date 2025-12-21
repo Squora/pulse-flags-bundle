@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * Inequality operator (!==).
  *
- * Example:
- * ```php
- * // subscription_tier !== 'free'
+ * @example subscription_tier !== 'free'
  * $operator->evaluate('premium', 'free'); // true
- * $operator->evaluate('free', 'free');    // false
- * ```
+ * $operator->evaluate('free', 'free'); // false
  */
 class NotEqualsOperator implements OperatorInterface
 {

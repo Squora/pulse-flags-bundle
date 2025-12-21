@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * NOT IN operator - value does not exist in array.
  *
- * Example:
- * ```php
- * // country NOT IN ['CN', 'RU']
+ * @example country NOT IN ['CN', 'RU']
  * $operator->evaluate('US', ['CN', 'RU']); // true
  * $operator->evaluate('CN', ['CN', 'RU']); // false
- * ```
  */
 class NotInOperator implements OperatorInterface
 {

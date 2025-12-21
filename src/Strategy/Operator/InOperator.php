@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * IN operator - value exists in array.
  *
- * Example:
- * ```php
- * // country IN ['US', 'CA', 'GB']
+ * @example country IN ['US', 'CA', 'GB']
  * $operator->evaluate('US', ['US', 'CA', 'GB']); // true
  * $operator->evaluate('FR', ['US', 'CA', 'GB']); // false
- * ```
  */
 class InOperator implements OperatorInterface
 {

@@ -33,11 +33,6 @@ final class Pagination
      */
     public const MIN_PAGE = 1;
 
-    /**
-     * Minimum items per page.
-     */
-    public const MIN_LIMIT = 1;
-
     private function __construct()
     {
         // Prevent instantiation

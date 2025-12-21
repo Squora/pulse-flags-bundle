@@ -9,12 +9,9 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * Regular expression match operator.
  *
- * Example:
- * ```php
- * // phone_number regex '/^\+1/'
+ * @example phone_number regex '/^\+1/'
  * $operator->evaluate('+1-555-1234', '/^\+1/'); // true
  * $operator->evaluate('+44-555-1234', '/^\+1/'); // false
- * ```
  */
 class RegexOperator implements OperatorInterface
 {

@@ -9,13 +9,10 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * Less than or equals operator (<=).
  *
- * Example:
- * ```php
- * // age <= 65
+ * @example age <= 65
  * $operator->evaluate(65, 65); // true
  * $operator->evaluate(55, 65); // true
  * $operator->evaluate(75, 65); // false
- * ```
  */
 class LessThanOrEqualsOperator implements OperatorInterface
 {

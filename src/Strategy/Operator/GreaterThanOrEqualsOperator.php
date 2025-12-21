@@ -9,13 +9,10 @@ use Pulse\Flags\Core\Enum\AttributeOperator;
 /**
  * Greater than or equals operator (>=).
  *
- * Example:
- * ```php
- * // subscription_price >= 99.99
+ * @example subscription_price >= 99.99
  * $operator->evaluate(99.99, 99.99); // true
  * $operator->evaluate(149.99, 99.99); // true
  * $operator->evaluate(49.99, 99.99);  // false
- * ```
  */
 class GreaterThanOrEqualsOperator implements OperatorInterface
 {
