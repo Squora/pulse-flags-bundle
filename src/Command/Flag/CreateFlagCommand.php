@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pulse\Flags\Core\Command\Flag;
 
 use Pulse\Flags\Core\Enum\FlagStatus;
+use Pulse\Flags\Core\Enum\FlagStrategy;
 use Pulse\Flags\Core\Service\PersistentFeatureFlagService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -80,7 +81,10 @@ class CreateFlagCommand extends Command
         }
 
         $status = FlagStatus::fromBool($enabled);
-        $this->flagService->configure($name, ['enabled' => $status->toBool()]);
+        $this->flagService->configure($name, [
+            'enabled' => $status->toBool(),
+            'strategy' => FlagStrategy::SIMPLE->value,
+        ]);
 
         $io->success("Feature flag $name created with status: {$status->label()}");
 

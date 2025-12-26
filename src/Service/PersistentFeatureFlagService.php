@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Pulse\Flags\Core\Service;
 
-use Psr\Log\LoggerInterface;
 use Pulse\Flags\Core\Constants\Pagination;
 use Pulse\Flags\Core\Enum\FlagStatus;
+use Pulse\Flags\Core\Enum\FlagStrategy;
 use Pulse\Flags\Core\Storage\StorageInterface;
 
 /**
@@ -18,10 +18,8 @@ use Pulse\Flags\Core\Storage\StorageInterface;
 class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
 {
     public function __construct(
-        private readonly StorageInterface $storage,
-        ?LoggerInterface $logger = null
+        private readonly StorageInterface $storage
     ) {
-        parent::__construct($logger);
     }
 
     /**
@@ -33,11 +31,6 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
     public function configure(string $name, array $config): void
     {
         $this->storage->set($name, $config);
-
-        $this->logger?->info('[PulseFlags] Feature flag configured', [
-            'flag' => $name,
-            'config' => $config,
-        ]);
     }
 
     /**
@@ -50,13 +43,13 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
     {
         $config = $this->storage->get($name) ?? [];
 
+        // Ensure strategy is always set (use simple as default)
+        if (!isset($config['strategy']) && !isset($options['strategy'])) {
+            $options['strategy'] = FlagStrategy::SIMPLE->value;
+        }
+
         $config = array_merge($config, $options, ['enabled' => FlagStatus::ENABLED->toBool()]);
         $this->storage->set($name, $config);
-
-        $this->logger?->info('[PulseFlags] Feature flag enabled', [
-            'flag' => $name,
-            'options' => $options,
-        ]);
     }
 
     /**
@@ -70,8 +63,6 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
 
         $config['enabled'] = FlagStatus::DISABLED->toBool();
         $this->storage->set($name, $config);
-
-        $this->logger?->info('[PulseFlags] Feature flag disabled', ['flag' => $name]);
     }
 
     /**
@@ -82,7 +73,6 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
     public function remove(string $name): void
     {
         $this->storage->remove($name);
-        $this->logger?->info('[PulseFlags] Feature flag removed', ['flag' => $name]);
     }
 
     public function getConfig(string $name): ?array
@@ -95,13 +85,13 @@ class PersistentFeatureFlagService extends AbstractFeatureFlagServiceService
         return $this->storage->has($name);
     }
 
+    public function all(): array
+    {
+        return $this->storage->all();
+    }
+
     public function paginate(int $page = Pagination::DEFAULT_PAGE, int $limit = Pagination::DEFAULT_LIMIT): array
     {
         return $this->storage->paginate($page, $limit);
-    }
-
-    protected function getLogPrefix(): string
-    {
-        return 'Persistent';
     }
 }

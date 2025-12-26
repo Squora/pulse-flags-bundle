@@ -43,4 +43,39 @@ enum FlagStrategy: string
      * Combines multiple strategies with logical operators (AND/OR).
      */
     case COMPOSITE = 'composite';
+
+    /**
+     * Segment strategy.
+     * Enables features based on user segment membership.
+     * Segments are reusable groups of users defined once and referenced across flags.
+     */
+    case SEGMENT = 'segment';
+
+    /**
+     * Custom attribute strategy.
+     * Enables features based on flexible rule-based conditions using any context attributes.
+     * Supports operators like equals, in, greater_than, contains, regex, etc.
+     */
+    case CUSTOM_ATTRIBUTE = 'custom_attribute';
+
+    /**
+     * Progressive rollout strategy.
+     * Automates gradual feature rollout by increasing percentage over time
+     * based on a predefined schedule.
+     */
+    case PROGRESSIVE_ROLLOUT = 'progressive_rollout';
+
+    /**
+     * IP address-based strategy.
+     * Enables features based on user's IP address.
+     * Supports both individual IPs and CIDR ranges.
+     */
+    case IP = 'ip';
+
+    /**
+     * Geographic location-based strategy.
+     * Enables features based on user's country, region, or city.
+     * Useful for regional rollouts and compliance requirements.
+     */
+    case GEO = 'geo';
 }

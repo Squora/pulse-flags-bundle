@@ -34,12 +34,6 @@ final class PercentageStrategy
      */
     public const HASH_BUCKETS = 100000;
 
-    /**
-     * Number of decimal places supported for percentage values.
-     * Supports percentages like 0.125, 1.5, 10.75.
-     */
-    public const PRECISION_DECIMALS = 3;
-
     private function __construct()
     {
         // Prevent instantiation

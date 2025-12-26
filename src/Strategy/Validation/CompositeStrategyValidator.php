@@ -20,17 +20,8 @@ use Pulse\Flags\Core\Enum\FlagStrategy;
  * - SimpleStrategy cannot be used in composites (always returns true)
  * - Maximum nesting depth of 5 levels
  * - Strategy-specific validation (percentage bounds, required fields, etc.)
- *
- * Example usage:
- * ```php
- * $validator = new CompositeStrategyValidator();
- * $errors = $validator->validate($config);
- * if (!empty($errors)) {
- *     throw new \InvalidArgumentException(implode(', ', $errors));
- * }
- * ```
  */
-class CompositeStrategyValidator
+class CompositeStrategyValidator implements StrategyValidatorInterface
 {
     /**
      * Maximum allowed nesting depth for composite strategies.
@@ -81,10 +72,44 @@ class CompositeStrategyValidator
      * - Strategy-specific configuration validity
      *
      * @param array<string, mixed> $config The composite strategy configuration
+     * @return ValidationResult Result containing errors and warnings
+     */
+    public function validate(array $config): ValidationResult
+    {
+        $result = new ValidationResult();
+        $errors = $this->validateRecursive($config, 0);
+
+        foreach ($errors as $error) {
+            $result->addError($error);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the strategy name this validator handles.
+     *
+     * @return string Strategy name
+     */
+    public function getStrategyName(): string
+    {
+        return 'composite';
+    }
+
+    /**
+     * Validates a composite strategy configuration recursively.
+     *
+     * Performs recursive validation for nested composites and checks:
+     * - Nesting depth limits
+     * - Empty strategies arrays
+     * - Unknown or incompatible strategy types
+     * - Strategy-specific configuration validity
+     *
+     * @param array<string, mixed> $config The composite strategy configuration
      * @param int $depth Current nesting depth (for recursive validation)
      * @return array<string> List of validation error messages (empty if valid)
      */
-    public function validate(array $config, int $depth = 0): array
+    private function validateRecursive(array $config, int $depth = 0): array
     {
         $errors = [];
 
@@ -186,7 +211,7 @@ class CompositeStrategyValidator
 
             case FlagStrategy::COMPOSITE->value:
                 // Recursive validation for nested composite
-                $nestedErrors = $this->validate($config, $depth);
+                $nestedErrors = $this->validateRecursive($config, $depth);
                 foreach ($nestedErrors as $error) {
                     $errors[] = sprintf('Nested composite at index %d: %s', $index, $error);
                 }

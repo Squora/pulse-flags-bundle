@@ -69,9 +69,13 @@ class DateRangeStrategy implements StrategyInterface
                 $currentDate = new \DateTimeImmutable($currentDate);
             }
 
-            // Apply timezone if specified in configuration
-            if (!empty($config['timezone'])) {
-                $timezone = new \DateTimeZone($config['timezone']);
+            // Get timezone object once if configured
+            $timezone = !empty($config['timezone'])
+                ? new \DateTimeZone($config['timezone'])
+                : null;
+
+            // Apply timezone to current date
+            if ($timezone && $currentDate) {
                 $currentDate = $currentDate->setTimezone($timezone);
             }
 
@@ -79,32 +83,30 @@ class DateRangeStrategy implements StrategyInterface
             $endDate = null;
 
             if (!empty($config['start_date'])) {
-                $startDate = $config['start_date'] instanceof \DateTimeInterface
-                    ? \DateTimeImmutable::createFromInterface($config['start_date'])
-                    : new \DateTimeImmutable($config['start_date']);
-
-                // Apply timezone if specified
-                if (!empty($config['timezone'])) {
-                    $timezone = new \DateTimeZone($config['timezone']);
-                    $startDate = $startDate->setTimezone($timezone);
+                if ($config['start_date'] instanceof \DateTimeInterface) {
+                    $startDate = \DateTimeImmutable::createFromInterface($config['start_date']);
+                } else {
+                    // FIX: Parse date string WITH timezone if specified
+                    $startDate = $timezone
+                        ? new \DateTimeImmutable($config['start_date'], $timezone)
+                        : new \DateTimeImmutable($config['start_date']);
                 }
 
-                // Normalize to start of day
+                // Normalize to start of day (already in correct timezone)
                 $startDate = $startDate->setTime(0, 0, 0);
             }
 
             if (!empty($config['end_date'])) {
-                $endDate = $config['end_date'] instanceof \DateTimeInterface
-                    ? \DateTimeImmutable::createFromInterface($config['end_date'])
-                    : new \DateTimeImmutable($config['end_date']);
-
-                // Apply timezone if specified
-                if (!empty($config['timezone'])) {
-                    $timezone = new \DateTimeZone($config['timezone']);
-                    $endDate = $endDate->setTimezone($timezone);
+                if ($config['end_date'] instanceof \DateTimeInterface) {
+                    $endDate = \DateTimeImmutable::createFromInterface($config['end_date']);
+                } else {
+                    // FIX: Parse date string WITH timezone if specified
+                    $endDate = $timezone
+                        ? new \DateTimeImmutable($config['end_date'], $timezone)
+                        : new \DateTimeImmutable($config['end_date']);
                 }
 
-                // Normalize to end of day
+                // Normalize to end of day (already in correct timezone)
                 $endDate = $endDate->setTime(23, 59, 59);
             }
 
